@@ -50,4 +50,4 @@ The tool must also display helpful data stats (e.g. the number of data points, m
 
 ### Submitting the Solution
 
-To submit your solution, fork this repo, create your code and submit a Pull Request once you're ready to be evaluated.
+To submit your solution, fork this repo, create your code, and submit a Pull Request once you're ready to be evaluated.
