@@ -11,6 +11,8 @@
 
 class DataFile
 {
+    private:
+        int curRec;
     public:
         std::string fileName;
         int nRecords;
@@ -24,11 +26,11 @@ class DataFile
             nRecords = n;
             fileName = fName;
             dataRecords = new DataRecord [nRecords];
+            curRec = 0;
         }
 
         void record(std::string line)
         {
-            static int curRec = 0;
             std::stringstream stream(line);
             std::vector<std::string> data;
             std::string temp;
