@@ -375,11 +375,6 @@ int main() {
     getHelpfulStats(csvFiles, pathNumb, csvStats);
 
     vector<int> signalsOut = smoothedZScore(csvFiles[0].accelZ);
-    // for (int i = 0; i < signalsOut.size(); i++) {
-    //     if(signalsOut[i] == 1) {
-    //         cout << "[" << i+3 << "]" << signalsOut[i] << endl;
-    //     }
-    // }
 
     string pathToAligned;
     string pathtoStats;
