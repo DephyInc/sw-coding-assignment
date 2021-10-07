@@ -55,8 +55,8 @@
 *   I have attached the files I generated when running the program using the provided walk_data_1 and walk_data_2 files. 
 
 # Requirements
-1. [] Written in C++
-2. [] Uses at least two classes and have them interact together
-3. [] Runs on Linux, and Windows or MacOS
-4. [] Runs fast
-5. [] Outputs the correct data
+1. [x] Written in C++
+2. [x] Uses at least two classes and have them interact together
+3. [x] Runs on Linux, and Windows or MacOS
+4. [x] Runs fast
+5. [x] Outputs the correct data
