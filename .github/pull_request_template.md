@@ -1,7 +1,5 @@
 # Summary
 
-* One paragraph that describes your solution.
-
 *   My program starts by requesting the user to input the files they wish to align. With this information, 
     it takes in the files and reads them line by line, sending the data we want to keep to an object that
     stores it for use later. With this data we can generate the helpful stats which is also stored in an 
@@ -16,8 +14,6 @@
     walk_data_aligned.csv, and the second called walk_data_helpfulstats.csv
 
 # Test Plan
-
-Instruction on how to run your code or a pointer to the relevant documentation.
 
 * I have provided a compiled file to run from command line, however my instructions include directions
   on how to compile the file incase you would like to do that first. If you would like to just run the file
@@ -35,8 +31,6 @@ Instruction on how to run your code or a pointer to the relevant documentation.
 
 
 # Expected Results
-
-* List the results we should expect.
 
 *   I was not able to complete the alignment of the data as my method of finding the peaks and figuring out their
     indexes needs more work, however I have provided all of the code I intend to use and commented as best as I could 
@@ -58,7 +52,7 @@ Instruction on how to run your code or a pointer to the relevant documentation.
     peaks as I could narrow the precision and figure out where a spike or drop, that isnt intended would be.
 
 * Feel free to include screenshots and attach binaries.
-I have attached the files I generated when running the program using the provided walk_data_1 and walk_data_2 files. 
+*   I have attached the files I generated when running the program using the provided walk_data_1 and walk_data_2 files. 
 
 # Requirements
 1. [] Written in C++
