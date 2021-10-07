@@ -52,7 +52,8 @@
     peaks as I could narrow the precision and figure out where a spike or drop, that isnt intended would be.
 
 * Feel free to include screenshots and attach binaries.
-*   I have attached the files I generated when running the program using the provided walk_data_1 and walk_data_2 files. 
+*   I have uploaded the files I generated when running the program using the provided walk_data_1 and walk_data_2 files, these 
+    can be found in the data/output folder. 
 
 # Requirements
 1. [x] Written in C++
