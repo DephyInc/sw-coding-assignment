@@ -32,10 +32,10 @@ DataFile* find_peaks(DataFile* dataFiles, int nFiles)
     int idx;
     float x;
 
-    for (i=0; i<n; i++)
+    for (i=0; i<nFiles; i++)
     {
         x = (M_PI / 2. - dataFiles[i].beta[3]) / dataFiles[i].beta[2];
-        idx = find_closest_index(dataFiles[i].extract_times(), x);
+        idx = find_closest_index(dataFiles[i].extract_times(), x, nFiles);
         dataFiles[i].firstPeakIndex = idx;
     }
 
@@ -46,7 +46,7 @@ DataFile* find_peaks(DataFile* dataFiles, int nFiles)
 /*********************************************
               find_closest_index
 *********************************************/
-int find_closest_index(float* a, float x)
+int find_closest_index(float* a, float x, int n)
 {
     /***
     Searches through the array a in order to find the index

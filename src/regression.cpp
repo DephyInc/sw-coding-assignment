@@ -51,7 +51,7 @@ DataFile* sinusoidal_regression(DataFile* dataFiles, int nFiles)
     float* xObs;
     float* beta;
     float* r;
-    float* deltaB;
+    float** deltaB;
     float** J;
 
     // Loop over each file
@@ -74,7 +74,7 @@ DataFile* sinusoidal_regression(DataFile* dataFiles, int nFiles)
             beta = update_beta(beta, deltaB, damping);
             if (convergence_check(deltaB, beta, tolerance, 4))
             {
-                break
+                break;
             }
             else
             {
@@ -301,7 +301,7 @@ float* get_dfdb4(float* t, float* b, int n)
 /*********************************************
                 get_delta_beta
 *********************************************/
-float* get_delta_beta(float** J, float* r, int nRows)
+float** get_delta_beta(float** J, float* r, int nRows)
 {
     /***
     Computes the update factor for the parameters beta.
@@ -312,6 +312,7 @@ float* get_delta_beta(float** J, float* r, int nRows)
     float** jTranspose;
     float** H;
     float** hInv;
+    float** temp;
     float** deltaB;
     float** rReshaped;
 
@@ -336,10 +337,12 @@ float* get_delta_beta(float** J, float* r, int nRows)
         delete[] jTranspose[i];
         delete[] H[i];
         delete[] hInv[i];
+        delete[] temp[i];
     }
     delete[] jTranspose;
     delete[] H;
     delete[] hInv;
+    delete[] temp;
 
     for (i=0; i<nRows; i++)
     {
@@ -410,10 +413,10 @@ float** transpose(float** m, int nRows, int nCols)
     int i;
     int j;
 
-    mT = new int* [nCols];
+    mT = new float* [nCols];
     for (i=0; i<nCols; i++)
     {
-        mT[i] = new int [nRows];
+        mT[i] = new float [nRows];
     }
     for (i=0; i<nRows; i++)
     {
@@ -438,10 +441,10 @@ float** matrix_multiply(float** a, float** b, int nRowsA, int nRowsB, int nColsB
     float val;
     float** p;
 
-    p = new int* [nRowsA];
+    p = new float* [nRowsA];
     for (i=0; i<nRowsA; i++)
     {
-        p[i] = new int [nColsB];
+        p[i] = new float [nColsB];
     }
 
     for (i=0; i<nRowsA; i++)
@@ -451,7 +454,7 @@ float** matrix_multiply(float** a, float** b, int nRowsA, int nRowsB, int nColsB
             val = 0.;
             for (k=0; k<nRowsB; k++)
             {
-                val = val + mT[i][k] * M[k][j];
+                val = val + a[i][k] * b[k][j];
             }
             p[i][j] = val;
         }

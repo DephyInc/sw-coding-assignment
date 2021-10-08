@@ -14,8 +14,8 @@ DataFile* align_data(DataFile* dataFiles, int n)
     ***/
     int i;
     int j;
-    int earliestIdx = 0;
-    float earliestTime = dataFiles[0].get_times()[dataFiles[0].firstPeakIndex];
+    int idx;
+    float earliestTime = dataFiles[0].extract_times()[dataFiles[0].firstPeakIndex];
     float curTime;
     float diff;
     float* times;
@@ -23,12 +23,12 @@ DataFile* align_data(DataFile* dataFiles, int n)
     // Find out which file's first peak occurs at the earliest time
     for (i=1; i<n; i++)
     {
-        times = dataFiles[i].get_times();
-        curTime = times[firstPeakIndex];
+        idx = dataFiles[i].firstPeakIndex;
+        times = dataFiles[i].extract_times();
+        curTime = times[idx];
 
         if (curTime < earliestTime)
         {
-            earliestIdx = i;
             earliestTime = curTime;
         }
         delete[] times;
@@ -39,8 +39,9 @@ DataFile* align_data(DataFile* dataFiles, int n)
     // the times of the later file by that amount
     for (i=0; i<n; i++)
     {
-        times = dataFiles[i].get_times();
-        curTime = times[firstPeakIndex];
+        times = dataFiles[i].extract_times();
+        idx = dataFiles[i].firstPeakIndex;
+        curTime = times[idx];
         diff = curTime - earliestTime;
 
         for (j=0; j<dataFiles[i].nRecords; j++)
