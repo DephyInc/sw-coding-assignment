@@ -1,5 +1,5 @@
-#include "datafile.hpp"
-#include "proto.hpp"
+#include "datamanager.hpp"
+#include "regressor.hpp"
 
 
 /*********************************************
@@ -7,22 +7,32 @@
 *********************************************/
 int main(int argc, char** argv)
 {
-    DataFile* dataFiles;
+    DataManager dataManager(argc-1, argv+1);
+    SineRegressor regressor;
 
     // Read input files
-    dataFiles = read_input_files(argc, argv);
+    dataManager.read();
 
     // Perform sinusoidal regression on the data
-    dataFiles = sinusoidal_regression(dataFiles, argc-1);
-    
-    // Find peaks
-    dataFiles = find_peaks(dataFiles, argc-1);
+    regressor.do_regression(
+        dataManager.times,
+        dataManager.xAccels,
+        dataManager.nRecords,
+        dataManager.nFiles
+    );
 
+    // Find the first peaks in each dataset
+    regressor.find_peaks(
+        dataManager.times,
+        dataManager.nRecords,
+        dataManager.nFiles
+    );
+    
     // Align the data
-    dataFiles = align_data(dataFiles, argc-1);
+    dataManager.align(regressor.firstPeakIndices);
 
     // Save the aligned data to a new file
-    save_aligned(dataFiles, argc-1);
+    dataManager.write();
 
     return 0;
 }
