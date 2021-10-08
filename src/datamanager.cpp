@@ -27,9 +27,12 @@ void DataManager::read(void)
 {
     int i;
     int j;
-    int* dataStart = NULL;
+    int start;
+    int* dataStart;
     std::string line;
     std::fstream inputFile;
+
+    dataStart = &start;
 
     // Loop over each input file
     for (i=0; i<nFiles; i++)
@@ -41,7 +44,7 @@ void DataManager::read(void)
         allocate(i, nRecords[i]);
         // Go back to the beginning of the data
         inputFile.clear();
-        inputFile.seekg(*dataStart);
+        inputFile.seekg(start);
         // Read the data
         j = 0;
         while (getline(inputFile, line))

@@ -300,7 +300,7 @@ float** SineRegressor::get_delta_beta(float** J, float* r, int nRows)
     // passed as a columns argument
     H = matrix_multiply(jTranspose, J, 4, nRows, 4);
     hInv = invert_matrix(H, 4);
-    temp = matrix_multiply(hInv, jTranspose, 4, nRows, 4);
+    temp = matrix_multiply(hInv, jTranspose, 4, 4, nRows);
     // Need to reshape the residuals array. It's currently flat, but
     // in order to do matrix multiplication it needs to be (m,1), where
     // m is nRows
