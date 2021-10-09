@@ -37,7 +37,7 @@ DataManager::DataManager(int nF, char** files)
 /*********************************************
                  desctructor
 *********************************************/
-~DataManager::DataManager()
+DataManager::~DataManager()
 {
     int i;
 

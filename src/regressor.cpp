@@ -741,7 +741,7 @@ int SineRegressor::find_closest_index(float* a, float x, int n)
 /*********************************************
                   destructor
 *********************************************/
-~SineRegressor::SineRegressor()
+SineRegressor::~SineRegressor()
 {
     int i;
 

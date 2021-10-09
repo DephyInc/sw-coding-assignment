@@ -22,12 +22,15 @@ class DataManager
         float** shiftedTimes;
 
         DataManager(int, char**);
+        ~DataManager();
         void read(void);
+        void align(int*);
+        void write(void);
+
+    private:
         int get_nlines(std::fstream*, int*);
         void allocate(int, int);
         void record(int, int, std::string);
-        void align(int*);
-        void write(void);
         std::string get_shifted_record(int, int);
 };
 #endif

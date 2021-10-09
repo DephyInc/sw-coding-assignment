@@ -11,6 +11,7 @@ class SineRegressor
 
         void do_regression(float**, float**, int*, int);
         void find_peaks(float**, int*, int);
+        ~SineRegressor();
 
     private:
         void save_beta(int, float*, int);
