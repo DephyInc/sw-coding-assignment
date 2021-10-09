@@ -6,8 +6,19 @@
 #include "datamanager.hpp"
 
 
+/*********************************************
+                constructor
+*********************************************/
 DataManager::DataManager(int nF, char** files)
 {
+    /***
+    Arguments:
+    ----------
+        nF : int
+            The number of data files to align.
+        files : char**
+            The list of file names to align.
+    ***/
     nFiles = nF;
     dataFiles = files;
     dateTimes = new std::string* [nFiles];
@@ -23,8 +34,53 @@ DataManager::DataManager(int nF, char** files)
 }
 
 
+/*********************************************
+                 desctructor
+*********************************************/
+~DataManager::DataManager()
+{
+    int i;
+
+    for (i=0; i<nFiles; i++)
+    {
+        delete[] times[i];
+        delete[] xAccels[i];
+        delete[] yAccels[i];
+        delete[] zAccels[i];
+        delete[] xGyros[i];
+        delete[] yGyros[i];
+        delete[] zGyros[i];
+        delete[] shiftedTimes[i];
+    }
+        delete[] times;
+        delete[] xAccels;
+        delete[] yAccels;
+        delete[] zAccels;
+        delete[] xGyros;
+        delete[] yGyros;
+        delete[] zGyros;
+        delete[] shiftedTimes;
+        delete[] nRecords;
+}
+
+
+/*********************************************
+                     read
+*********************************************/
 void DataManager::read(void)
 {
+    /***
+    Driver function for reading in each data file.
+
+    The data files have the following layout: two lines of header
+    followed by the data. Each line has all of the data gathered at a
+    single time step.
+
+    Columns:
+    date, time, x-accel, y-accel, z-accel, x-gyro, y-gyro, z-gyro,...
+
+    For this project, only the first eight columns are relevant.
+    ***/
     int i;
     int j;
     int start;
@@ -64,8 +120,34 @@ void DataManager::read(void)
 }
 
 
+/*********************************************
+                  get_nlines
+*********************************************/
 int DataManager::get_nlines(std::fstream* inputFile, int* dataStart)
 {
+    /***
+    Determines the number of lines of data in the given file.
+
+    Additionally, by having to skip the first two lines of header,
+    we also save the location in the file where the actual data starts.
+    This means that, after allocating memory to hold the data, we can
+    begin reading at the proper point.
+
+    Arguments:
+    ----------
+        inputFile : fstream*
+            The pointer to the file object used to read in the current
+            data file.
+        dataStart : int*
+            Holds the location in the file where the actual data
+            begins. Is a pointer because C++ can't return multiple
+            values from a function.
+
+    Returns:
+    --------
+        nLines : int
+            The number of lines of data in the file.
+    ***/
     int nLines = 0;
     int prevLineLoc;
     bool headerLine1;
@@ -98,8 +180,22 @@ int DataManager::get_nlines(std::fstream* inputFile, int* dataStart)
 }
 
 
+/*********************************************
+                  allocate
+*********************************************/
 void DataManager::allocate(int i, int nLines)
 {
+    /***
+    Handles allocating the proper amount of memory needed to hold the
+    data.
+
+    Arguments:
+    ----------
+        i : int
+            Index giving the current file being read.
+        nLines : int
+            The number of data entries we need to store for this file.
+    ***/
     dateTimes[i] = new std::string [nLines];
     times[i]= new float [nLines];
     xAccels[i] = new float [nLines];
@@ -112,8 +208,24 @@ void DataManager::allocate(int i, int nLines)
 }
 
 
+/*********************************************
+                    record
+*********************************************/
 void DataManager::record(int fileNum, int recordNum, std::string line)
 {
+    /***
+    Parses a given line into the appropriate arrays.
+
+    Arguments:
+    ----------
+        fileNum : int
+            Index giving the current file being read.
+        recordNum : int
+            Index giving the current row of data being read (does not
+            include header lines).
+        line : string
+            The line of data to be parsed.
+    ***/
     std::stringstream stream(line);
     std::string temp;
     std::vector<std::string> data;
@@ -134,12 +246,22 @@ void DataManager::record(int fileNum, int recordNum, std::string line)
 }
 
 
+/*********************************************
+                    align
+*********************************************/
 void DataManager::align(int* firstPeakIndices)
 {
     /***
     Determines which file has the earliest first peak and then shifts
     the arrays of every file such that the first peak occurs at the
     same time.
+
+    Arguments:
+    ----------
+        firstPeakIndices : int*
+            Array containing the index corresponding to the value
+            closest to the peak value determined by sinusoidal
+            regression. There's one index per data file.
     ***/
     int i;
     int j;
@@ -176,8 +298,18 @@ void DataManager::align(int* firstPeakIndices)
     }
 }
 
+
+/*********************************************
+                    write
+*********************************************/
 void DataManager::write(void)
 {
+    /***
+    Writes the shifted data from each data file to a new csv file.
+
+    Columns: Original data file name, date, shifted time, x-accel,
+    y-accel, z-accel, x-gyro, y-gyro, and z-gyro.
+    ***/
     int i;
     int j;
     std::string record;
@@ -210,8 +342,30 @@ void DataManager::write(void)
     outputFile.close();
 }
 
+
+/*********************************************
+              get_shifted_record
+*********************************************/
 std::string DataManager::get_shifted_record(int fileNum, int recordNum)
 {
+    /***
+    Constructs the string to be written to the output file from the
+    constituent arrays.
+
+    Arguments:
+    ----------
+        fileNum : int
+            Index giving the original data file.
+        recordNum : int
+            Index giving the original line of data.
+
+    Returns:
+    --------
+        record : string
+            The line of data containing: original file name, date,
+            shifted time, x-accel, y-accel, z-accel, x-gyro, y-gyro,
+            and z-gyro.
+    ***/
     std::string record;
     std::string fName;
     std::stringstream ss;

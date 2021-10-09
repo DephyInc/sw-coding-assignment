@@ -5,6 +5,7 @@
 class SineRegressor
 {
     public:
+        int numFiles;
         float** modelParams;
         int* firstPeakIndices;
 

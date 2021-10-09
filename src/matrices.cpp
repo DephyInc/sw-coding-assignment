@@ -9,6 +9,19 @@ float** make_column_vector(float* a, int n)
     /***
     Takes a row vector a with n columns and makes it a column vector
     with n rows.
+
+    Arguments:
+    ----------
+        a : float*
+            The row vector (normal array) to reshape.
+        n : int
+            The number of entries in a.
+
+    Returns:
+    --------
+        colVec : float**
+            An array containing the same data as a, but having shape
+            (n, 1).
     ***/
     int i;
     float** colVec;
@@ -36,6 +49,18 @@ float* make_row_vector(float** a, int n)
     /***
     Takes a column vector a with n rows and makes it a row vector
     with n columns.
+
+    Arguments:
+    ----------
+        a : float**
+            The column vector we wish to reshape.
+        n : int
+            The number of entries in a.
+
+    Returns:
+    --------
+        rowVec : float*
+            A flattened array with shape (1, n).
     ***/
     int i;
     float* rowVec;
@@ -56,6 +81,24 @@ float* make_row_vector(float** a, int n)
 *********************************************/
 float** transpose(float** m, int nRows, int nCols)
 {
+    /***
+    Computes the transpose of the given matrix m.
+
+    Arguments:
+    ----------
+        m : float**
+            The matrix to be transposed.
+        nRows : int
+            The number of rows in m.
+        nCols : int
+            The number of columns in m.
+
+    Returns:
+    --------
+        mT : float**
+            A matrix whose rows are m's columns and whose columns are
+            m's rows.
+    ***/
     float** mT;
     int i;
     int j;
@@ -82,6 +125,33 @@ float** transpose(float** m, int nRows, int nCols)
 *********************************************/
 float** matrix_multiply(float** a, float** b, int nRowsA, int nRowsB, int nColsB)
 {
+    /***
+    Multiplies the two given matrices a and b.
+
+    This function implicitly assumes that the proper dimensionality
+    checks have already been done on a and b before being passed here.
+    That is, two matrices can only be multiplied together if the number
+    of columns in the first matches the number of rows in the second.
+
+    Arguments:
+    ----------
+        a : float**
+            First matrix to be multiplied.
+        b : float**
+            Second matrix to be multiplied.
+        nRowsA : int
+            The number of rows in the input matrix a.
+        nRowsB : int
+            The number of rows in the input matrix b.
+        nColsB : int
+            The number of columns in the input matrix b.
+
+    Returns:
+    --------
+        p : float**
+            The matrix resulting from a @ b. If a is mxn and b is nxl,
+            then p will be mxl.
+    ***/
     int i;
     int j;
     int k;
@@ -119,6 +189,22 @@ float** invert_matrix(float** A, int N)
     /***
     Calculates the inverse of a matrix. From:
     https://tinyurl.com/kwpp8e3c
+
+    A matrix is invertible iff it is square and has a non-zero
+    determinant. This function assumes that these checks have already
+    been done on matrix A.
+
+    Arguments:
+    ----------
+        A : float**
+            The matrix whose inverse we are finding.
+        N : int
+            The shape of A. That is, A must be square (i.e. NxN).
+
+    Returns:
+    --------
+        inverse : float**
+            The inverse of A = adjoint(A) / det(A).
     ***/
     int i;
     int j;
@@ -167,6 +253,21 @@ void get_cofactor(float** A, float** temp, int p, int q, int n)
     Gets cofactor of A[p][q] in temp[][]. n is current dimension of
     A[][].
     From: https://tinyurl.com/kwpp8e3c
+
+    Helper function for calculating the adjoint of A.
+
+    Arguments:
+    ----------
+        A : float**
+            The matrix whose inverse is being found.
+        temp : float**
+            Temporary variable for holding the cofactors.
+        p : int
+            Current row the cofactor is being found for.
+        q : int
+            Current column the cofactor is being found for.
+        n : int
+            The shape of A.
     ***/
     int i = 0;
     int j = 0;
@@ -205,6 +306,21 @@ float determinant(float** A, int n, int N)
     Recursive function for finding determinant of matrix. n is current
     dimension of A[][].
     From: https://tinyurl.com/kwpp8e3c
+
+    Arguments:
+    ----------
+        A : float**
+            Matrix whose determinant is being found.
+        n : int
+            Current dimension being looked at for the expansion by
+            minors process.
+        N : int
+            The shape of A.
+
+    Returns:
+    --------
+        D : float
+            The determinant of A.
     ***/
     float D = 0.; // Initialize result
     float** temp; // To store cofactors
@@ -251,6 +367,15 @@ void adjoint(float** A, float** adj, int N)
     /***
     Gets adjoint of A[N][N] in adj[N][N].
     From: https://tinyurl.com/kwpp8e3c
+
+    Arguments:
+    ----------
+        A : float**
+            The matrix whose adjoint we are finding.
+        adj : float**
+            Container to hold the adjoint of A.
+        N : int
+            The shape of A.
     ***/
     int i;
     int j;

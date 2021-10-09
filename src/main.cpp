@@ -7,6 +7,20 @@
 *********************************************/
 int main(int argc, char** argv)
 {
+    /***
+    Reads in sensor data from walking trials, aligns each daataset
+    according to the position of the earliest step, and then writes
+    the aligned data back out to a new file.
+
+    The general idea is to perform sinusoidal regression on each
+    dataset. Once we have the best-fit sine curves we can determine
+    where the first peak is for each dataset. So armed, we can then
+    perform the desired shift.
+
+    Usage:
+    ------
+        .csv_aligner file1.csv file2.csv ...
+    ***/
     DataManager dataManager(argc-1, argv+1);
     SineRegressor regressor;
 
@@ -21,7 +35,7 @@ int main(int argc, char** argv)
         dataManager.nFiles
     );
 
-    // Find the first peaks in each dataset
+    // Find the first peak in each dataset
     regressor.find_peaks(
         dataManager.times,
         dataManager.nRecords,
