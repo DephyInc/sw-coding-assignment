@@ -1,0 +1,53 @@
+Installing
+----------
+Building the code requires g++ and make. If that's present, the included Makefile
+should build the code by simply running `make` from the project's root
+directory.
+
+
+About
+-----
+The basic idea behind the code is to fit the data from each file with a sine
+wave using sinusoidal regression. The actual regression algorithm itself is
+the Gauss-Newton method. More detailed descriptions and links to sources are
+in the code's docstrings.
+
+Essentially what we're doing is assuming that the function that best describes
+the data is a general sine wave:
+
+y(x) = A + Bsin(Cx + D)
+
+and we're iterating in order to find the values of A, B, C, and D that generate
+a sine wave that minimizes the sum of residuals between the model and the
+data.
+
+Once the data has been fit with a sine wave, we can determine where the first
+peak in the data is. This is because sine has peaks when its argument
+theta = n * pi / 2, where n is an integer starting from 1. So, by setting n=1,
+we find that when theta = pi / 2, we have the first peak. In this case,
+theta = Cx + D. So, when x = ((pi / 2) - D) / C, we get our first peak.
+
+We can then determine the index in our data array that correspond to the value
+closest to x for each data file. This gives us an array of times corresponding
+to the first peak in each data set. We then find the data set that has the
+earliest time for the first peak, determine the difference between that time
+and the first-peak time for each other data set, and then subtract off that
+difference from all of the times in that data set.
+
+From there, we write out the data with the shifted times to a new csv file.
+
+The reaons that sinusoidal regression was chosen instead of another method for
+finding the locations of the peaks in the data has to do with noise. For
+instance, doing a loop over the array and comparing the current value to its
+neighbors in order to find peaks is not particularly resilient to noise.
+Moreove, sinusoidal regression is fairly resilient to noise, insensitive to
+the total number of steps in the data, and fairly fast.
+
+Of note: I implemented most of the matrix operations from scratch. The reason
+for this was because I was unsure if I could use a library such as the gsl
+(GNU Scientific Library), which contains highly optimized implementations of
+all of these operations. I did not know if I was allowed to introduce an
+external dependency such as the gsl (though, presumably, in practice, I would
+be allowed to). The only unoriginal code in this project is related to
+calculating the inverse of a matrix, and my sources are cited in the
+docstrings of the relevant functions.
