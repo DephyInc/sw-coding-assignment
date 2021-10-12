@@ -19,6 +19,11 @@ std::string outputFileName("outputFile.csv");
  */
 int main(int argc, char** argv)
 {
+	if (argc <= 2) {
+		std::cerr << "Please enter at least two files as arguments" << std::endl;
+		return -1;
+	}
+
 	Data data;
 
 	for (int i = 1; i < argc; ++i) {
