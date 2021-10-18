@@ -1,0 +1,38 @@
+The code attemps to identify all step events in each file. The algorithm is as follows:
+The gyro_y data provided the clearest pattern to identify steps
+1. Find when the gyro_y goes below a specified negative value (-1000)
+2. Make sure it stays below that value for a minimum duration (150 ms)
+3. Wait for it to recross a positive going threshold (0)
+4. Look for an impulse in the z accelerometer data immediately after this period
+Note: the gyro tracking seems robust, but the accelerometer impulse detection is basic and could be improved
+Note: All data had a median filter applied. Only the gyro_y filtered data is used for detection. Plan was to use the other data to detect corrupted points but ran out of time.
+
+The timestamp of each dataset is shifted so the first step impulse is at time 0. The output dataset includes all of the times from each input file. When an input dataset didn't include a time that was in another dataset, the value in the output file is interpolated. This allows smooth plotting of multiple datasets. This could be improved by resampling the data to a common sample rate. In its current form, the output file has non uniform sampling.
+
+The output file has the follow items in each row for each dataset:
+1. timestamp (ms) relative to first step event
+2. accel and gyro data
+3. is_step flag that indicates a step event for corresponding dataset
+4. interpolated flag that indicates if a particular datapoint was interpolated for the corresponding dataset
+5. noisy flag that indicates corrupted data (This is not implemented due to time)
+
+Files:
+src/csv_aligner.cpp contains the high-level main function
+inc/csv_aligner.h contains various definitions and all class implementations
+
+Tested on Ubuntu 20.04.3 LTS and Windows 10
+Build steps:
+
+Linux:
+1. cd to the code directory
+2. run "make"
+3. csv_aligner will be output in code directory
+
+Windows:
+1. navigate to the code directory
+2. open the "csv_aligner_windows.sln" file in Visual Studio (tested in VS2019)
+3. click build or F7
+4. exe will be in Debug folder
+
+I believe the windows build works on relative paths instead of absolute so should compile on another machine when VS project is copied. Didn't get a chance to test though.
+
