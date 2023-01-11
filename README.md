@@ -6,7 +6,7 @@
 
 Design and implement an EPROM emulator that can read and write files to virtual EPROM chips (vEPROM).
 
-An EPROM (Erasable Programmable Read-Only Memory) is a type of non-volatile memory that can be programmed (written to) an unlimited number of times. Once programmed, they can only be erased (totally) by exposing them to UV light.
+An EPROM (Erasable Programmable Read-Only Memory) is a type of non-volatile memory that can be programmed (written to) an unlimited number of times. Once programmed, they can only be erased by exposing them to UV light.
 
 ### The emulator should have the following features:
 
