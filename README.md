@@ -2,6 +2,8 @@
 
 ## EPROM Emulator
 
+![EPROM](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/ST_Microelectronics_M27C256B_%282006%29.jpg/348px-ST_Microelectronics_M27C256B_%282006%29.jpg)
+
 Design and implement an EPROM emulator that can read and write files to virtual EPROM chips (vEPROM).
 
 An EPROM (Erasable Programmable Read-Only Memory) is a type of non-volatile memory that can be programmed (written to) an unlimited number of times. Once programmed, they can only be erased (totally) by exposing them to UV light.
