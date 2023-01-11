@@ -9,11 +9,10 @@ One paragraph that describes your solution.
 # Expected Results
 
 * List the results we should expect.
-* Feel free to include screenshots and attach binaries.
+* Include screenshots and attach binaries.
 
 # Requirements
-1. [ ] Written in C++
-2. [ ] Uses at least two classes and have them interact together
-3. [ ] Runs on Linux, and Windows or MacOS
-4. [ ] Runs fast
-5. [ ] Outputs the correct data
+1. [ ] Correctness: Does the emulator correctly implement the required features and handle errors gracefully?
+2. [ ] Usability: Is the emulator easy to use and understand?
+3. [ ] Code quality: Is the code well-organized, maintainable, and properly documented?
+4. [ ] Bonus: Does the graphical front-end provide a useful visualization of the file system on the virtual EPROM chip?
