@@ -16,21 +16,21 @@ An EPROM (Erasable Programmable Read-Only Memory) is a type of non-volatile memo
 The vEPROM emulator should be implemented as a command line tool, with the following commands:
 
 * `create`: creates a new virtual EPROM chip with a specified capacity.
-  Usage: `veprom create 256` creates a new virtual EPROM chip with a capacity of 256 KB. It outputs the path of the file used to store the vEPROM. This is the vEprom that’ll be used when the other commands are called.
+  * Usage: `veprom create 256` creates a new virtual EPROM chip with a capacity of 256 KB. It outputs the path of the file used to store the vEPROM. This is the vEprom that’ll be used when the other commands are called.
 * `load`: loads a vEPROM file
-  Usage: `veprom load /path/to/veprom/file`. This is the vEprom that’ll be used when the other commands are called.
+  * Usage: `veprom load /path/to/veprom/file`. This is the vEprom that’ll be used when the other commands are called.
 * write_raw: writes a raw string of bytes to a specific address on the virtual EPROM chip.
-  Usage: `veprom write_raw $ADDRESS $STRING`
+  * Usage: `veprom write_raw $ADDRESS $STRING`
 * `read_raw`: reads the values stored at a specific address and length on the virtual EPROM chip and outputs it on stdout.
-  Usage: `veprom read_raw $ADDRESS $length`
+  * Usage: `veprom read_raw $ADDRESS $length`
 * write: writes a file to the virtual EPROM chip.
-  Usage: `veprom write /path/to/local/file` writes the file /path/to/local/file to the virtual EPROM chip as `file`.
+  * Usage: `veprom write /path/to/local/file` writes the file /path/to/local/file to the virtual EPROM chip as `file`.
 * list: lists the files on the virtual EPROM chip.
-  Usage: `veprom list`
+  * Usage: `veprom list`
 * read: reads a file from the virtual EPROM chip.
-  Usage: `veprom read $FILE` reads the `$FILE` file from the virtual EPROM chip and outputs it to stdout.
+  * Usage: `veprom read $FILE` reads the `$FILE` file from the virtual EPROM chip and outputs it to stdout.
 * `erase`: sets the EPROM back to its original state
-  Usage: `veprom erase`
+  * Usage: `veprom erase`
 
 As a bonus, build a graphical front-end for the emulator that allows users to visualize how the files are stored on the virtual EPROM chip.
 
