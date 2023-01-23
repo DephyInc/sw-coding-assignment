@@ -68,9 +68,11 @@ void Veprom::erase()
 {
 	// deletes file and filenames
 	remove(m_filename.c_str());
-	files_stored.erase(files_stored.begin());
+	if (files_stored.size() > 0)
+		files_stored.erase(files_stored.begin());
 	// new file
 	//open_file();
+	cout <<"erasing.."<<endl;
 	write(m_size - 1, "0");
 }
 
