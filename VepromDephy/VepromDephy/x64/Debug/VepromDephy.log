@@ -1,0 +1,7 @@
+﻿  Emulator.cpp
+  Veprom.cpp
+C:\Users\proj\coding_assignment\VepromDephy\VepromDephy\Veprom.cpp(84,17): warning C4244: 'initializing': conversion from 'std::streamoff' to 'long', possible loss of data
+C:\Users\proj\coding_assignment\VepromDephy\VepromDephy\Veprom.cpp(119,30): warning C4267: '=': conversion from 'size_t' to 'int', possible loss of data
+  VepromDephy.cpp
+  Generating Code...
+  VepromDephy.vcxproj -> C:\Users\proj\coding_assignment\VepromDephy\x64\Debug\VepromDephy.exe
