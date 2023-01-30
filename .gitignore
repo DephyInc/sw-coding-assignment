@@ -31,5 +31,9 @@
 *.out
 *.app
 
+# VSCode
+.vscode/
+
 # Output
 /build
+*.map
