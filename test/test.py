@@ -29,28 +29,45 @@ def run(args: list)-> subprocess.CompletedProcess: # run exe and return proc res
         stdout=subprocess.PIPE
     )
 
-def TESTCASE_CREATE():
-    # create rest of the files
-    clean()
-    for i in range(1,12):
-        expFile = f"veprom_{i-1}.map"
-        out = run(["create", f"{i}"]) # also vary size!
+def TESTCASE_CREATE(): # test the create method
+    for i in range(0,16):
+        expFile = f"veprom_{i}.map"
+        size = (i % 2) + 1 # vary size a bit
+        out = run(["create", f"{size}"])
         assert out.returncode == 0
         assert out.stdout == bytearray(expFile, 'latin-1')
         assert os.path.exists(expFile)
         with open(expFile, "rb") as file:
-            assert file.read() == bytearray(1024 * i)    
-    clean()
+            assert file.read() == bytearray(1024 * size)
+    out = run(["create", "1"]) # no more allowed
+    assert out.returncode != 0
+
+def TESTCASE_LOAD(): # test the load method
+    expFile = "veprom_context.map"
+    outCreate = run(["create", "1"]).stdout
+    assert(isinstance(outCreate, bytes))
+    filename = outCreate.decode('latin-1')
+    outLoad = run(["load", filename])
+    assert outLoad.returncode == 0
+    assert os.path.exists(expFile)
+    with open(expFile, "rb") as file:
+        assert file.read() == filename.encode('latin-1')
+    outLoadFail = run(["load", "doesnotexist"])
+    assert outLoadFail.returncode != 0
 
 def main():
     if (len(sys.argv) > 1):
         if (sys.argv[1] == "all"):
             config() # optional: project clean and configure
-    clean()
     build()
-    TESTCASE_CREATE()
-    clean()
-    print("PASS!")
+    for test in [
+        TESTCASE_CREATE,
+        TESTCASE_LOAD,
+    ]:
+        clean()
+        test()
+        clean()
+    print("<<< PASS >>>")
 
 if __name__ == "__main__":
     main()
