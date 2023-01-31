@@ -10,12 +10,12 @@ Veprom::eRetVal Veprom::create(size_t size, string & filename)
     {
         char buf[SZ_FILENAME_BUF]; memset(buf, 0, sizeof(buf));
         sprintf(buf, "veprom_%i%s", i, FILENAME_EXT);
-        fid = fopen(buf, "r");
+        fid = fopen(buf, "rb");
         if (fid == nullptr)
         {
             // Found free file - stop here
             filename = buf;
-            fid = fopen(buf, "w");
+            fid = fopen(buf, "wb");
             break;
         }
         fclose(fid);
@@ -43,13 +43,13 @@ Veprom::eRetVal Veprom::create(size_t size, string & filename)
 Veprom::eRetVal Veprom::load(string filename)
 {
     // Make sure vEPROM file exists
-    FILE* fidVeprom = fopen(filename.c_str(), "r");
+    FILE* fidVeprom = fopen(filename.c_str(), "rb");
     if (fidVeprom == nullptr)
         return ContextNotFound;
     fclose(fidVeprom);
 
     // Save context
-    FILE* fidContext = fopen(FILENAME_CONTEXT, "w");
+    FILE* fidContext = fopen(FILENAME_CONTEXT, "wb");
     if (fidVeprom == nullptr)
         return CannotOpenContext;
     size_t retWrite = fwrite(filename.c_str(), 1, filename.length(), fidContext);
@@ -63,7 +63,7 @@ Veprom::eRetVal Veprom::load(string filename)
 string Veprom::get_context()
 {
     // Make sure vEPROM file exists
-    FILE* fid = fopen(FILENAME_CONTEXT, "r");
+    FILE* fid = fopen(FILENAME_CONTEXT, "rb");
     if (fid == nullptr)
     {
         // not found
@@ -84,7 +84,7 @@ Veprom::eRetVal Veprom::write_raw(size_t addr, uint8_t* data, size_t length)
         return ContextNotLoaded;
     
     // Open file and get its size
-    FILE* fid = fopen(filename.c_str(), "r");
+    FILE* fid = fopen(filename.c_str(), "rb");
     if (fid == NULL)
         return OpenFailedWriteRaw;
     fseek(fid, 0, SEEK_END);
@@ -102,7 +102,7 @@ Veprom::eRetVal Veprom::write_raw(size_t addr, uint8_t* data, size_t length)
     fread(buf, 1, size, fid);
     memcpy(buf + addr, data, length);
     fclose(fid);
-    fid = fopen(filename.c_str(), "w");
+    fid = fopen(filename.c_str(), "wb");
     fwrite(buf, 1, size, fid);
     fclose(fid);
     free(buf);
@@ -121,7 +121,7 @@ Veprom::eRetVal Veprom::read_raw(size_t addr, uint8_t* buf, size_t length)
         return NullPtr;
 
     // Open file and get its size
-    FILE* fid = fopen(filename.c_str(), "r");
+    FILE* fid = fopen(filename.c_str(), "rb");
     if (fid == NULL)
         return OpenFailedReadRaw;
     fseek(fid, 0, SEEK_END);
