@@ -99,7 +99,7 @@ def TESTCASE_WRITE(): # test the write method
     veprom = outCreate.decode('latin-1')
     run(["load", veprom])
     data = "Hello world! " * 512
-    filename = "myfile.txt"
+    filename = "myfile.map"
     with open(filename, "w") as file:
         file.write(data)
     outWrite = run(["write", filename])
@@ -109,6 +109,33 @@ def TESTCASE_WRITE(): # test the write method
     outRead = run(["read_raw", "128", "8"]) # check file size in drive
     assert byteArrayToInt(outRead.stdout) == len(data)
     os.remove(filename)
+
+def TESTCASE_LIST(): # test the write method
+    outCreate = run(["create", "256"]).stdout
+    assert(isinstance(outCreate, bytes))
+    veprom = outCreate.decode('latin-1')
+    run(["load", veprom])
+    data1 = "Hello world! " * 512
+    filename1 = "myfile1.map"
+    with open(filename1, "w") as file:
+        file.write(data1)
+    data2 = "Howdy! " * 512
+    filename2 = "myfile2.map"
+    with open(filename2, "w") as file:
+        file.write(data2)
+    run(["write", filename1])
+    outList = run(["list"])
+    assert outList.returncode == 0
+    # assert outList.stdout == bytes(filename1, 'latin-1')
+    run(["write", filename2])
+    outList = run(["list"])
+    assert outList.returncode == 0
+    assert outList.stdout == (
+        bytes(filename1, 'latin-1') + b"\r\n" + 
+        bytes(filename2, 'latin-1') + b"\r\n"
+    )
+    os.remove(filename1)
+    os.remove(filename2)
 
 def main(): # run through all test cases
     if (len(sys.argv) > 1):
@@ -121,6 +148,7 @@ def main(): # run through all test cases
         TESTCAST_WRITE_RAW,
         TESTCASE_READ_RAW,
         TESTCASE_WRITE,
+        TESTCASE_LIST,
     ]:
         clean()
         test()

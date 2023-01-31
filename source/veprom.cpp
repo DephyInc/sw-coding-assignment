@@ -76,6 +76,24 @@ string Veprom::get_context()
     return filename;
 }
 
+bool Veprom::get_size(size_t* pSz)
+{
+    if (pSz == nullptr) return false;
+
+    // Get loaded context
+    string filename = get_context();
+    if (filename == "") return false;
+    
+    // Open file and get its size
+    FILE* fid = fopen(filename.c_str(), "rb");
+    if (fid == NULL) return false;
+    fseek(fid, 0, SEEK_END);
+    *pSz = ftell(fid);
+    rewind(fid);
+    fclose(fid);
+    return true;
+}
+
 Veprom::eRetVal Veprom::write_raw(size_t addr, uint8_t* data, size_t length)
 {
     // Get loaded context
@@ -83,19 +101,19 @@ Veprom::eRetVal Veprom::write_raw(size_t addr, uint8_t* data, size_t length)
     if (filename == "")
         return ContextNotLoaded;
     
-    // Open file and get its size
-    FILE* fid = fopen(filename.c_str(), "rb");
-    if (fid == NULL)
-        return OpenFailedWriteRaw;
-    fseek(fid, 0, SEEK_END);
-    size_t size = ftell(fid);
-    rewind(fid);
+    // Get size of veprom
+    size_t size = 0;
+    if (!get_size(&size))
+        return CannotGetSize;
 
     // Check capacity
     if (addr + length > size)
         return WriteOutOfBounds;
 
     // Read modify write
+    FILE* fid = fopen(filename.c_str(), "rb");
+    if (fid == NULL)
+        return OpenFailedWriteRaw;
     uint8_t* buf = (uint8_t*)malloc(size);
     if (buf == 0)
         return MemoryAllocError;
@@ -120,14 +138,16 @@ Veprom::eRetVal Veprom::read_raw(size_t addr, uint8_t* buf, size_t length)
     if (buf == nullptr)
         return NullPtr;
 
+    // Get veprom size
+    size_t size = 0;
+    if (!get_size(&size))
+        return CannotGetSize;
+
     // Open file and get its size
     FILE* fid = fopen(filename.c_str(), "rb");
     if (fid == NULL)
         return OpenFailedReadRaw;
-    fseek(fid, 0, SEEK_END);
-    size_t size = ftell(fid);
-    rewind(fid);
-
+    
     // Check capacity
     if (addr + length > size)
         return ReadOutOfBounds;
@@ -178,5 +198,31 @@ Veprom::eRetVal Veprom::write(string filename, uint8_t* buf, size_t length)
     eRetVal retData = write_raw(pos, buf, length);
     if (retData != OK)
         return retData;
+    return OK;
+}
+
+Veprom::eRetVal Veprom::list(vector<string> & list)
+{
+    list = {};
+    size_t pos = 0;
+
+    // get veprom size
+    size_t size = 0;
+    if (!get_size(&size))
+        return CannotGetSize;
+
+    // Loop and read headers
+    sFileHeader hdr; memset(&hdr, 0, sizeof(hdr));
+    while (true)
+    {
+        if (OK != read_raw(pos, (uint8_t*)&hdr, sizeof(hdr)))
+            break; // nothing more to read, DONE
+        if (hdr.filename[0] == 0)
+            break; // filename empty, DONE
+        pos += sizeof(hdr); // move along header
+        pos += hdr.length; // move along length of file
+        list.push_back(hdr.filename);
+    }
+
     return OK;
 }

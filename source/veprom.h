@@ -1,4 +1,5 @@
 #include <string>
+#include <vector>
 
 using namespace std;
 
@@ -9,6 +10,7 @@ using namespace std;
 #define METHOD_WRITE_RAW "write_raw"
 #define METHOD_READ_RAW "read_raw"
 #define METHOD_WRITE "write"
+#define METHOD_LIST "list"
 
 #define FILENAME_EXT ".map"
 #define FILENAME_CONTEXT "veprom_context" FILENAME_EXT
@@ -50,6 +52,7 @@ class Veprom
             NullPtr,
             FilenameTooLong,
             WriteFileDriveFull,
+            CannotGetSize,
             __Unknown__ = 0xFF,
         };
 
@@ -88,6 +91,11 @@ class Veprom
         */
         eRetVal write(string filename, uint8_t* buf, size_t length);
 
+        /*
+        lists the files on the virtual EPROM chip.
+        */
+        eRetVal list(vector<string> & files);
+
 
     private:
 
@@ -106,6 +114,11 @@ class Veprom
         get next free position in drive
         */
         size_t get_free_pos();
+
+        /*
+        get veprom size
+        */
+        bool get_size(size_t* pSz);
 
 
 };

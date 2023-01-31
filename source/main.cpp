@@ -112,6 +112,16 @@ int main(int argc, char* argv[])
         fclose(fid);
         return 0;
     }
+    else if (strcmp(argv[1], METHOD_LIST) == 0)
+    {
+        // Get list of files
+        vector<string> files = {};
+        ret = veprom.list(files);
+        __check_app(ret == Veprom::OK, ret);
+        for (int i = 0; i < files.size(); i++)
+            cout << files[i] << '\n';
+        return 0;
+    }
     else
     {   // Method not found
         __check_input(false, Veprom::InvalidMethod);
