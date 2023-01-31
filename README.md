@@ -36,6 +36,12 @@ The vEPROM module is tested in an end-to-end integration format from the command
 
 This script includes project build before running tests, and prints `<<< PASS >>>` on success or throws an exception
 
+### Video
+
+(unlisted omn YouTube)
+
+https://youtu.be/gqIlkR3BCno
+
 ---
 
 ## EPROM Emulator

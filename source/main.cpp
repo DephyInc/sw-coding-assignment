@@ -44,9 +44,6 @@ int main(int argc, char* argv[])
     {
         // Get address and payload
         __validate(argc > 2, Veprom::MissingArgs);
-        // -----------------------------------------------
-        // TODO: differentiate addr = 0 and addr = invalid
-        // -----------------------------------------------
         int addr = atoi(argv[2]); 
         __validate(argc > 3, Veprom::MissingArgs);
         string data = argv[3];
@@ -60,9 +57,6 @@ int main(int argc, char* argv[])
     {
         // Get address and length
         __validate(argc > 2, Veprom::MissingArgs);
-        // -----------------------------------------------
-        // TODO: differentiate addr = 0 and addr = invalid
-        // -----------------------------------------------
         int addr = atoi(argv[2]); 
         __validate(argc > 3, Veprom::MissingArgs);
         int length = atoi(argv[3]);
