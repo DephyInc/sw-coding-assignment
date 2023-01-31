@@ -98,7 +98,7 @@ Veprom::eRetVal Veprom::write_raw(size_t addr, string data)
     // Read modify write
     uint8_t* buf = (uint8_t*)malloc(size);
     if (buf == 0)
-        return MemoryAllocErrorWriteRaw;
+        return MemoryAllocError;
     fread(buf, 1, size, fid);
     memcpy(buf + addr, data.c_str(), data.length());
     fclose(fid);
@@ -106,5 +106,35 @@ Veprom::eRetVal Veprom::write_raw(size_t addr, string data)
     fwrite(buf, 1, size, fid);
     fclose(fid);
     free(buf);
+    return OK;
+}
+
+Veprom::eRetVal Veprom::read_raw(size_t addr, uint8_t* buf, size_t length)
+{
+    // Get loaded context
+    string filename = get_context();
+    if (filename == "")
+        return ContextNotLoaded;
+
+    // Check buffer
+    if (buf == nullptr)
+        return NullPtr;
+
+    // Open file and get its size
+    FILE* fid = fopen(filename.c_str(), "r");
+    if (fid == NULL)
+        return OpenFailedReadRaw;
+    fseek(fid, 0, SEEK_END);
+    size_t size = ftell(fid);
+    rewind(fid);
+
+    // Check capacity
+    if (addr + length > size)
+        return ReadOutOfBounds;
+
+    // Read to buffer
+    fseek(fid, addr, SEEK_SET);
+    fread(buf, 1, length, fid);
+    fclose(fid);
     return OK;
 }

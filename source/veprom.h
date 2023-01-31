@@ -7,6 +7,7 @@ using namespace std;
 #define METHOD_CREATE "create"
 #define METHOD_LOAD "load"
 #define METHOD_WRITE_RAW "write_raw"
+#define METHOD_READ_RAW "read_raw"
 
 #define FILENAME_EXT ".map"
 #define FILENAME_CONTEXT "veprom_context" FILENAME_EXT
@@ -27,6 +28,8 @@ class Veprom
             RequireLoadChoice,
             RequireAddress,
             RequireData,
+            RequireLength,
+            InvalidLength,
             __AppErrors__ = 0xC0,
             FilenameBufferInvalid,
             FilenamesExhausted,
@@ -38,8 +41,10 @@ class Veprom
             ContextFileNotFound,
             ContextNotLoaded,
             WriteOutOfBounds,
-            MemoryAllocErrorWriteRaw,
             OpenFailedWriteRaw,
+            OpenFailedReadRaw,
+            ReadOutOfBounds,
+            NullPtr,
             __Unknown__ = 0xFF,
         };
 
@@ -64,7 +69,14 @@ class Veprom
         - addr = address within vEPROM
         - data = string data to write
         */
-       eRetVal write_raw(size_t addr, string data);
+        eRetVal write_raw(size_t addr, string data);
+
+        /* 
+        reads the values stored at a specific address and length on the virtual EPROM chip and outputs it on stdout
+        - addr = address within vEPROM
+        - length = len to read
+        */
+        eRetVal read_raw(size_t addr, uint8_t* buf, size_t length);
 
     private:
 

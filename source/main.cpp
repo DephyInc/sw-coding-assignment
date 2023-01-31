@@ -33,7 +33,7 @@ int main(int argc, char* argv[])
 
         // Create vEPROM and output filename
         string filename;
-        Veprom::eRetVal ret = veprom.create(szKB * 1024, filename);
+        ret = veprom.create(szKB * 1024, filename);
         __check_app(ret == Veprom::OK, ret);
         cout << filename;
         return 0;
@@ -45,7 +45,7 @@ int main(int argc, char* argv[])
         string filename = argv[2];
         
         // Setup choice
-        Veprom::eRetVal ret = veprom.load(filename);
+        ret = veprom.load(filename);
         __check_app(ret == Veprom::OK, ret);
         return 0;
     }
@@ -61,9 +61,30 @@ int main(int argc, char* argv[])
         string data = argv[3];
 
         // Execute write raw
-        Veprom::eRetVal ret = veprom.write_raw(addr, data);
+        ret = veprom.write_raw(addr, data);
         __check_app(ret == Veprom::OK, ret);
         return 0;
+    }
+    else if (strcmp(argv[1], METHOD_READ_RAW) == 0)
+    {
+        // Get address and length
+        __check_input(argc > 2, Veprom::RequireAddress);
+        // -----------------------------------------------
+        // TODO: differentiate addr = 0 and addr = invalid
+        // -----------------------------------------------
+        int addr = atoi(argv[2]); 
+        __check_input(argc > 3, Veprom::RequireLength);
+        int length = atoi(argv[3]);
+        __check_input(length > 0, Veprom::InvalidLength);
+
+        // Execute read raw
+        uint8_t* buf = (uint8_t*)malloc(length); memset(buf, 0, length);
+        __check_app(buf != nullptr, Veprom::MemoryAllocError);
+        ret = veprom.read_raw(addr, buf, length);
+        __check_app(ret == Veprom::OK, ret);
+        for (int i = 0; i < length; i++)
+            cout << buf[i];
+        free(buf);
     }
     else
     {   // Method not found

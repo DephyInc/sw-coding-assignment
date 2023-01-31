@@ -70,6 +70,19 @@ def TESTCAST_WRITE_RAW(): # test the write_raw method
     assert run(["write_raw", "1023", "EOF"]).returncode != 0
     assert run(["write_raw", "1022", "EOF"]).returncode != 0
     assert run(["write_raw", "1021", "EOF"]).returncode == 0
+    
+def TESTCASE_READ_RAW(): # test the read_raw method
+    assert run(["read_raw", "0", "32"]).returncode != 0 # no context
+    outCreate = run(["create", "1"]).stdout
+    assert(isinstance(outCreate, bytes))
+    filename = outCreate.decode('latin-1')
+    run(["load", filename])
+    data = "Hello world!"
+    assert run(["write_raw", "0", data]).returncode == 0
+    outReadRaw = run(["read_raw", "0", f"{len(data)}"])
+    assert outReadRaw.returncode == 0
+    assert outReadRaw.stdout == data.encode('latin-1')
+    assert run(["read_raw", "1024", "1"]).returncode != 0
 
 def main():
     if (len(sys.argv) > 1):
@@ -80,6 +93,7 @@ def main():
         TESTCASE_CREATE,
         TESTCASE_LOAD,
         TESTCAST_WRITE_RAW,
+        TESTCASE_READ_RAW,
     ]:
         clean()
         test()
