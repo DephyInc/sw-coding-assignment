@@ -6,17 +6,13 @@ using namespace std;
 #define N_VEPROMS_ALLOWED 16
 #define METHOD_CREATE "create"
 #define METHOD_LOAD "load"
+#define METHOD_WRITE_RAW "write_raw"
 
 #define FILENAME_EXT ".map"
 #define FILENAME_CONTEXT "veprom_context" FILENAME_EXT
 
 class Veprom
 {
-    private:
-
-        string m_strPath;  // path to file for veprom instance
-        size_t m_size;          // size of vEPROM drive
-
     public:
 
         enum eRetVal
@@ -29,6 +25,8 @@ class Veprom
             SizeTooLarge,
             InvalidMethod,
             RequireLoadChoice,
+            RequireAddress,
+            RequireData,
             __AppErrors__ = 0xC0,
             FilenameBufferInvalid,
             FilenamesExhausted,
@@ -37,6 +35,12 @@ class Veprom
             ContextNotFound,
             CannotOpenContext,
             CannotWriteContext,
+            ContextFileNotFound,
+            ContextNotLoaded,
+            WriteOutOfBounds,
+            MemoryAllocErrorWriteRaw,
+            OpenFailedWriteRaw,
+            __Unknown__ = 0xFF,
         };
 
         Veprom() {};
@@ -54,4 +58,19 @@ class Veprom
         - filename = path to storage file
         */
         eRetVal load(string filename);
+
+        /*
+        writes a raw string of bytes to a specific address on the virtual EPROM chip
+        - addr = address within vEPROM
+        - data = string data to write
+        */
+       eRetVal write_raw(size_t addr, string data);
+
+    private:
+
+        /*
+        get the filename corresponding to user working context
+        */
+        string get_context();
+
 };
