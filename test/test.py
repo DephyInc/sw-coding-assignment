@@ -137,6 +137,30 @@ def TESTCASE_LIST(): # test the write method
     os.remove(filename1)
     os.remove(filename2)
 
+def TESTCASE_READ(): # test the read method
+    outCreate = run(["create", "256"]).stdout
+    assert(isinstance(outCreate, bytes))
+    veprom = outCreate.decode('latin-1')
+    run(["load", veprom])
+    data1 = "Hello world! " * 512
+    filename1 = "myfile1.map"
+    with open(filename1, "w") as file:
+        file.write(data1)
+    data2 = "Howdy! " * 512
+    filename2 = "myfile2.map"
+    with open(filename2, "w") as file:
+        file.write(data2)
+    run(["write", filename1])
+    outRead = run(["read", filename2])
+    assert outRead.returncode != 0 # not found
+    outRead = run(["read", filename1])
+    assert outRead.returncode == 0
+    assert outRead.stdout == bytes(data1, 'latin-1')
+    run(["write", filename2])
+    outRead = run(["read", filename2])
+    assert outRead.returncode == 0
+    assert outRead.stdout == bytes(data2, 'latin-1')
+
 def main(): # run through all test cases
     if (len(sys.argv) > 1):
         if (sys.argv[1] == "all"):
@@ -149,6 +173,7 @@ def main(): # run through all test cases
         TESTCASE_READ_RAW,
         TESTCASE_WRITE,
         TESTCASE_LIST,
+        TESTCASE_READ,
     ]:
         clean()
         test()

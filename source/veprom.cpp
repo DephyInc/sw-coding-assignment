@@ -226,3 +226,40 @@ Veprom::eRetVal Veprom::list(vector<string> & list)
 
     return OK;
 }
+
+Veprom::eRetVal Veprom::read(string filename, uint8_t** pBuf, size_t* pLen)
+{
+    if (pBuf == nullptr || pLen == nullptr)
+        return NullPtr;
+
+    size_t pos = 0;
+    *pLen = 0;
+
+    // get veprom size
+    size_t size = 0;
+    if (!get_size(&size))
+        return CannotGetSize;
+
+    // Find file
+    sFileHeader hdr; memset(&hdr, 0, sizeof(hdr));
+    while (true)
+    {
+        if (OK != read_raw(pos, (uint8_t*)&hdr, sizeof(hdr)))
+            return FileNotFound; // not found
+        pos += sizeof(hdr); // move along header
+        if (strcmp(hdr.filename, filename.c_str()) == 0)
+            break; // found!
+        pos += hdr.length; // move along length of file
+    }
+
+    // malloc buffer...  NOTE: caller must free!
+    *pBuf = (uint8_t*)malloc(hdr.length);
+    if (*pBuf == nullptr)
+        return MemoryAllocError;
+    
+    // read to buffer
+    if (OK != read_raw(pos, *pBuf, hdr.length))
+        return FilenameBufferInvalid;
+    *pLen = hdr.length;
+    return OK;
+}

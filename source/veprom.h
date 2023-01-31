@@ -11,6 +11,7 @@ using namespace std;
 #define METHOD_READ_RAW "read_raw"
 #define METHOD_WRITE "write"
 #define METHOD_LIST "list"
+#define METHOD_READ "read"
 
 #define FILENAME_EXT ".map"
 #define FILENAME_CONTEXT "veprom_context" FILENAME_EXT
@@ -53,6 +54,7 @@ class Veprom
             FilenameTooLong,
             WriteFileDriveFull,
             CannotGetSize,
+            FileNotFound,
             __Unknown__ = 0xFF,
         };
 
@@ -96,7 +98,11 @@ class Veprom
         */
         eRetVal list(vector<string> & files);
 
-
+        /*
+        reads a file from the virtual EPROM chip.
+        */
+        eRetVal read(string filename, uint8_t** pBuf, size_t* pLen);
+        
     private:
 
         struct sFileHeader
@@ -119,6 +125,4 @@ class Veprom
         get veprom size
         */
         bool get_size(size_t* pSz);
-
-
 };

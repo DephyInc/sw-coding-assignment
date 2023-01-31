@@ -3,8 +3,14 @@
 
 #define USAGE \
     "Usages:\n" \
-    " >> veprom " METHOD_CREATE " [size in KB (int)] \n" \
-    " >> ... "
+    " >> veprom " METHOD_CREATE     " [size in KB]          \n" \
+    " >> veprom " METHOD_LOAD       " [veprom_name]         \n" \
+    " >> veprom " METHOD_WRITE_RAW  " [address] [data]      \n" \
+    " >> veprom " METHOD_READ_RAW   " [address] [length]    \n" \
+    " >> veprom " METHOD_WRITE      " [filenmae]            \n" \
+    " >> veprom " METHOD_LIST       "                       \n" \
+    " >> veprom " METHOD_READ       " [filenmae]            \n" \
+    
 
 #define __check_input(condition, error) \
     if (!(condition)) \
@@ -120,6 +126,27 @@ int main(int argc, char* argv[])
         __check_app(ret == Veprom::OK, ret);
         for (int i = 0; i < files.size(); i++)
             cout << files[i] << '\n';
+        return 0;
+    }
+    else if (strcmp(argv[1], METHOD_READ) == 0)
+    {
+        // Read a file
+        __check_input(argc > 2, Veprom::RequireFilename);
+        string filename = argv[2];
+
+        // Request file
+        uint8_t* buf = nullptr;
+        size_t len = 0;
+        ret = veprom.read(filename, &buf, &len);
+        if (ret != Veprom::OK)
+        { 
+            // Read file error
+            free(buf);
+            __check_app(false, ret);
+        }
+        // print contents
+        for (int i = 0; i < len; i++)
+            cout << buf[i];
         return 0;
     }
     else
