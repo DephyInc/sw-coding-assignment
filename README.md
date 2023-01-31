@@ -13,7 +13,7 @@ This implementation of vEPROM is contained in the following files:
 - `source/veprom.h`
   - define a class and data structures for interfacing with vEPROM
 - `source/veprom.cpp`
-  - source impplementing class methods that interfaces with vEPROM on file level
+  - source implementing class methods that interface with vEPROM on file level
 - `test/test.py`
   - python file for running a set of integration tests from command line using below methods
 
@@ -38,7 +38,7 @@ This script includes project build before running tests, and prints `<<< PASS >>
 
 ### Video
 
-(unlisted omn YouTube)
+(unlisted on YouTube)
 
 https://youtu.be/gqIlkR3BCno
 
