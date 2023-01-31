@@ -17,6 +17,17 @@ using namespace std;
 #define FILENAME_EXT ".map"
 #define FILENAME_CONTEXT "veprom_context" FILENAME_EXT
 
+#define USAGE \
+    "Usages:\n" \
+    " >> veprom " METHOD_CREATE     " [size in KB]          \n" \
+    " >> veprom " METHOD_LOAD       " [veprom_name]         \n" \
+    " >> veprom " METHOD_WRITE_RAW  " [address] [data]      \n" \
+    " >> veprom " METHOD_READ_RAW   " [address] [length]    \n" \
+    " >> veprom " METHOD_WRITE      " [filenmae]            \n" \
+    " >> veprom " METHOD_LIST       "                       \n" \
+    " >> veprom " METHOD_READ       " [filenmae]            \n" \
+    " >> veprom " METHOD_ERASE      "                       \n" \
+
 class Veprom
 {
     public:
@@ -24,38 +35,24 @@ class Veprom
         enum eRetVal
         {
             OK = 0,
-            __InputErrors__ = 0x80,
-            RequireMethod,
-            RequireSize,
-            InvalidSize,
-            SizeTooLarge,
+            MissingArgs,
+            InvalidArgs,
+            NotSupported,
             InvalidMethod,
-            RequireLoadChoice,
-            RequireAddress,
-            RequireData,
-            RequireLength,
-            InvalidLength,
-            RequireFilename,
-            FileWriteNotFound,
-            __AppErrors__ = 0xC0,
-            FilenameBufferInvalid,
-            FilenamesExhausted,
-            MemoryAllocError,
-            FileCreationError,
-            ContextNotFound,
-            CannotOpenContext,
-            CannotWriteContext,
-            ContextFileNotFound,
+            NotFound,
+            __UsageErrors__ = 0x80,
+            MaxNumDrivesExceeded,
             ContextNotLoaded,
-            WriteOutOfBounds,
-            OpenFailedWriteRaw,
-            OpenFailedReadRaw,
-            ReadOutOfBounds,
-            NullPtr,
+            OutOfBounds,
+            DriveFull,
             FilenameTooLong,
-            WriteFileDriveFull,
-            CannotGetSize,
             FileNotFound,
+            __ApplicationErrors__ = 0xC0,
+            CannotGetSize,
+            MemoryAllocError,
+            FileInterfaceError,
+            NullPtr,
+            __RuntimeErrors__,
             __Unknown__ = 0xFF,
         };
 
@@ -108,6 +105,11 @@ class Veprom
         sets the EPROM back to its original state
         */
         eRetVal erase();
+
+        /*
+        Get string description of error
+        */
+        static string err_descr(eRetVal ret);
 
     private:
 

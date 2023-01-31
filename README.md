@@ -1,5 +1,43 @@
 # Dephy Coding Assignment
 
+## SUBMISSION from mjpasquini
+
+### Overview
+
+This implementation of vEPROM is contained in the following files:
+
+- `source/CMakeLists.txt`
+  - cmake build file
+- `source/main.cpp`
+  - main exe specifying how to parse the user input, control the vEPROM, and output data
+- `source/veprom.h`
+  - define a class and data structures for interfacing with vEPROM
+- `source/veprom.cpp`
+  - source impplementing class methods that interfaces with vEPROM on file level
+- `test/test.py`
+  - python file for running a set of integration tests from command line using below methods
+
+### Build
+
+The project can be built with cmake (I used the Visual Studio 2022 compiler):
+
+- `cmake -S source -B build`
+- `cmake --build build`
+
+Then the executable is found here, and can be moved to a user directory as desired:
+
+- `.\build\Debug\veprom.exe`
+
+### Test
+
+The vEPROM module is tested in an end-to-end integration format from the command line by running:
+
+- `python test/test.py`
+
+This script includes project build before running tests, and prints `<<< PASS >>>` on success or throws an exception
+
+---
+
 ## EPROM Emulator
 
 ![EPROM](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/ST_Microelectronics_M27C256B_%282006%29.jpg/348px-ST_Microelectronics_M27C256B_%282006%29.jpg)

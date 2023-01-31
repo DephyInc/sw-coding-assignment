@@ -1,29 +1,13 @@
 #include <iostream>
 #include "veprom.h"
 
-#define USAGE \
-    "Usages:\n" \
-    " >> veprom " METHOD_CREATE     " [size in KB]          \n" \
-    " >> veprom " METHOD_LOAD       " [veprom_name]         \n" \
-    " >> veprom " METHOD_WRITE_RAW  " [address] [data]      \n" \
-    " >> veprom " METHOD_READ_RAW   " [address] [length]    \n" \
-    " >> veprom " METHOD_WRITE      " [filenmae]            \n" \
-    " >> veprom " METHOD_LIST       "                       \n" \
-    " >> veprom " METHOD_READ       " [filenmae]            \n" \
-    " >> veprom " METHOD_ERASE      "                       \n" \
-
-
-#define __check_input(condition, error) \
+#define __validate(condition, ret) \
     if (!(condition)) \
-    {cout << USAGE; return error;}
-
-#define __check_app(condition, error) \
-    if (!(condition)) \
-    {cout << "ERROR: " << error; return error;}
+    {cout << Veprom::err_descr(ret); return ret;}
 
 int main(int argc, char* argv[])
 {
-    __check_input(argc > 1, Veprom::RequireMethod);
+    __validate(argc > 1, Veprom::MissingArgs);
 
     // Create vEPROM instance
     Veprom veprom = Veprom();
@@ -33,62 +17,62 @@ int main(int argc, char* argv[])
     if (strcmp(argv[1], METHOD_CREATE) == 0)
     {
         // Get vEPROM size (limit to 1024 KB)
-        __check_input(argc > 2, Veprom::RequireSize);
+        __validate(argc > 2, Veprom::MissingArgs);
         int szKB = atoi(argv[2]);
-        __check_input(szKB >= 0, Veprom::InvalidSize);
-        __check_input(szKB <= 1024, Veprom::SizeTooLarge);
+        __validate(szKB >= 0, Veprom::InvalidArgs);
+        __validate(szKB <= 1024, Veprom::NotSupported);
 
         // Create vEPROM and output filename
         string filename;
         ret = veprom.create(szKB * 1024, filename);
-        __check_app(ret == Veprom::OK, ret);
+        __validate(ret == Veprom::OK, ret);
         cout << filename;
         return 0;
     }
     else if (strcmp(argv[1], METHOD_LOAD) == 0)
     {
         // Get choice of file to load
-        __check_input(argc > 2, Veprom::RequireLoadChoice);
+        __validate(argc > 2, Veprom::MissingArgs);
         string filename = argv[2];
         
         // Setup choice
         ret = veprom.load(filename);
-        __check_app(ret == Veprom::OK, ret);
+        __validate(ret == Veprom::OK, ret);
         return 0;
     }
     else if (strcmp(argv[1], METHOD_WRITE_RAW) == 0)
     {
         // Get address and payload
-        __check_input(argc > 2, Veprom::RequireAddress);
+        __validate(argc > 2, Veprom::MissingArgs);
         // -----------------------------------------------
         // TODO: differentiate addr = 0 and addr = invalid
         // -----------------------------------------------
         int addr = atoi(argv[2]); 
-        __check_input(argc > 3, Veprom::RequireData);
+        __validate(argc > 3, Veprom::MissingArgs);
         string data = argv[3];
 
         // Execute write raw
         ret = veprom.write_raw(addr, (uint8_t*)data.c_str(), data.length());
-        __check_app(ret == Veprom::OK, ret);
+        __validate(ret == Veprom::OK, ret);
         return 0;
     }
     else if (strcmp(argv[1], METHOD_READ_RAW) == 0)
     {
         // Get address and length
-        __check_input(argc > 2, Veprom::RequireAddress);
+        __validate(argc > 2, Veprom::MissingArgs);
         // -----------------------------------------------
         // TODO: differentiate addr = 0 and addr = invalid
         // -----------------------------------------------
         int addr = atoi(argv[2]); 
-        __check_input(argc > 3, Veprom::RequireLength);
+        __validate(argc > 3, Veprom::MissingArgs);
         int length = atoi(argv[3]);
-        __check_input(length > 0, Veprom::InvalidLength);
+        __validate(length > 0, Veprom::InvalidArgs);
 
         // Execute read raw
         uint8_t* buf = (uint8_t*)malloc(length); memset(buf, 0, length);
-        __check_app(buf != nullptr, Veprom::MemoryAllocError);
+        __validate(buf != nullptr, Veprom::MemoryAllocError);
         ret = veprom.read_raw(addr, buf, length);
-        __check_app(ret == Veprom::OK, ret);
+        __validate(ret == Veprom::OK, ret);
         for (int i = 0; i < length; i++)
             cout << buf[i];
         free(buf);
@@ -97,12 +81,12 @@ int main(int argc, char* argv[])
     else if (strcmp(argv[1], METHOD_WRITE) == 0)
     {
         // Get address and length
-        __check_input(argc > 2, Veprom::RequireFilename);
+        __validate(argc > 2, Veprom::MissingArgs);
         string filename = argv[2];
 
         // Find file
         FILE* fid = fopen(filename.c_str(), "r");
-        __check_app(fid != nullptr, Veprom::FileWriteNotFound);
+        __validate(fid != nullptr, Veprom::NotFound);
 
         // Get file size
         fseek(fid, 0, SEEK_END);
@@ -111,10 +95,10 @@ int main(int argc, char* argv[])
         
         // Get buffer
         uint8_t* buf = (uint8_t*)malloc(size); memset(buf, 0, size);
-        __check_app(buf != nullptr, Veprom::MemoryAllocError); 
+        __validate(buf != nullptr, Veprom::MemoryAllocError); 
         fread(buf, 1, size, fid);
         ret = veprom.write(filename, buf, size);
-        __check_app(ret == Veprom::OK, ret);
+        __validate(ret == Veprom::OK, ret);
         free(buf);
         fclose(fid);
         return 0;
@@ -124,7 +108,7 @@ int main(int argc, char* argv[])
         // Get list of files
         vector<string> files = {};
         ret = veprom.list(files);
-        __check_app(ret == Veprom::OK, ret);
+        __validate(ret == Veprom::OK, ret);
         for (int i = 0; i < files.size(); i++)
             cout << files[i] << '\n';
         return 0;
@@ -132,7 +116,7 @@ int main(int argc, char* argv[])
     else if (strcmp(argv[1], METHOD_READ) == 0)
     {
         // Read a file
-        __check_input(argc > 2, Veprom::RequireFilename);
+        __validate(argc > 2, Veprom::MissingArgs);
         string filename = argv[2];
 
         // Request file
@@ -143,7 +127,7 @@ int main(int argc, char* argv[])
         { 
             // Read file error
             free(buf);
-            __check_app(false, ret);
+            __validate(false, ret);
         }
         // print contents
         for (int i = 0; i < len; i++)
@@ -154,11 +138,11 @@ int main(int argc, char* argv[])
     {
         // erase disk
         ret = veprom.erase();
-        __check_app(ret == Veprom::OK, ret);
+        __validate(ret == Veprom::OK, ret);
         return 0;
     }
     else
     {   // Method not found
-        __check_input(false, Veprom::InvalidMethod);
+        __validate(false, Veprom::InvalidMethod);
     }
 }

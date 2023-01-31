@@ -23,7 +23,7 @@ Veprom::eRetVal Veprom::create(size_t size, string & filename)
 
     // Ensure free file was found
     if (fid == nullptr)
-        return FilenamesExhausted;
+        return MaxNumDrivesExceeded;
 
     // Write binary buffer (zeros) to file
     uint8_t* data = (uint8_t*)malloc(size);
@@ -33,7 +33,7 @@ Veprom::eRetVal Veprom::create(size_t size, string & filename)
     size_t retWrite = fwrite(data, sizeof(*data), size, fid);
     free(data);
     if (retWrite != size) 
-        return FileCreationError;
+        return FileInterfaceError;
 
     // Close file
     fclose(fid);
@@ -45,16 +45,16 @@ Veprom::eRetVal Veprom::load(string filename)
     // Make sure vEPROM file exists
     FILE* fidVeprom = fopen(filename.c_str(), "rb");
     if (fidVeprom == nullptr)
-        return ContextNotFound;
+        return ContextNotLoaded;
     fclose(fidVeprom);
 
     // Save context
     FILE* fidContext = fopen(FILENAME_CONTEXT, "wb");
     if (fidVeprom == nullptr)
-        return CannotOpenContext;
+        return FileInterfaceError;
     size_t retWrite = fwrite(filename.c_str(), 1, filename.length(), fidContext);
     if (retWrite != filename.length())
-        return CannotWriteContext;
+        return FileInterfaceError;
     fclose(fidVeprom);
 
     return OK;
@@ -108,12 +108,12 @@ Veprom::eRetVal Veprom::write_raw(size_t addr, uint8_t* data, size_t length)
 
     // Check capacity
     if (addr + length > size)
-        return WriteOutOfBounds;
+        return OutOfBounds;
 
     // Read modify write
     FILE* fid = fopen(filename.c_str(), "rb");
     if (fid == NULL)
-        return OpenFailedWriteRaw;
+        return FileInterfaceError;
     uint8_t* buf = (uint8_t*)malloc(size);
     if (buf == 0)
         return MemoryAllocError;
@@ -146,11 +146,11 @@ Veprom::eRetVal Veprom::read_raw(size_t addr, uint8_t* buf, size_t length)
     // Open file and get its size
     FILE* fid = fopen(filename.c_str(), "rb");
     if (fid == NULL)
-        return OpenFailedReadRaw;
+        return FileInterfaceError;
     
     // Check capacity
     if (addr + length > size)
-        return ReadOutOfBounds;
+        return OutOfBounds;
 
     // Read to buffer
     fseek(fid, addr, SEEK_SET);
@@ -184,7 +184,7 @@ Veprom::eRetVal Veprom::write(string filename, uint8_t* buf, size_t length)
     // Get first available free position
     size_t pos = get_free_pos();
     if (pos == -1)
-        return WriteFileDriveFull;
+        return DriveFull;
 
     // Write header
     sFileHeader hdr; memset(&hdr, 0, sizeof(hdr));
@@ -259,7 +259,7 @@ Veprom::eRetVal Veprom::read(string filename, uint8_t** pBuf, size_t* pLen)
     
     // read to buffer
     if (OK != read_raw(pos, *pBuf, hdr.length))
-        return FilenameBufferInvalid;
+        return FileInterfaceError;
     *pLen = hdr.length;
     return OK;
 }
@@ -281,4 +281,47 @@ Veprom::eRetVal Veprom::erase()
         return ret; // error
 
     return OK;
+}
+
+string Veprom::err_descr(eRetVal ret)
+{
+    string out;
+
+    // Add general description
+    if (ret == OK)
+        return "OK";
+    else if (ret < __UsageErrors__)
+        out += "UsageError";
+    else if (ret < __ApplicationErrors__)
+        out += "ApplicationError";
+    else if (ret < __RuntimeErrors__)
+        out += "RunTimeError";
+    else
+        out += "UNDEFINED";
+    out += ":";
+
+    // Add specific description
+    switch (ret)
+    {
+        case MissingArgs: out += "MissingArgs"; break;
+        case InvalidArgs: out += "InvalidArgs"; break;
+        case NotSupported: out += "NotSupported"; break;
+        case InvalidMethod: out += "InvalidMethod"; break;
+        case MaxNumDrivesExceeded: out += "MaxNumDrivesExceeded"; break;
+        case ContextNotLoaded: out += "ContextNotLoaded"; break;
+        case OutOfBounds: out += "OutOfBounds"; break;
+        case DriveFull: out += "DriveFull"; break;
+        case FilenameTooLong: out += "FilenameTooLong"; break;
+        case FileNotFound: out += "FileNotFound"; break;
+        case CannotGetSize: out += "CannotGetSize"; break;
+        case MemoryAllocError: out += "MemoryAllocError"; break;
+        case FileInterfaceError: out += "FileInterfaceError"; break;
+        case NullPtr: out += "NullPtr"; break;
+        default: out += "UNDEFINED"; break;
+    }
+
+    if (ret < __UsageErrors__)
+        cout << USAGE;
+
+    return out;
 }
