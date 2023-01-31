@@ -29,8 +29,17 @@ def clean(): # get rid of all veprom map files
 
 def run(args: list)-> subprocess.CompletedProcess: # run exe and return proc result
     return subprocess.run([EXE] + args,
-        stdout=subprocess.PIPE
+        stdout=subprocess.PIPE,
+        stderr=subprocess.PIPE
     )
+
+def byteArrayToInt(arr: bytes):
+    ret = 0
+    factor = 1
+    for i in range(len(arr)):
+        ret += arr[i] * factor
+        factor *= 256
+    return ret
 
 def TESTCASE_CREATE(): # test the create method
     for i in range(0,16):
@@ -84,7 +93,24 @@ def TESTCASE_READ_RAW(): # test the read_raw method
     assert outReadRaw.stdout == data.encode('latin-1')
     assert run(["read_raw", "1024", "1"]).returncode != 0
 
-def main():
+def TESTCASE_WRITE(): # test the write method
+    outCreate = run(["create", "256"]).stdout
+    assert(isinstance(outCreate, bytes))
+    veprom = outCreate.decode('latin-1')
+    run(["load", veprom])
+    data = "Hello world! " * 512
+    filename = "myfile.txt"
+    with open(filename, "w") as file:
+        file.write(data)
+    outWrite = run(["write", filename])
+    assert outWrite.returncode == 0
+    outRead = run(["read_raw", "0", "128"]) # check filename in drive
+    assert outRead.stdout == bytes(filename, 'latin-1') + bytearray(128 - len(filename))
+    outRead = run(["read_raw", "128", "8"]) # check file size in drive
+    assert byteArrayToInt(outRead.stdout) == len(data)
+    os.remove(filename)
+
+def main(): # run through all test cases
     if (len(sys.argv) > 1):
         if (sys.argv[1] == "all"):
             config() # optional: project clean and configure
@@ -94,6 +120,7 @@ def main():
         TESTCASE_LOAD,
         TESTCAST_WRITE_RAW,
         TESTCASE_READ_RAW,
+        TESTCASE_WRITE,
     ]:
         clean()
         test()

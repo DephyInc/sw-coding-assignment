@@ -76,7 +76,7 @@ string Veprom::get_context()
     return filename;
 }
 
-Veprom::eRetVal Veprom::write_raw(size_t addr, string data)
+Veprom::eRetVal Veprom::write_raw(size_t addr, uint8_t* data, size_t length)
 {
     // Get loaded context
     string filename = get_context();
@@ -92,7 +92,7 @@ Veprom::eRetVal Veprom::write_raw(size_t addr, string data)
     rewind(fid);
 
     // Check capacity
-    if (addr + data.length() > size)
+    if (addr + length > size)
         return WriteOutOfBounds;
 
     // Read modify write
@@ -100,7 +100,7 @@ Veprom::eRetVal Veprom::write_raw(size_t addr, string data)
     if (buf == 0)
         return MemoryAllocError;
     fread(buf, 1, size, fid);
-    memcpy(buf + addr, data.c_str(), data.length());
+    memcpy(buf + addr, data, length);
     fclose(fid);
     fid = fopen(filename.c_str(), "w");
     fwrite(buf, 1, size, fid);
@@ -136,5 +136,47 @@ Veprom::eRetVal Veprom::read_raw(size_t addr, uint8_t* buf, size_t length)
     fseek(fid, addr, SEEK_SET);
     fread(buf, 1, length, fid);
     fclose(fid);
+    return OK;
+}
+
+size_t Veprom::get_free_pos()
+{
+    size_t pos = 0;
+    sFileHeader hdr; memset(&hdr, 0, sizeof(hdr));
+
+    while (true)
+    {
+        if (read_raw(pos, (uint8_t*)&hdr, sizeof(hdr)) != OK)
+            return -1; // exhausted or error
+        if (hdr.filename[0] == 0)
+            return pos; // empty header --> DONE
+        // move to next file position
+        pos += sizeof(hdr) + hdr.length;
+    }
+}
+
+Veprom::eRetVal Veprom::write(string filename, uint8_t* buf, size_t length)
+{
+    // Check filename (allow null terminator)
+    if (filename.length() > SZ_FILENAME_BUF - 1)
+        return FilenameTooLong;
+
+    // Get first available free position
+    size_t pos = get_free_pos();
+    if (pos == -1)
+        return WriteFileDriveFull;
+
+    // Write header
+    sFileHeader hdr; memset(&hdr, 0, sizeof(hdr));
+    strcpy(hdr.filename, filename.c_str());
+    hdr.length = length;
+    eRetVal retHdr = write_raw(pos, (uint8_t*)&hdr, sizeof(hdr)); pos += sizeof(hdr);
+    if (retHdr != OK)
+        return retHdr;
+
+    // Write data
+    eRetVal retData = write_raw(pos, buf, length);
+    if (retData != OK)
+        return retData;
     return OK;
 }

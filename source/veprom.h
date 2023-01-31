@@ -2,12 +2,13 @@
 
 using namespace std;
 
-#define SZ_FILENAME_BUF 32
+#define SZ_FILENAME_BUF 128
 #define N_VEPROMS_ALLOWED 16
 #define METHOD_CREATE "create"
 #define METHOD_LOAD "load"
 #define METHOD_WRITE_RAW "write_raw"
 #define METHOD_READ_RAW "read_raw"
+#define METHOD_WRITE "write"
 
 #define FILENAME_EXT ".map"
 #define FILENAME_CONTEXT "veprom_context" FILENAME_EXT
@@ -30,6 +31,8 @@ class Veprom
             RequireData,
             RequireLength,
             InvalidLength,
+            RequireFilename,
+            FileWriteNotFound,
             __AppErrors__ = 0xC0,
             FilenameBufferInvalid,
             FilenamesExhausted,
@@ -45,6 +48,8 @@ class Veprom
             OpenFailedReadRaw,
             ReadOutOfBounds,
             NullPtr,
+            FilenameTooLong,
+            WriteFileDriveFull,
             __Unknown__ = 0xFF,
         };
 
@@ -69,7 +74,7 @@ class Veprom
         - addr = address within vEPROM
         - data = string data to write
         */
-        eRetVal write_raw(size_t addr, string data);
+        eRetVal write_raw(size_t addr, uint8_t* data, size_t length);
 
         /* 
         reads the values stored at a specific address and length on the virtual EPROM chip and outputs it on stdout
@@ -78,11 +83,29 @@ class Veprom
         */
         eRetVal read_raw(size_t addr, uint8_t* buf, size_t length);
 
+        /*
+        writes a file to the virtual EPROM chip.
+        */
+        eRetVal write(string filename, uint8_t* buf, size_t length);
+
+
     private:
+
+        struct sFileHeader
+        {
+            char filename[SZ_FILENAME_BUF];
+            size_t length;
+        };
 
         /*
         get the filename corresponding to user working context
         */
         string get_context();
+
+        /*
+        get next free position in drive
+        */
+        size_t get_free_pos();
+
 
 };

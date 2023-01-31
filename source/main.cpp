@@ -61,7 +61,7 @@ int main(int argc, char* argv[])
         string data = argv[3];
 
         // Execute write raw
-        ret = veprom.write_raw(addr, data);
+        ret = veprom.write_raw(addr, (uint8_t*)data.c_str(), data.length());
         __check_app(ret == Veprom::OK, ret);
         return 0;
     }
@@ -85,6 +85,32 @@ int main(int argc, char* argv[])
         for (int i = 0; i < length; i++)
             cout << buf[i];
         free(buf);
+        return 0;
+    }
+    else if (strcmp(argv[1], METHOD_WRITE) == 0)
+    {
+        // Get address and length
+        __check_input(argc > 2, Veprom::RequireFilename);
+        string filename = argv[2];
+
+        // Find file
+        FILE* fid = fopen(filename.c_str(), "r");
+        __check_app(fid != nullptr, Veprom::FileWriteNotFound);
+
+        // Get file size
+        fseek(fid, 0, SEEK_END);
+        size_t size = ftell(fid);
+        rewind(fid);
+        
+        // Get buffer
+        uint8_t* buf = (uint8_t*)malloc(size); memset(buf, 0, size);
+        __check_app(buf != nullptr, Veprom::MemoryAllocError); 
+        fread(buf, 1, size, fid);
+        ret = veprom.write(filename, buf, size);
+        __check_app(ret == Veprom::OK, ret);
+        free(buf);
+        fclose(fid);
+        return 0;
     }
     else
     {   // Method not found
