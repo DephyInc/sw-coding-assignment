@@ -160,6 +160,19 @@ def TESTCASE_READ(): # test the read method
     outRead = run(["read", filename2])
     assert outRead.returncode == 0
     assert outRead.stdout == bytes(data2, 'latin-1')
+    os.remove(filename1)
+    os.remove(filename2)
+
+def TESTCASE_ERASE():# test the erase method
+    outCreate = run(["create", "256"]).stdout
+    assert(isinstance(outCreate, bytes))
+    veprom = outCreate.decode('latin-1')
+    run(["load", veprom])
+    data = "Hello world!"
+    run(["write_raw", "0", data])
+    assert run(["read_raw", "0", str(len(data))]).stdout == bytes(data, 'latin-1')
+    run(["erase"])
+    assert run(["read_raw", "0", str(len(data))]).stdout ==  bytearray(len(data))
 
 def main(): # run through all test cases
     if (len(sys.argv) > 1):
@@ -174,6 +187,7 @@ def main(): # run through all test cases
         TESTCASE_WRITE,
         TESTCASE_LIST,
         TESTCASE_READ,
+        TESTCASE_ERASE,
     ]:
         clean()
         test()

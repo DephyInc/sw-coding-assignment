@@ -263,3 +263,22 @@ Veprom::eRetVal Veprom::read(string filename, uint8_t** pBuf, size_t* pLen)
     *pLen = hdr.length;
     return OK;
 }
+
+Veprom::eRetVal Veprom::erase()
+{
+    // get veprom size
+    size_t size = 0;
+    if (!get_size(&size))
+        return CannotGetSize;
+
+    // make zero buffer
+    uint8_t* buf = (uint8_t*)malloc(size);
+    if (buf == nullptr)
+        return MemoryAllocError;
+    memset(buf, 0, size);
+    eRetVal ret = write_raw(0, buf, size);
+    if (ret != OK)
+        return ret; // error
+
+    return OK;
+}

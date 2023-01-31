@@ -12,6 +12,7 @@ using namespace std;
 #define METHOD_WRITE "write"
 #define METHOD_LIST "list"
 #define METHOD_READ "read"
+#define METHOD_ERASE "erase"
 
 #define FILENAME_EXT ".map"
 #define FILENAME_CONTEXT "veprom_context" FILENAME_EXT
@@ -102,7 +103,12 @@ class Veprom
         reads a file from the virtual EPROM chip.
         */
         eRetVal read(string filename, uint8_t** pBuf, size_t* pLen);
-        
+
+        /*
+        sets the EPROM back to its original state
+        */
+        eRetVal erase();
+
     private:
 
         struct sFileHeader

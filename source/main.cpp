@@ -10,7 +10,8 @@
     " >> veprom " METHOD_WRITE      " [filenmae]            \n" \
     " >> veprom " METHOD_LIST       "                       \n" \
     " >> veprom " METHOD_READ       " [filenmae]            \n" \
-    
+    " >> veprom " METHOD_ERASE      "                       \n" \
+
 
 #define __check_input(condition, error) \
     if (!(condition)) \
@@ -147,6 +148,13 @@ int main(int argc, char* argv[])
         // print contents
         for (int i = 0; i < len; i++)
             cout << buf[i];
+        return 0;
+    }
+    else if (strcmp(argv[1], METHOD_ERASE) == 0)
+    {
+        // erase disk
+        ret = veprom.erase();
+        __check_app(ret == Veprom::OK, ret);
         return 0;
     }
     else
