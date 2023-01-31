@@ -159,19 +159,21 @@ Veprom::eRetVal Veprom::read_raw(size_t addr, uint8_t* buf, size_t length)
     return OK;
 }
 
-size_t Veprom::get_free_pos()
+bool Veprom::get_free_pos(size_t* pSz)
 {
-    size_t pos = 0;
+    if (pSz == nullptr) return false;
+
+    *pSz = 0;
     sFileHeader hdr; memset(&hdr, 0, sizeof(hdr));
 
     while (true)
     {
-        if (read_raw(pos, (uint8_t*)&hdr, sizeof(hdr)) != OK)
-            return -1; // exhausted or error
+        if (read_raw(*pSz, (uint8_t*)&hdr, sizeof(hdr)) != OK)
+            return false; // exhausted or error
         if (hdr.filename[0] == 0)
-            return pos; // empty header --> DONE
+            return true; // empty header --> DONE
         // move to next file position
-        pos += sizeof(hdr) + hdr.length;
+        *pSz += sizeof(hdr) + hdr.length;
     }
 }
 
@@ -182,8 +184,8 @@ Veprom::eRetVal Veprom::write(string filename, uint8_t* buf, size_t length)
         return FilenameTooLong;
 
     // Get first available free position
-    size_t pos = get_free_pos();
-    if (pos == -1)
+    size_t pos = 0;
+    if (!get_free_pos(&pos))
         return DriveFull;
 
     // Write header

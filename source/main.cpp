@@ -132,6 +132,7 @@ int main(int argc, char* argv[])
         // print contents
         for (int i = 0; i < len; i++)
             cout << buf[i];
+        free(buf);
         return 0;
     }
     else if (strcmp(argv[1], METHOD_ERASE) == 0)

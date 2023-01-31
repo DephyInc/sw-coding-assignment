@@ -127,7 +127,7 @@ class Veprom
         /*
         get next free position in drive
         */
-        size_t get_free_pos();
+        bool get_free_pos(size_t* pSz);
 
         /*
         get veprom size
