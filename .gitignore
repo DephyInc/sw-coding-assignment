@@ -30,3 +30,11 @@
 *.exe
 *.out
 *.app
+
+# veprom
+*.bin
+active_veprom.cfg
+a.out
+
+# vscode
+.vscode

@@ -260,7 +260,7 @@ class EmulatorConsoleInterpreterImpl {
                             processGUIHandler(argc, argv);
                         }
                         else {
-                            printf(Localization::INVALID_CMD_ARGS_MSG);
+                            printf("%s", Localization::INVALID_CMD_ARGS_MSG);
                         }
                     }
                 }
@@ -296,7 +296,7 @@ class EmulatorConsoleInterpreterImpl {
                 printf("Successfully loaded vEPROM from file: %s\n", fileLoaded.c_str());
             }
             else {
-                printf(Localization::INVALID_CMD_ARGS_MSG);
+                printf("%s", Localization::INVALID_CMD_ARGS_MSG);
             }
         }
 
@@ -325,7 +325,7 @@ class EmulatorConsoleInterpreterImpl {
                 printf("Data has been written. Length: %s\n", to_string(length).c_str());
             }
             else {
-                printf(Localization::INVALID_CMD_ARGS_MSG);
+                printf("%s", Localization::INVALID_CMD_ARGS_MSG);
             }
         }
 
@@ -341,7 +341,7 @@ class EmulatorConsoleInterpreterImpl {
                 cout << endl;
             }
             else {
-                printf(Localization::INVALID_CMD_ARGS_MSG);
+                printf("%s", Localization::INVALID_CMD_ARGS_MSG);
             }
         }
 
@@ -352,7 +352,7 @@ class EmulatorConsoleInterpreterImpl {
                 printf("File has been written.\n");
             }
             else {
-                printf(Localization::INVALID_CMD_ARGS_MSG);
+                printf("%s", Localization::INVALID_CMD_ARGS_MSG);
             }
         }
 
@@ -363,7 +363,7 @@ class EmulatorConsoleInterpreterImpl {
                 cout << output << endl;
             }
             else {
-                printf(Localization::INVALID_CMD_ARGS_MSG);
+                printf("%s", Localization::INVALID_CMD_ARGS_MSG);
             }
         }
 

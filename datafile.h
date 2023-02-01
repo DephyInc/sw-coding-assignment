@@ -133,7 +133,7 @@ class SpaceWriter {
 
 class DataFile {
     private:
-        static inline char* sys_make_context = "vEPROM_em1";
+        const static inline char* sys_make_context = "vEPROM_em1";
         
         const static inline int default_kBytesChunk = 256;
         
@@ -367,7 +367,7 @@ class DataFile {
             }    
         }
 
-        bool validateAddressInBounds(int start, int end, int spc_start, int spc_end) {
+        void validateAddressInBounds(int start, int end, int spc_start, int spc_end) {
             bool inBounds = start >= spc_start
                 && start <= spc_end
                 && end >= spc_start
@@ -378,18 +378,18 @@ class DataFile {
             }
         }
 
-        bool validateAddressInUserBounds(int start, int end) {
+        void validateAddressInUserBounds(int start, int end) {
             int user_spc_start = stoi(getSystemValue("user_spc_start"));
             int user_spc_end = stoi(getSystemValue("user_spc_end"));
 
-            return validateAddressInBounds(start, end, user_spc_start, user_spc_end);
+            validateAddressInBounds(start, end, user_spc_start, user_spc_end);
         }
 
-        bool validateAddressInCtrlBounds(int start, int end) {
+        void validateAddressInCtrlBounds(int start, int end) {
             int ctl_spc_start = stoi(getSystemValue("ctl_spc_start"));
             int ctl_spc_end = stoi(getSystemValue("ctl_spc_end"));
 
-            return validateAddressInBounds(start, end, ctl_spc_start, ctl_spc_end);
+            validateAddressInBounds(start, end, ctl_spc_start, ctl_spc_end);
         }
 
         void writeRawDataToUserSpace(int start, int end, char* input) {
