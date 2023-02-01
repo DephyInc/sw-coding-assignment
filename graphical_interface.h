@@ -66,11 +66,16 @@ class GraphicalInterface {
             DataRepresentationAggDTO* prev_dto = NULL;
             set<int> activeFiles;
 
+            int totalFreeBytes = 0;
+
             for(const auto &el :output) {
                 DataRepresentationAggDTO* dto = el;
                 int step = dto->step;
                 int freeBytes = dto->freeBytes;
                 bool isCompletelyFree = dto->isCompletelyFree;
+
+                totalFreeBytes = dto->cumulativeTotalFreeBytes;
+
                 vector<FileRepresentationDTO*> files = dto->files;
 
                 string signature = "";
@@ -135,6 +140,9 @@ class GraphicalInterface {
             else {
                 cout << Localization::NO_FILES_FOUND_MSG << endl;
             }
+
+            printf("\n\n________Memory_________\n\n");
+            printf("Free Bytes: %d\n", totalFreeBytes);
 
             cout << endl << endl;
         }

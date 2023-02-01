@@ -40,6 +40,7 @@ class DataRepresentationAggDTO {
         }
         int step = -1;
         int freeBytes = -1;
+        int cumulativeTotalFreeBytes = -1;
         bool isCompletelyFree;
         bool isUsrSpc;
         bool isCtlSpc;
@@ -704,6 +705,7 @@ class DataFile {
             vector<FileRepresentationDTO*> files = getFilesDTO();
 
             int byte = 0;
+            int totalFreeBytes = 0;
 
             ifstream iFile = getInputStream();
             if(iFile && iFile.is_open()) {
@@ -722,6 +724,7 @@ class DataFile {
 
                         if(c == '\0') {
                             freeBytes++;
+                            totalFreeBytes++;
                         }
 
                         if(Utils::isWithinRange(byte, usrSpcStart, usrSpcEnd)) {
@@ -749,6 +752,7 @@ class DataFile {
                     }
                     dto->freeBytes = freeBytes;
                     dto->isCompletelyFree = freeBytes == bytesSpan;
+                    dto->cumulativeTotalFreeBytes = totalFreeBytes;
 
                     output.push_back(dto);
                 }
