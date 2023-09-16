@@ -1,0 +1,39 @@
+Carlos,
+
+This is a very interesting project with definite practical applications during the early stages of a project development cycle, specifically prior to delivery of actual hardware.
+
+There are ambiguities and clarifications required to the initial requirements and scope of the proposed project. 
+
+Additional detail and functional requirements are required for the description of the command line interface. Is a command history required as part of the implementation? If yes, what is the depth of the command line history? Is editing of the command required? Also, the requirement to support simple command line features such as backspacing, arbitrary whitespace support, and command completion are not specifically indicated.
+
+The underlying functionality for the EPROM memory emulation requires specification of the minimum and maximum size of the emulated devices.
+
+The number of simultaneous device needs to be specified.
+
+There is no specification as to the minimum or maximum file sizes to be supported for files written to the emulated device, other than the implied maximum being the size of the virtual device itself.
+
+Operations that could incur errors, such as attemtping to write a file to the emulated device when an existing file with the same name exists on the device need to be handled.
+
+The functionality of reading and writing raw byte strings to any arbitrary location on the emulated device must be integrated in such a manner as to co-exist with the file read/write operations such that the write operation does not adversly affect the state of the file system resident on the emulated device. Writing to an arbitrary location and length may overlap two or more adjacent files on the device, or may overlap with a file and adjacent free space. This must be handled in such a manner as to prevent damage to the state of the file system resident on the emulated device.
+
+It is not clear if the graphical front-end implementation is to interface to the command line or directly to the underlying emulator implementation. Either could be implemented.
+
+There is no specification as to the target platform or operating system. If the target platform is a multiprocess system (e.g. Linux) then certain other requirements and functionl specifications are required. For example, is a virtual device created by one process visible to any other process? If yes, then how is access arbitration implemented? Are the operations transactional with the ability to abort and rollback in the event of an error or exception during the read or write operation? If one process creates or deletes a virtual EPROM chip, how do other processes update their knowledge as to the state of the virtual device? This is especially significant if two or more processes are sharing a single virtual device.
+
+The constraint of having this virtual EPROM device emulator be implemented in C++ may be necessary to meet API requirements for client applications. However, the internal implemention may be better suited to 'C' given the low-level byte-oriented nature of the operations.
+
+Does the file system implemented on the emulated EPROM device support rewriting of a file? For example, if multiple write operations are invoked with the same filename, what is the intended behavior? Should all but the first write operation fail when the filename is identical? Alternatively, should the file write operation modify the contents of the file resident on the virtual device, adjusting the memory usage accordingly? If yes, then memory fragmentation and reassembly issues are raised. A storage allocation capability (similar to malloc/free heap management) is then required to deal with these issues.
+
+Actual implementation of this functionality would require clarification of these issues. Subsequently, implementation and testing would take some hours.
+
+If you are interested in having me implement this virtual EPROM device emulator, my rate is $115/hour.
+
+You may contact me either via email or phone.
+
+Best regards,
+
+Michael Polia
+
+508-397-8138
+ab1aw@yahoo.com
+
