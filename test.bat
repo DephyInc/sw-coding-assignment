@@ -1,10 +1,10 @@
-moderncpp.exe
-moderncpp.exe create 10
-moderncpp.exe write dephy.cfg
-moderncpp.exe write data.txt
-moderncpp.exe write data1.txt
-moderncpp.exe write data2.txt
-moderncpp.exe write data.txt
-moderncpp.exe list
-moderncpp.exe read dephy.cfg
-moderncpp.exe read data.txt
+veprom
+veprom create 10
+veprom write dephy.cfg
+veprom write data.txt
+veprom write data1.txt
+veprom write data2.txt
+veprom write data.txt
+veprom list
+veprom read dephy.cfg
+veprom read data.txt

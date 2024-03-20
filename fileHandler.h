@@ -3,7 +3,8 @@
 #include <string>
 #include <vector>
 #include <filesystem>
-#include <cstring>
+//#include <cstring>
+#include <cmath>
 
 class fileHandler
 {
@@ -17,7 +18,7 @@ private:
     int load();
     int write_raw(int address, const std::string &String);
     int read_raw(int address, int length, std::string &String);
-    int write(const std::string &filePath);
+    int write(std::string &filePath);
     int list();
     int read(const std::string &filePath);
     int erase();

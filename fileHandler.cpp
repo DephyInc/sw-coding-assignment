@@ -240,7 +240,12 @@ int fileHandler::read_raw(int address, int length, std::string &String)
     return 0;
 };
 
-int fileHandler::write(const std::string &filePath)
+std::string getFilenameFromPath(const std::string& filePath) {
+    std::filesystem::path pathObj(filePath);
+    return pathObj.filename().string();
+}
+
+int fileHandler::write(std::string &filePath)
 {
     std::fstream file(filename, std::ios::binary | std::ios::in | std::ios::out);
     if (!file)
@@ -299,6 +304,7 @@ int fileHandler::write(const std::string &filePath)
     }
 
     // Write the new file's name and size to the filename
+    filePath = getFilenameFromPath(filePath);
     file.write(filePath.c_str(), filePath.size() + 1);                       // Write filepath including the null terminator
     file.write(reinterpret_cast<const char *>(&fileSize), sizeof(fileSize)); // Write file size
 
@@ -333,6 +339,9 @@ int fileHandler::list()
         std::cout << __func__ << ": Error: Unable to open EPROM file " << filename << std::endl;
         return -1;
     }
+    file.seekg(0, std::ios::end);
+    fileSizeB = file.tellg();
+    file.seekg(0, std::ios::beg);
     // Read the number of files from the first byte of filename
     int numFiles;
     file.read(reinterpret_cast<char *>(&numFiles), sizeof(numFiles));
@@ -340,7 +349,8 @@ int fileHandler::list()
     if (numFiles > 0)
     {
         std::cout << "Number of File on EPROM is " << numFiles << std::endl;
-        std::cout << " File Name | File Size In Bytes " << std::endl;
+        std::cout << std::setw(20)  << " File Name " << " | " << std::setw(20)<< " File Size In Bytes " << " | " << " Percent Space on EPROM " << std::endl;
+        std::cout << "---------------------|----------------------|--------------------------" << std::endl;
     }
     else
     {
@@ -363,9 +373,23 @@ int fileHandler::list()
         // std::cout << buffer << std::endl;
         // delete[] buffer;
         // print the file name and size to the screen
-        std::cout << fileName << " | " << fileSize << std::endl;
+        double percentage = static_cast<double>(fileSize)  / static_cast<double>(fileSizeB) * 100.0;
+        std::cout << std::setw(20) << fileName << " | " << std::setw(20)<< fileSize << " | "<< std::setw(20) << percentage << " % " ;
+        for (size_t j = 0; j < std::ceil(percentage); j++)
+        {
+            std::cout << "+" ;
+        }
+        std::cout<<std::endl;
+        
     }
-
+    double percentage = static_cast<double>(fileSizeB - file.tellg())  / static_cast<double>(fileSizeB) * 100.0;
+    std::cout << std::setw(20) << "Empty Space " << " | " << std::setw(20)<< fileSizeB - file.tellg() << " | " << std::setw(20)<< percentage << " % " ;
+    for (size_t j = 0; j < std::ceil(percentage); j++)
+        {
+            std::cout << "+" ;
+        }
+        std::cout<<std::endl;
+    std::cout << "---------------------|----------------------|--------------------------";
     return 0;
 };
 
@@ -465,7 +489,7 @@ int fileHandler::erase()
 int fileHandler::getFilenameFromConfigFile()
 {
     filename = ReadStringFromEndOfFile(configFile);
-    std::cout << __func__ << ": " << filename << std::endl;
+    std::cout << __func__ << ": EPROM file " << filename << " loaded." << std::endl;
     return 0;
 }
 
