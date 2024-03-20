@@ -5,18 +5,18 @@
 #include <filesystem>
 #include <cmath>
 
-/// @brief Implementation of VEPROM 
+/// @brief Implementation of VEPROM By: Arash Agan
 /*
     * Structure of virtual EPROM file
 
     - Number of files in the eprom (4 bytes)
 
     - Name of file1
-    - Size of the file1 (4 bytes)
+    - Size of file1 (4 bytes)
     - Contents of file1
 
     - Name of file2
-    - Size of the file2 (4 bytes)
+    - Size of file2 (4 bytes)
     - Contents of file2
 */
 class fileHandler

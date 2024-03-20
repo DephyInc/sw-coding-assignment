@@ -148,7 +148,7 @@ int fileHandler::parseCommandlineArguments(int argc, char *argv[])
     return 0;
 }
 
-void createBinaryFile(const std::string &filename, int fileSize)
+int createBinaryFile(const std::string &filename, int fileSize)
 {
     // Open the file in binary mode
     std::ofstream file(filename, std::ios::binary);
@@ -166,10 +166,12 @@ void createBinaryFile(const std::string &filename, int fileSize)
         // Close the file
         file.close();
         std::cout << "Binary file created successfully with size " << fileSize << " bytes." << std::endl;
+        return 0;
     }
     else
     {
         std::cerr << "Error: Unable to create binary file." << std::endl;
+        return -1;
     }
 }
 
@@ -181,10 +183,14 @@ int fileHandler::create(int size, std::string &filePath)
     {
         baseFilename = std::to_string(fileNumber++);
     }
-    createBinaryFile(baseFilename, size);
-    filePath = baseFilename;
-    WriteStringToEndOfFile(filePath);
-    return 0;
+    int rcode = createBinaryFile(baseFilename, size);
+    if (rcode == 0)
+    {
+        filePath = baseFilename;
+        WriteStringToEndOfFile(filePath);
+    }
+
+    return rcode;
 };
 
 int fileHandler::load()
@@ -240,7 +246,8 @@ int fileHandler::read_raw(int address, int length, std::string &String)
     return 0;
 };
 
-std::string getFilenameFromPath(const std::string& filePath) {
+std::string getFilenameFromPath(const std::string &filePath)
+{
     std::filesystem::path pathObj(filePath);
     return pathObj.filename().string();
 }
@@ -349,7 +356,10 @@ int fileHandler::list()
     if (numFiles > 0)
     {
         std::cout << "Number of File on EPROM is " << numFiles << std::endl;
-        std::cout << std::setw(20)  << " File Name " << " | " << std::setw(20)<< " File Size In Bytes " << " | " << " Percent Space on EPROM " << std::endl;
+        std::cout << std::setw(20) << " File Name "
+                  << " | " << std::setw(20) << " File Size In Bytes "
+                  << " | "
+                  << " Percent Space on EPROM " << std::endl;
         std::cout << "---------------------|----------------------|--------------------------" << std::endl;
     }
     else
@@ -373,22 +383,22 @@ int fileHandler::list()
         // std::cout << buffer << std::endl;
         // delete[] buffer;
         // print the file name and size to the screen
-        double percentage = static_cast<double>(fileSize)  / static_cast<double>(fileSizeB) * 100.0;
-        std::cout << std::setw(20) << fileName << " | " << std::setw(20)<< fileSize << " | "<< std::setw(20) << percentage << " % " ;
+        double percentage = static_cast<double>(fileSize) / static_cast<double>(fileSizeB) * 100.0;
+        std::cout << std::setw(20) << fileName << " | " << std::setw(20) << fileSize << " | " << std::setw(20) << percentage << " % ";
         for (size_t j = 0; j < std::ceil(percentage); j++)
         {
-            std::cout << "+" ;
+            std::cout << "+";
         }
-        std::cout<<std::endl;
-        
+        std::cout << std::endl;
     }
-    double percentage = static_cast<double>(fileSizeB - file.tellg())  / static_cast<double>(fileSizeB) * 100.0;
-    std::cout << std::setw(20) << "Empty Space " << " | " << std::setw(20)<< fileSizeB - file.tellg() << " | " << std::setw(20)<< percentage << " % " ;
+    double percentage = static_cast<double>(fileSizeB - file.tellg()) / static_cast<double>(fileSizeB) * 100.0;
+    std::cout << std::setw(20) << "Empty Space "
+              << " | " << std::setw(20) << fileSizeB - file.tellg() << " | " << std::setw(20) << percentage << " % ";
     for (size_t j = 0; j < std::ceil(percentage); j++)
-        {
-            std::cout << "+" ;
-        }
-        std::cout<<std::endl;
+    {
+        std::cout << "+";
+    }
+    std::cout << std::endl;
     std::cout << "---------------------|----------------------|--------------------------";
     return 0;
 };
@@ -426,8 +436,9 @@ int fileHandler::read(const std::string &fileToRead)
             {
                 std::cout << c;
             }
-            std::cout << std::endl << std::endl;
-            numFilesFound ++;
+            std::cout << std::endl
+                      << std::endl;
+            numFilesFound++;
         }
         else
         {
@@ -440,7 +451,9 @@ int fileHandler::read(const std::string &fileToRead)
     {
         // if $FILE is not found
         std::cout << __func__ << ": Error: File " << fileToRead << " not found in EPROM." << std::endl;
-    }else{
+    }
+    else
+    {
         std::cout << __func__ << ": Found " << numFilesFound << " files with name " << fileToRead << " in " << filename << " EPROM." << std::endl;
     }
 

@@ -1,0 +1,56 @@
+{
+	"version": "2.0.0",
+	"tasks": [
+		{
+			"type": "cppbuild",
+			"label": "C/C++: g++.exe build active file",
+			"command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+			"args": [
+				"-fdiagnostics-color=always",
+				"-g",
+				"${file}",
+				"${fileDirname}\\fileHandler.cpp",
+				"-o",
+				"${fileDirname}\\${fileBasenameNoExtension}.exe",
+			],
+			"options": {
+				"cwd": "C:\\msys64\\mingw64\\bin"
+			},
+			"problemMatcher": [
+				"$gcc"
+			],
+			"group": "build",
+			"detail": "compiler: C:\\msys64\\mingw64\\bin\\g++.exe"
+		}//,
+		// {
+		// 	"label": "C/C++: g++.exe debug active file",
+		// 	"type": "cppbuild",
+		// 	"command":"${fileDirname}\\${fileBasenameNoExtension}",
+		// 	"args": ["create", "${fileDirname}\\dephy.cfg"],
+		// 	"group": {
+		// 		"kind": "test",
+		// 		"isDefault": true
+		// 	},
+		// 	"detail": "compiler: C:\\msys64\\mingw64\\bin\\g++.exe"
+		// }
+		// ,
+		// {
+		// 	"type": "shell",
+		// 	"label": "C/C++: g++.exe debug active file",
+		// 	"command": "C:\\msys64\\mingw64\\bin\\g++.exe",
+		// 	"args": [
+		// 		"${fileDirname}\\${fileBasenameNoExtension}.exe",
+		// 		"create",
+		// 		"${fileDirname}\\dephy.cfg"
+		// 	],
+		// 	"options": {
+		// 		"cwd": "C:\\msys64\\mingw64\\bin"
+		// 	},
+		// 	"problemMatcher": [
+		// 		"$gcc"
+		// 	],
+		// 	"group": "build",
+		// 	"detail": "compiler: C:\\msys64\\mingw64\\bin\\g++.exe"
+		// }
+	]
+}
