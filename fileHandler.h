@@ -5,8 +5,9 @@
 #include <filesystem>
 #include <cmath>
 
-/// @brief Implementation of VEPROM By: Arash Agan
+/// @brief Implementation of VEPROM By: Arash Agan 
 /*
+    * Video demonstration is uploaded to youtube https://youtu.be/nkI_sSfGi3E
     * Structure of virtual EPROM file
 
     - Number of files in the eprom (4 bytes)
