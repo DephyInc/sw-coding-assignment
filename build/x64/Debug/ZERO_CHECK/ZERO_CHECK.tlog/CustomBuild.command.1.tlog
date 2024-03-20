@@ -1,0 +1,10 @@
+^C:\HYH\2024\TODO\DEPHY\CODING-ASSIGNMENT\BUILD\CMAKEFILES\C5DECB941DAEAAE64C96354106999D80\GENERATE.STAMP.RULE
+setlocal
+C:\mingw64\bin\cmake.exe -SC:/HYH/2024/ToDo/Dephy/coding-assignment -BC:/HYH/2024/ToDo/Dephy/coding-assignment/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/HYH/2024/ToDo/Dephy/coding-assignment/build/my_application.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

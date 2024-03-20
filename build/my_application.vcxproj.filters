@@ -1,0 +1,30 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <ClCompile Include="C:\HYH\2024\ToDo\Dephy\coding-assignment\src\main.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="C:\HYH\2024\ToDo\Dephy\coding-assignment\build\appwindow.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\faff58d89d4cd909671a03c544d40bc8\appwindow.h.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+    <CustomBuild Include="C:\HYH\2024\ToDo\Dephy\coding-assignment\CMakeLists.txt" />
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{798C3FF7-B3E9-3293-AFE9-CDCBC834E476}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files">
+      <UniqueIdentifier>{DE70A7DC-DE32-33D4-A701-FEC328618558}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files">
+      <UniqueIdentifier>{1F06C4E6-CA95-3A12-81DD-7DE07EB3E707}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>

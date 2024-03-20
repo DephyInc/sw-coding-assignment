@@ -1,0 +1,26 @@
+^C:\HYH\2024\TODO\DEPHY\CODING-ASSIGNMENT\BUILD\CMAKEFILES\FAFF58D89D4CD909671A03C544D40BC8\APPWINDOW.H.RULE
+setlocal
+cd C:\HYH\2024\ToDo\Dephy\coding-assignment\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Slint-cpp 1.5.0\bin\slint-compiler.exe" C:/HYH/2024/ToDo/Dephy/coding-assignment/ui/appwindow.slint -o C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.h --depfile C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.d --style fluent --embed-resources=as-absolute-path --translation-domain="my_application"
+if %errorlevel% neq 0 goto :cmEnd
+C:\mingw64\bin\cmake.exe -E cmake_transform_depfile "Visual Studio 16 2019" MSBuildAdditionalInputs C:/HYH/2024/ToDo/Dephy/coding-assignment C:/HYH/2024/ToDo/Dephy/coding-assignment C:/HYH/2024/ToDo/Dephy/coding-assignment/build C:/HYH/2024/ToDo/Dephy/coding-assignment/build C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.d C:/HYH/2024/ToDo/Dephy/coding-assignment/build/CMakeFiles/d/044b893ff1af0c1084897473470f2052a4fc353ffccd94f5af8db5716e6a5e29.AdditionalInputs
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd
+^C:\HYH\2024\TODO\DEPHY\CODING-ASSIGNMENT\CMAKELISTS.TXT
+setlocal
+C:\mingw64\bin\cmake.exe -SC:/HYH/2024/ToDo/Dephy/coding-assignment -BC:/HYH/2024/ToDo/Dephy/coding-assignment/build --check-stamp-file C:/HYH/2024/ToDo/Dephy/coding-assignment/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

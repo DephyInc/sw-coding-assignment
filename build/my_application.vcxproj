@@ -1,0 +1,471 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project DefaultTargets="Build" ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <PropertyGroup>
+    <PreferredToolArchitecture>x64</PreferredToolArchitecture>
+  </PropertyGroup>
+  <ItemGroup Label="ProjectConfigurations">
+    <ProjectConfiguration Include="Debug|x64">
+      <Configuration>Debug</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="Release|x64">
+      <Configuration>Release</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="MinSizeRel|x64">
+      <Configuration>MinSizeRel</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+    <ProjectConfiguration Include="RelWithDebInfo|x64">
+      <Configuration>RelWithDebInfo</Configuration>
+      <Platform>x64</Platform>
+    </ProjectConfiguration>
+  </ItemGroup>
+  <PropertyGroup Label="Globals">
+    <ProjectGuid>{91AB0F06-20DB-3289-9E75-583559A01CCE}</ProjectGuid>
+    <Keyword>Win32Proj</Keyword>
+    <WindowsTargetPlatformVersion>8.1</WindowsTargetPlatformVersion>
+    <Platform>x64</Platform>
+    <ProjectName>my_application</ProjectName>
+    <VCProjectUpgraderObjectName>NoUpgrade</VCProjectUpgraderObjectName>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.Default.props" />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'" Label="Configuration">
+    <ConfigurationType>Application</ConfigurationType>
+    <CharacterSet>MultiByte</CharacterSet>
+    <PlatformToolset>v142</PlatformToolset>
+  </PropertyGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.props" />
+  <ImportGroup Label="ExtensionSettings">
+  </ImportGroup>
+  <ImportGroup Label="PropertySheets">
+    <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
+  </ImportGroup>
+  <PropertyGroup Label="UserMacros" />
+  <PropertyGroup>
+    <_ProjectFileVersion>10.0.20506.1</_ProjectFileVersion>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\Debug\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">my_application.dir\Debug\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">my_application</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\Release\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='Release|x64'">my_application.dir\Release\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='Release|x64'">my_application</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='Release|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\MinSizeRel\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">my_application.dir\MinSizeRel\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">my_application</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">true</GenerateManifest>
+    <OutDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\RelWithDebInfo\</OutDir>
+    <IntDir Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">my_application.dir\RelWithDebInfo\</IntDir>
+    <TargetName Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">my_application</TargetName>
+    <TargetExt Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">.exe</TargetExt>
+    <LinkIncremental Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</LinkIncremental>
+    <GenerateManifest Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">true</GenerateManifest>
+  </PropertyGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\HYH\2024\ToDo\Dephy\coding-assignment\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Program Files/Slint-cpp 1.5.0/include/slint" /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <BasicRuntimeChecks>EnableFastChecks</BasicRuntimeChecks>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>Disabled</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>Disabled</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDebugDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;CMAKE_INTDIR="Debug"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_DEBUG;_WINDOWS;CMAKE_INTDIR=\"Debug\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\HYH\2024\ToDo\Dephy\coding-assignment\build;C:\Program Files\Slint-cpp 1.5.0\include\slint;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\HYH\2024\ToDo\Dephy\coding-assignment\build;C:\Program Files\Slint-cpp 1.5.0\include\slint;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+C:\mingw64\bin\cmake.exe -E copy "C:/Program Files/Slint-cpp 1.5.0/lib/slint_cpp.dll" C:/HYH/2024/ToDo/Dephy/coding-assignment/build/Debug
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>C:\Program Files\Slint-cpp 1.5.0\lib\slint_cpp.dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/HYH/2024/ToDo/Dephy/coding-assignment/build/Debug/my_application.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/HYH/2024/ToDo/Dephy/coding-assignment/build/Debug/my_application.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\HYH\2024\ToDo\Dephy\coding-assignment\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Program Files/Slint-cpp 1.5.0/include/slint" /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>AnySuitable</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="Release"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"Release\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\HYH\2024\ToDo\Dephy\coding-assignment\build;C:\Program Files\Slint-cpp 1.5.0\include\slint;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\HYH\2024\ToDo\Dephy\coding-assignment\build;C:\Program Files\Slint-cpp 1.5.0\include\slint;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+C:\mingw64\bin\cmake.exe -E copy "C:/Program Files/Slint-cpp 1.5.0/lib/slint_cpp.dll" C:/HYH/2024/ToDo/Dephy/coding-assignment/build/Release
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>C:\Program Files\Slint-cpp 1.5.0\lib\slint_cpp.dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/HYH/2024/ToDo/Dephy/coding-assignment/build/Release/my_application.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/HYH/2024/ToDo/Dephy/coding-assignment/build/Release/my_application.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\HYH\2024\ToDo\Dephy\coding-assignment\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Program Files/Slint-cpp 1.5.0/include/slint" /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>MinSpace</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="MinSizeRel"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <DebugInformationFormat>
+      </DebugInformationFormat>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"MinSizeRel\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\HYH\2024\ToDo\Dephy\coding-assignment\build;C:\Program Files\Slint-cpp 1.5.0\include\slint;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\HYH\2024\ToDo\Dephy\coding-assignment\build;C:\Program Files\Slint-cpp 1.5.0\include\slint;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+C:\mingw64\bin\cmake.exe -E copy "C:/Program Files/Slint-cpp 1.5.0/lib/slint_cpp.dll" C:/HYH/2024/ToDo/Dephy/coding-assignment/build/MinSizeRel
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>C:\Program Files\Slint-cpp 1.5.0\lib\slint_cpp.dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>false</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/HYH/2024/ToDo/Dephy/coding-assignment/build/MinSizeRel/my_application.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/HYH/2024/ToDo/Dephy/coding-assignment/build/MinSizeRel/my_application.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">
+    <ClCompile>
+      <AdditionalIncludeDirectories>C:\HYH\2024\ToDo\Dephy\coding-assignment\build;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /external:I "C:/Program Files/Slint-cpp 1.5.0/include/slint" /bigobj</AdditionalOptions>
+      <AssemblerListingLocation>$(IntDir)</AssemblerListingLocation>
+      <DebugInformationFormat>ProgramDatabase</DebugInformationFormat>
+      <ExceptionHandling>Sync</ExceptionHandling>
+      <ExternalWarningLevel>TurnOffAllWarnings</ExternalWarningLevel>
+      <InlineFunctionExpansion>OnlyExplicitInline</InlineFunctionExpansion>
+      <LanguageStandard>stdcpp20</LanguageStandard>
+      <Optimization>MaxSpeed</Optimization>
+      <PrecompiledHeader>NotUsing</PrecompiledHeader>
+      <RuntimeLibrary>MultiThreadedDLL</RuntimeLibrary>
+      <UseFullPaths>false</UseFullPaths>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR="RelWithDebInfo"</PreprocessorDefinitions>
+      <ObjectFileName>$(IntDir)</ObjectFileName>
+      <ScanSourceForModuleDependencies>false</ScanSourceForModuleDependencies>
+    </ClCompile>
+    <ResourceCompile>
+      <PreprocessorDefinitions>%(PreprocessorDefinitions);WIN32;_WINDOWS;NDEBUG;CMAKE_INTDIR=\"RelWithDebInfo\"</PreprocessorDefinitions>
+      <AdditionalIncludeDirectories>C:\HYH\2024\ToDo\Dephy\coding-assignment\build;C:\Program Files\Slint-cpp 1.5.0\include\slint;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+    </ResourceCompile>
+    <Midl>
+      <AdditionalIncludeDirectories>C:\HYH\2024\ToDo\Dephy\coding-assignment\build;C:\Program Files\Slint-cpp 1.5.0\include\slint;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <OutputDirectory>$(ProjectDir)/$(IntDir)</OutputDirectory>
+      <HeaderFileName>%(Filename).h</HeaderFileName>
+      <TypeLibraryName>%(Filename).tlb</TypeLibraryName>
+      <InterfaceIdentifierFileName>%(Filename)_i.c</InterfaceIdentifierFileName>
+      <ProxyFileName>%(Filename)_p.c</ProxyFileName>
+    </Midl>
+    <PostBuildEvent>
+      <Message></Message>
+      <Command>setlocal
+C:\mingw64\bin\cmake.exe -E copy "C:/Program Files/Slint-cpp 1.5.0/lib/slint_cpp.dll" C:/HYH/2024/ToDo/Dephy/coding-assignment/build/RelWithDebInfo
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+    </PostBuildEvent>
+    <Link>
+      <AdditionalDependencies>C:\Program Files\Slint-cpp 1.5.0\lib\slint_cpp.dll.lib;kernel32.lib;user32.lib;gdi32.lib;winspool.lib;shell32.lib;ole32.lib;oleaut32.lib;uuid.lib;comdlg32.lib;advapi32.lib</AdditionalDependencies>
+      <AdditionalLibraryDirectories>%(AdditionalLibraryDirectories)</AdditionalLibraryDirectories>
+      <AdditionalOptions>%(AdditionalOptions) /machine:x64</AdditionalOptions>
+      <GenerateDebugInformation>true</GenerateDebugInformation>
+      <IgnoreSpecificDefaultLibraries>%(IgnoreSpecificDefaultLibraries)</IgnoreSpecificDefaultLibraries>
+      <ImportLibrary>C:/HYH/2024/ToDo/Dephy/coding-assignment/build/RelWithDebInfo/my_application.lib</ImportLibrary>
+      <ProgramDataBaseFile>C:/HYH/2024/ToDo/Dephy/coding-assignment/build/RelWithDebInfo/my_application.pdb</ProgramDataBaseFile>
+      <SubSystem>Console</SubSystem>
+    </Link>
+    <ProjectReference>
+      <LinkLibraryDependencies>false</LinkLibraryDependencies>
+    </ProjectReference>
+  </ItemDefinitionGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\faff58d89d4cd909671a03c544d40bc8\appwindow.h.rule">
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Generating appwindow.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+cd C:\HYH\2024\ToDo\Dephy\coding-assignment\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Slint-cpp 1.5.0\bin\slint-compiler.exe" C:/HYH/2024/ToDo/Dephy/coding-assignment/ui/appwindow.slint -o C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.h --depfile C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.d --style fluent --embed-resources=as-absolute-path --translation-domain="my_application"
+if %errorlevel% neq 0 goto :cmEnd
+C:\mingw64\bin\cmake.exe -E cmake_transform_depfile "Visual Studio 16 2019" MSBuildAdditionalInputs C:/HYH/2024/ToDo/Dephy/coding-assignment C:/HYH/2024/ToDo/Dephy/coding-assignment C:/HYH/2024/ToDo/Dephy/coding-assignment/build C:/HYH/2024/ToDo/Dephy/coding-assignment/build C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.d C:/HYH/2024/ToDo/Dephy/coding-assignment/build/CMakeFiles/d/044b893ff1af0c1084897473470f2052a4fc353ffccd94f5af8db5716e6a5e29.AdditionalInputs
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\Program Files\Slint-cpp 1.5.0\bin\slint-compiler.exe;C:\HYH\2024\ToDo\Dephy\coding-assignment\ui\appwindow.slint;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\appwindow.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <DepFileAdditionalInputsFile Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\d\044b893ff1af0c1084897473470f2052a4fc353ffccd94f5af8db5716e6a5e29.AdditionalInputs</DepFileAdditionalInputsFile>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Generating appwindow.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+cd C:\HYH\2024\ToDo\Dephy\coding-assignment\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Slint-cpp 1.5.0\bin\slint-compiler.exe" C:/HYH/2024/ToDo/Dephy/coding-assignment/ui/appwindow.slint -o C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.h --depfile C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.d --style fluent --embed-resources=as-absolute-path --translation-domain="my_application"
+if %errorlevel% neq 0 goto :cmEnd
+C:\mingw64\bin\cmake.exe -E cmake_transform_depfile "Visual Studio 16 2019" MSBuildAdditionalInputs C:/HYH/2024/ToDo/Dephy/coding-assignment C:/HYH/2024/ToDo/Dephy/coding-assignment C:/HYH/2024/ToDo/Dephy/coding-assignment/build C:/HYH/2024/ToDo/Dephy/coding-assignment/build C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.d C:/HYH/2024/ToDo/Dephy/coding-assignment/build/CMakeFiles/d/044b893ff1af0c1084897473470f2052a4fc353ffccd94f5af8db5716e6a5e29.AdditionalInputs
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\Program Files\Slint-cpp 1.5.0\bin\slint-compiler.exe;C:\HYH\2024\ToDo\Dephy\coding-assignment\ui\appwindow.slint;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\appwindow.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <DepFileAdditionalInputsFile Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\d\044b893ff1af0c1084897473470f2052a4fc353ffccd94f5af8db5716e6a5e29.AdditionalInputs</DepFileAdditionalInputsFile>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Generating appwindow.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+cd C:\HYH\2024\ToDo\Dephy\coding-assignment\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Slint-cpp 1.5.0\bin\slint-compiler.exe" C:/HYH/2024/ToDo/Dephy/coding-assignment/ui/appwindow.slint -o C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.h --depfile C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.d --style fluent --embed-resources=as-absolute-path --translation-domain="my_application"
+if %errorlevel% neq 0 goto :cmEnd
+C:\mingw64\bin\cmake.exe -E cmake_transform_depfile "Visual Studio 16 2019" MSBuildAdditionalInputs C:/HYH/2024/ToDo/Dephy/coding-assignment C:/HYH/2024/ToDo/Dephy/coding-assignment C:/HYH/2024/ToDo/Dephy/coding-assignment/build C:/HYH/2024/ToDo/Dephy/coding-assignment/build C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.d C:/HYH/2024/ToDo/Dephy/coding-assignment/build/CMakeFiles/d/044b893ff1af0c1084897473470f2052a4fc353ffccd94f5af8db5716e6a5e29.AdditionalInputs
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\Program Files\Slint-cpp 1.5.0\bin\slint-compiler.exe;C:\HYH\2024\ToDo\Dephy\coding-assignment\ui\appwindow.slint;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\appwindow.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <DepFileAdditionalInputsFile Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\d\044b893ff1af0c1084897473470f2052a4fc353ffccd94f5af8db5716e6a5e29.AdditionalInputs</DepFileAdditionalInputsFile>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Generating appwindow.h</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+cd C:\HYH\2024\ToDo\Dephy\coding-assignment\build
+if %errorlevel% neq 0 goto :cmEnd
+C:
+if %errorlevel% neq 0 goto :cmEnd
+"C:\Program Files\Slint-cpp 1.5.0\bin\slint-compiler.exe" C:/HYH/2024/ToDo/Dephy/coding-assignment/ui/appwindow.slint -o C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.h --depfile C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.d --style fluent --embed-resources=as-absolute-path --translation-domain="my_application"
+if %errorlevel% neq 0 goto :cmEnd
+C:\mingw64\bin\cmake.exe -E cmake_transform_depfile "Visual Studio 16 2019" MSBuildAdditionalInputs C:/HYH/2024/ToDo/Dephy/coding-assignment C:/HYH/2024/ToDo/Dephy/coding-assignment C:/HYH/2024/ToDo/Dephy/coding-assignment/build C:/HYH/2024/ToDo/Dephy/coding-assignment/build C:/HYH/2024/ToDo/Dephy/coding-assignment/build/appwindow.d C:/HYH/2024/ToDo/Dephy/coding-assignment/build/CMakeFiles/d/044b893ff1af0c1084897473470f2052a4fc353ffccd94f5af8db5716e6a5e29.AdditionalInputs
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\Program Files\Slint-cpp 1.5.0\bin\slint-compiler.exe;C:\HYH\2024\ToDo\Dephy\coding-assignment\ui\appwindow.slint;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\appwindow.h</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+      <DepFileAdditionalInputsFile Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\d\044b893ff1af0c1084897473470f2052a4fc353ffccd94f5af8db5716e6a5e29.AdditionalInputs</DepFileAdditionalInputsFile>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <CustomBuild Include="C:\HYH\2024\ToDo\Dephy\coding-assignment\CMakeLists.txt">
+      <UseUtf8Encoding>Always</UseUtf8Encoding>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">Building Custom Rule C:/HYH/2024/ToDo/Dephy/coding-assignment/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">setlocal
+C:\mingw64\bin\cmake.exe -SC:/HYH/2024/ToDo/Dephy/coding-assignment -BC:/HYH/2024/ToDo/Dephy/coding-assignment/build --check-stamp-file C:/HYH/2024/ToDo/Dephy/coding-assignment/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\3.28.2\CMakeCXXCompiler.cmake;C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\3.28.2\CMakeRCCompiler.cmake;C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\3.28.2\CMakeSystem.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintConfig.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintConfigVersion.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintMacro.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintTargets.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeCXXCompiler.cmake.in;C:\mingw64\share\cmake-3.28\Modules\CMakeCXXCompilerABI.cpp;C:\mingw64\share\cmake-3.28\Modules\CMakeCXXInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeCommonLanguageInclude.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeCompilerIdDetection.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCXXCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompileFeatures.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompilerABI.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompilerId.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineRCCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineSystem.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeFindBinUtils.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeGenericSystem.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeInitializeConfigs.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeLanguageInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeParseImplicitLinkInfo.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeParseLibraryArchitecture.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeRCCompiler.cmake.in;C:\mingw64\share\cmake-3.28\Modules\CMakeRCInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeSystem.cmake.in;C:\mingw64\share\cmake-3.28\Modules\CMakeSystemSpecificInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeSystemSpecificInitialize.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeTestCXXCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeTestCompilerCommon.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeTestRCCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\CrayClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\MSVC-CXX.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\MSVC.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\OrangeC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\TI-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CompilerId\VS-10.vcxproj.in;C:\mingw64\share\cmake-3.28\Modules\Internal\FeatureTesting.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-Determine-CXX.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-Initialize.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-MSVC-CXX.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-MSVC.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='Release|x64'">Building Custom Rule C:/HYH/2024/ToDo/Dephy/coding-assignment/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='Release|x64'">setlocal
+C:\mingw64\bin\cmake.exe -SC:/HYH/2024/ToDo/Dephy/coding-assignment -BC:/HYH/2024/ToDo/Dephy/coding-assignment/build --check-stamp-file C:/HYH/2024/ToDo/Dephy/coding-assignment/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\3.28.2\CMakeCXXCompiler.cmake;C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\3.28.2\CMakeRCCompiler.cmake;C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\3.28.2\CMakeSystem.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintConfig.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintConfigVersion.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintMacro.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintTargets.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeCXXCompiler.cmake.in;C:\mingw64\share\cmake-3.28\Modules\CMakeCXXCompilerABI.cpp;C:\mingw64\share\cmake-3.28\Modules\CMakeCXXInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeCommonLanguageInclude.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeCompilerIdDetection.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCXXCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompileFeatures.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompilerABI.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompilerId.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineRCCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineSystem.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeFindBinUtils.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeGenericSystem.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeInitializeConfigs.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeLanguageInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeParseImplicitLinkInfo.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeParseLibraryArchitecture.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeRCCompiler.cmake.in;C:\mingw64\share\cmake-3.28\Modules\CMakeRCInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeSystem.cmake.in;C:\mingw64\share\cmake-3.28\Modules\CMakeSystemSpecificInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeSystemSpecificInitialize.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeTestCXXCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeTestCompilerCommon.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeTestRCCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\CrayClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\MSVC-CXX.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\MSVC.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\OrangeC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\TI-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CompilerId\VS-10.vcxproj.in;C:\mingw64\share\cmake-3.28\Modules\Internal\FeatureTesting.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-Determine-CXX.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-Initialize.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-MSVC-CXX.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-MSVC.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='Release|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">Building Custom Rule C:/HYH/2024/ToDo/Dephy/coding-assignment/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">setlocal
+C:\mingw64\bin\cmake.exe -SC:/HYH/2024/ToDo/Dephy/coding-assignment -BC:/HYH/2024/ToDo/Dephy/coding-assignment/build --check-stamp-file C:/HYH/2024/ToDo/Dephy/coding-assignment/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\3.28.2\CMakeCXXCompiler.cmake;C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\3.28.2\CMakeRCCompiler.cmake;C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\3.28.2\CMakeSystem.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintConfig.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintConfigVersion.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintMacro.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintTargets.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeCXXCompiler.cmake.in;C:\mingw64\share\cmake-3.28\Modules\CMakeCXXCompilerABI.cpp;C:\mingw64\share\cmake-3.28\Modules\CMakeCXXInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeCommonLanguageInclude.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeCompilerIdDetection.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCXXCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompileFeatures.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompilerABI.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompilerId.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineRCCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineSystem.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeFindBinUtils.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeGenericSystem.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeInitializeConfigs.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeLanguageInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeParseImplicitLinkInfo.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeParseLibraryArchitecture.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeRCCompiler.cmake.in;C:\mingw64\share\cmake-3.28\Modules\CMakeRCInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeSystem.cmake.in;C:\mingw64\share\cmake-3.28\Modules\CMakeSystemSpecificInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeSystemSpecificInitialize.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeTestCXXCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeTestCompilerCommon.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeTestRCCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\CrayClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\MSVC-CXX.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\MSVC.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\OrangeC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\TI-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CompilerId\VS-10.vcxproj.in;C:\mingw64\share\cmake-3.28\Modules\Internal\FeatureTesting.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-Determine-CXX.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-Initialize.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-MSVC-CXX.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-MSVC.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='MinSizeRel|x64'">false</LinkObjects>
+      <Message Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">Building Custom Rule C:/HYH/2024/ToDo/Dephy/coding-assignment/CMakeLists.txt</Message>
+      <Command Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">setlocal
+C:\mingw64\bin\cmake.exe -SC:/HYH/2024/ToDo/Dephy/coding-assignment -BC:/HYH/2024/ToDo/Dephy/coding-assignment/build --check-stamp-file C:/HYH/2024/ToDo/Dephy/coding-assignment/build/CMakeFiles/generate.stamp
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal &amp; call :cmErrorLevel %errorlevel% &amp; goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd</Command>
+      <AdditionalInputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\3.28.2\CMakeCXXCompiler.cmake;C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\3.28.2\CMakeRCCompiler.cmake;C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\3.28.2\CMakeSystem.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintConfig.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintConfigVersion.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintMacro.cmake;C:\Program Files\Slint-cpp 1.5.0\lib\cmake\Slint\SlintTargets.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeCXXCompiler.cmake.in;C:\mingw64\share\cmake-3.28\Modules\CMakeCXXCompilerABI.cpp;C:\mingw64\share\cmake-3.28\Modules\CMakeCXXInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeCommonLanguageInclude.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeCompilerIdDetection.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCXXCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompileFeatures.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompilerABI.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineCompilerId.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineRCCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeDetermineSystem.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeFindBinUtils.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeGenericSystem.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeInitializeConfigs.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeLanguageInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeParseImplicitIncludeInfo.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeParseImplicitLinkInfo.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeParseLibraryArchitecture.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeRCCompiler.cmake.in;C:\mingw64\share\cmake-3.28\Modules\CMakeRCInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeSystem.cmake.in;C:\mingw64\share\cmake-3.28\Modules\CMakeSystemSpecificInformation.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeSystemSpecificInitialize.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeTestCXXCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeTestCompilerCommon.cmake;C:\mingw64\share\cmake-3.28\Modules\CMakeTestRCCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\ADSP-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\ARMCC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\ARMClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\AppleClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Borland-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\CMakeCommonCompilerMacros.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Clang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Clang-DetermineCompilerInternal.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Comeau-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Compaq-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Cray-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\CrayClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Embarcadero-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Fujitsu-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\FujitsuClang-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\GHS-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\GNU-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\HP-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IAR-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IBMCPP-CXX-DetermineVersionInternal.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IBMClang-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Intel-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\IntelLLVM-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\LCC-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\MSVC-CXX.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\MSVC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\MSVC.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\NVHPC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\NVIDIA-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\OpenWatcom-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\OrangeC-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\PGI-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\PathScale-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\SCO-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\SunPro-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\TI-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Tasking-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\VisualAge-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\Watcom-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\XL-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\XLClang-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\Compiler\zOS-CXX-DetermineCompiler.cmake;C:\mingw64\share\cmake-3.28\Modules\CompilerId\VS-10.vcxproj.in;C:\mingw64\share\cmake-3.28\Modules\Internal\FeatureTesting.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-Determine-CXX.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-Initialize.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-MSVC-CXX.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows-MSVC.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\Windows.cmake;C:\mingw64\share\cmake-3.28\Modules\Platform\WindowsPaths.cmake;%(AdditionalInputs)</AdditionalInputs>
+      <Outputs Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">C:\HYH\2024\ToDo\Dephy\coding-assignment\build\CMakeFiles\generate.stamp</Outputs>
+      <LinkObjects Condition="'$(Configuration)|$(Platform)'=='RelWithDebInfo|x64'">false</LinkObjects>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="C:\HYH\2024\ToDo\Dephy\coding-assignment\src\main.cpp" />
+    <ClInclude Include="C:\HYH\2024\ToDo\Dephy\coding-assignment\build\appwindow.h" />
+  </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="C:\HYH\2024\ToDo\Dephy\coding-assignment\build\ZERO_CHECK.vcxproj">
+      <Project>{30C5E235-CDF8-3539-94BA-95FA56311789}</Project>
+      <Name>ZERO_CHECK</Name>
+      <ReferenceOutputAssembly>false</ReferenceOutputAssembly>
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </ProjectReference>
+  </ItemGroup>
+  <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
+  <ImportGroup Label="ExtensionTargets">
+  </ImportGroup>
+  <Import Project="C:\mingw64\share\cmake-3.28\Templates\MSBuild\CustomBuildDepFile.targets" />
+</Project>

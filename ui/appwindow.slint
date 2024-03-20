@@ -1,0 +1,138 @@
+
+import {Button, ListView, TextEdit, ScrollView, GridBox, LineEdit, StandardListView, GroupBox, VerticalBox, HorizontalBox} from "std-widgets.slint";
+import { GallerySettings } from "gallery_settings.slint";
+
+export component AppWindow inherits Window {
+    // in property <[StandardListViewItem]> fileNames: [
+    //     { text:"test.txt" },
+    //     { text:"numbers.txt" },
+    // ];
+    // out property <string> fn_to_read;
+    in property <string> fileContents <=> fileContentsText.text;
+    in-out property <string> veprom_file_size <=> theSize.text;
+    callback create_veprom_file();
+    out property <string> filePath <=> thePath.text;
+    callback load_veprom_file();
+    callback list_veprom_file();
+    out property <string> fileToWrite <=> theWriteFile.text;
+    callback write_file_to_veprom();
+    out property <string> fileToRead <=> theReadFile.text;
+    callback read_file_from_veprom();
+    title: @tr("Veprom Viewer");
+    width: 500px;
+    height: 700px;
+    VerticalBox {
+        HorizontalBox {
+            theSize := LineEdit {
+                height: 30px;
+                placeholder-text: @tr("Enter the eprom file's size");
+                input-type: number;
+                enabled: GallerySettings.widgets-enabled;
+            }
+
+            Button {
+                height: 30px;
+                width: 100px;
+                text: "Create";
+                clicked => {
+                    root.create_veprom_file();
+                }
+            }
+        }
+
+        HorizontalBox {
+            thePath := LineEdit {
+                height: 30px;
+                placeholder-text: @tr("Enter the eprom file path");
+                enabled: GallerySettings.widgets-enabled;
+            }
+
+            Button {
+                height: 30px;
+                width: 100px;
+                text: "Load";
+                clicked => {
+                    root.load_veprom_file();
+                }
+            }
+        }
+
+        HorizontalBox {
+            currentFile := LineEdit {
+                height: 30px;
+                placeholder-text: @tr("Current veprom file");
+                enabled: GallerySettings.widgets-enabled;
+                visible: false;
+            }
+
+            Button {
+                height: 30px;
+                width: 100px;
+                text: "List";
+                clicked => {
+                    root.list_veprom_file();
+                }
+            }
+        }
+
+        HorizontalBox {
+            theWriteFile := LineEdit {
+                height: 30px;
+                placeholder-text: @tr("Enter the file path to write");
+                enabled: GallerySettings.widgets-enabled;
+            }
+
+            Button {
+                height: 30px;
+                width: 100px;
+                text: "Write";
+                clicked => {
+                    root.write_file_to_veprom();
+                }
+            }
+        }
+
+        HorizontalBox {
+            theReadFile := LineEdit {
+                height: 30px;
+                placeholder-text: @tr("Enter the file name to read");
+                enabled: GallerySettings.widgets-enabled;
+            }
+
+            Button {
+                height: 30px;
+                width: 100px;
+                text: "Read";
+                clicked => {
+                    root.read_file_from_veprom();
+                }
+            }
+        }
+
+        // GroupBox {
+        //     title: @tr("Files:");
+        //     vertical-stretch: 0;
+        //     fnList := StandardListView {
+        //         model: root.fileNames;
+        //         //model: [{ text: "Lorem" }, { text: "ipsum" }];
+        //         enabled: GallerySettings.widgets-enabled;
+        //         current-item-changed => {
+        //             root.fn_to_read = root.fileNames[fnList.current-item].text;
+        //             root.read_a_file();
+        //         }
+        //     }
+        // }
+
+        GroupBox {
+            title: @tr("Contents:");
+            vertical-stretch: 0;
+            fileContentsText := TextEdit {
+                // min-width: 200px;
+                // text: @tr("This is our TextEdit widget, which allows for editing text that spans over multiple paragraphs.\nFor example this line starts in a new paragraph.\n\nWhen the amount of lines - due to wrapping and number of paragraphs - exceeds the available vertical height, a vertical scrollbar is shown that allows scrolling.\nYou may want to enter a bit of text here then in order to make them visible.");
+                //text: root.fileNames[fnList.current-item].name;
+                wrap: no-wrap;
+                enabled: GallerySettings.widgets-enabled;
+            }
+        }
+    }
+}
