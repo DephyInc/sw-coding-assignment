@@ -34,7 +34,7 @@ int fileHandler::parseCommandlineArguments(int argc, char *argv[])
 
                 std::string filePath{};
                 create(fileSizeB, filePath);
-                std::cout << __func__ << ": file created: " << filePath << std::endl;
+                std::cout << __func__ << ": file created with file name: " << filePath << std::endl;
             }
             else
             {
@@ -208,14 +208,14 @@ int fileHandler::write_raw(int address, const std::string &String)
     int filesize = outputfile.tellp();
     if (address + String.size() > filesize)
     {
-        std::cout << __func__ << ": There is not enough space in file " << filename << " to write the string to it." << std::endl;
-        return 0;
+        std::cout << __func__ << ": There is not enough space in EPROM " << filename << " to write the string to it." << std::endl;
+        return -1;
     }
 
     outputfile.seekp(0, std::ios::beg);
     outputfile.seekp(address);
     outputfile.write(String.c_str(), String.size());
-
+    std::cout << __func__ << ": Successfully wrote the string " << String << " to the address " << address << " of EPROM " << filename << std::endl;
     outputfile.close();
     return 0;
 };
@@ -501,7 +501,7 @@ void fileHandler::WriteStringToEndOfFile(const std::string &str)
     {
         file << str;
         file.close();
-        std::cout << __func__ << ": filename is added to the config file." << std::endl;
+        std::cout << __func__ << ": veprom is added to the config file." << std::endl;
     }
     else
     {
