@@ -1,0 +1,9 @@
+#using the following on windows 10
+cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=../ -DCMAKE_MAKE_PROGRAM=C:/cygwin64/bin/make.exe .. 
+cmake --build .
+cmake --install .
+
+#using teh following on Linux
+sudo cmake ..
+sudo cmake --build .
+sudo cmake --install . --prefix ../

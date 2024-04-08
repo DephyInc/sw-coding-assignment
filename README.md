@@ -2,59 +2,60 @@
 
 ## EPROM Emulator
 
-![EPROM](https://upload.wikimedia.org/wikipedia/commons/thumb/8/8b/ST_Microelectronics_M27C256B_%282006%29.jpg/348px-ST_Microelectronics_M27C256B_%282006%29.jpg)
+A gui version of EPROM emulator and a cli version are implemented.
 
-Design and implement an EPROM emulator that can read and write files to virtual EPROM chips (vEPROM).
+In the gui version, for each command with parameters, input the parameters for the command, and click the button. After the parameters are typed, the corresponding button is enabled, we can click the button to run the command. Different parameters are separated by space (' ').
 
-An EPROM (Erasable Programmable Read-Only Memory) is a type of non-volatile memory that can be programmed (written to) an unlimited number of times. Once programmed, they can only be erased by exposing them to UV light.
+In the cli version, each command with its parameters must be input in one line. The command keys and parameters in a line are separated by space.
 
-### The emulator should have the following features:
+Both versions have the following features:
 
-* Create a new virtual EPROM chips with a specified capacity (e.g. 256 KB).
-* Read and write files or arbitrary data to the virtual EPROM chips.
-* List the files on a virtual EPROM chip.
-* Erase the virtual EPROM chip.
+* Create multiple virtual EPROM chips (vEPROMs), each with a specified capacity (e.g. 256 KB).
+* Read/write files or arbitrary data from/to the vEPROMs.
+* List the vEPROMs created and the files on the current vEPROM loaded.
+* Erase a vEPROM.
 
-The vEPROM emulator should be implemented as a command line tool, with the following commands:
+### The cli version of the emulator implemented the following commands:
 
-* `create`: creates a new virtual EPROM chip with a specified capacity.
-  * Usage: `veprom create 256` creates a new virtual EPROM chip with a capacity of 256 KB. It outputs the path of the file used to store the vEPROM. This is the vEprom that’ll be used when the other commands are called.
-* `load`: loads a vEPROM file
-  * Usage: `veprom load /path/to/veprom/file`. This is the vEprom that’ll be used when the other commands are called.
-* write_raw: writes a raw string of bytes to a specific address on the virtual EPROM chip.
-  * Usage: `veprom write_raw $ADDRESS $STRING`
-* `read_raw`: reads the values stored at a specific address and length on the virtual EPROM chip and outputs it on stdout.
-  * Usage: `veprom read_raw $ADDRESS $length`
-* write: writes a file to the virtual EPROM chip.
-  * Usage: `veprom write /path/to/local/file` writes the file /path/to/local/file to the virtual EPROM chip as `file`.
-* list: lists the files on the virtual EPROM chip.
-  * Usage: `veprom list`
-* read: reads a file from the virtual EPROM chip.
-  * Usage: `veprom read $FILE` reads the `$FILE` file from the virtual EPROM chip and outputs it to stdout.
-* `erase`: sets the EPROM back to its original state
-  * Usage: `veprom erase`
+* `create`: creates a new vEPROM with a specified capacity.
+  * Usage: `veprom create 256` creates a new vEPROM with a capacity of 256 KB. It outputs the path of the file used to store the vEPROM. Using create command multiple times will create multiple new vEPROMs. One vEPROM will be selected as the current vEPROM that’ll be used when the other commands are called. The maximum capacity allowed for a vEPROM is 1000 KB. If the given capacity is bigger than the maximum, the vEPROM will not be created and message "Capacity is too big." will be displayed.
+* `load`: loads a vEPROM file as a current vEPROM.
+  * Usage: `veprom load /path/to/veprom/file` sets the vEPROM (file) as the current vEPROM that’ll be used when the other commands are called. If the file does not exist, message "Wrong vEPROM command (file incorrect)" will be displayed.
+* `write_raw`: writes a raw string to a specific address in the current vEPROM.
+  * Usage: `veprom write_raw $ADDRESS $STRING`. If the string to be written at the address is outside of the vEPROM, nothing will be written and message "wrtie_raw out of vEPROM range" will be displayed.
+* `read_raw`: reads and outputs the values stored at a specific address for length bytes in the current vEPROM.
+  * Usage: `veprom read_raw $ADDRESS $length`. If the values are outside of the current vEPROM, nothing will be read and message "read_raw out of vEPROM range" will be displayed.
+* `write`: writes a file to the current vEPROM.
+  * Usage: `veprom write /path/to/local/file` writes the file /path/to/local/file to the current vEPROM as `file`. When using write command multiple times to write multiple files, these files are concatenated in order in the vEPROM (i.e., the first file is written to address 0, the second file follows the first one, the third file follows the second one, and so on). If there is not enough room for the file, the file will not be written and message "File is too big." will be displayed.
+* `list`: lists the vEPROMs created and the files in the current vPROM.
+  * Usage: `veprom list`. If no vEPROM is loaded/selected as current working vEPROM, message "No vEPROM is loaded/selected as current vEPROM" will be displayed.
+* `read`: reads a file from the current vEPROM.
+  * Usage: `veprom read $FILE` reads the `$FILE` file from the current EPROM and outputs it to stdout. If the file is not in the vEPROM, message "File not in vEPROM" will be displayed.
+* `erase`: sets the current vEPROM back to its original state.
+  * Usage: `veprom erase`.  If no vEPROM is loaded/selected as current working vEPROM, message "No vEPROM/file loaded" will be displayed.
+* `quit`: exits the simulator.
+  * Usage: `quit`
 
-As a bonus, build a graphical front-end for the emulator that allows users to visualize how the files are stored on the virtual EPROM chip.
+### The gui version of the emulator implemented the above commands using Qt.
 
-## Constraints
-* The emulator should be implemented in C++.
-* The emulator should use a flat file system to store the virtual EPROM chips. Each chip should be stored as a separate file on the local file system.
-* The emulator should handle errors gracefully and provide appropriate feedback to the user (e.g. if the user tries to write a file that is larger than the capacity of the chip).
+For each command, if its parameters are not correct such as wrong type or the number of parameters is not expected, a corresponding message such as "Capacity must be a number" or "Wrong vEPROM command (# parameters incorrect)" will be displayed.
 
-## Evaluation Criteria
+## How to build and run the emulator
 
-1. Correctness: Does the emulator correctly implement the required features and handle errors gracefully?
-2. Usability: Is the emulator easy to use and understand?
-3. Code quality: Is the code well-organized, maintainable, and properly documented?
-4. Bonus: Does the graphical front-end provide a useful visualization of the file system on the virtual EPROM chip?
+### On Windows
+* Go to build/ directory and run the following three commands for generating and installing cli_veprom.exe and gui_veprom.exe in bin/ directory (bin and build are at the same level) 
+  * cmake -G "Unix Makefiles" -DCMAKE_INSTALL_PREFIX=../ -DCMAKE_MAKE_PROGRAM=C:/cygwin64/bin/make.exe .. 
+  * cmake --build . 
+  * cmake --install . 
+* Go to bin/ directory to launch the simulator (cli_veprom.exe or gui_veprom.exe).
 
-## Deliverables
+* Note: Qt (version >= 6), cmake, c++ compiler need to be installed. In case that gui simulator cannot be generated, we can overwrite CMakeLists.txt with CMakeLists-cli.txt and then Go to build/ directory and run the above three commands for generating and installing cli version simulator cli_veprom.exe in bin/ directory. If issues for building cli and gui versions are resolved, we can overwrite CMakeLists.txt with CMakeLists-cli-gui.txt (which is the same as the original CMakeLists.txt) and rebuild the two versions again.
 
-Please provide the following as part of your submission in a PR to this repo:
-The source code for the emulator and graphical front-end.
-Instructions for how to build and run the emulator.
-A short video demonstrating the use of the emulator.
+### On Linux
+* Go to build/ directory and run the following three commands for generating and installing cli_veprom.exe and gui_veprom.exe in bin/ directory (bin and build are at the same level) 
+  * sudo cmake .. 
+  * sudo cmake --build . 
+  * sudo cmake --install . 
+* Go to bin/ directory to launch the simulator (cli_veprom.exe or gui_veprom.exe).
 
-## Submitting the Solution
-
-To submit your solution, fork this repo, create your code, and submit a Pull Request once you're ready for Dephy to take a look.
+* Note: Qt (version >= 6), cmake, c++ compiler need to be installed. In case that gui simulator cannot be generated, we can overwrite CMakeLists.txt with CMakeLists-cli.txt and then Go to build/ directory and run the above three commands for generating and installing cli version simulator cli_veprom.exe in bin/ directory. If issues for building cli and gui versions are resolved, we can overwrite CMakeLists.txt with CMakeLists-cli-gui.txt and rebuild two versions again.
