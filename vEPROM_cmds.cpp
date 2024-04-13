@@ -75,8 +75,8 @@ void vEPROM_cmds::create_cmd(std::vector<std::string> &args) {
 	} else {
 		try {
 			unsigned int cap = (unsigned int) stoul(args[0])*1024; // get capacity
-            if (cap > MAX_CAP) {
-                line = "Capacity is too big.\n";
+            if (cap > MAX_CAP || cap <= 0) {
+                line = "Capacity is out of range.\n";
                 out_err(line);
             } else {
 
@@ -120,6 +120,7 @@ void vEPROM_cmds::load_cmd(std::vector<std::string> &args) {
 		cur_vEPROM_p = m_vEPROMs[args[0]];//point to vEPROM with the file
 		if (cur_vEPROM_p == nullptr) {
             line = "Wrong vEPROM command (file incorrect)\n";
+            m_vEPROMs.erase(args[0]);
             out_err(line);
 		} else {
             line = "current vEPROM is: " + cur_vEPROM_p->get_file_name() + "\n";

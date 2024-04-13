@@ -18,7 +18,7 @@ Both versions have the following features:
 ### The cli version of the emulator implemented the following commands:
 
 * `create`: creates a new vEPROM with a specified capacity.
-  * Usage: `veprom create 256` creates a new vEPROM with a capacity of 256 KB. It outputs the path of the file used to store the vEPROM. Using create command multiple times will create multiple new vEPROMs. One vEPROM will be selected as the current vEPROM that’ll be used when the other commands are called. The maximum capacity allowed for a vEPROM is 1000 KB. If the given capacity is bigger than the maximum, the vEPROM will not be created and message "Capacity is too big." will be displayed.
+  * Usage: `veprom create 256` creates a new vEPROM with a capacity of 256 KB. It outputs the path of the file used to store the vEPROM. Using create command multiple times will create multiple new vEPROMs. One vEPROM will be selected as the current vEPROM that’ll be used when the other commands are called. The maximum capacity allowed for a vEPROM is 1000 KB. If the given capacity is bigger than the maximum, the vEPROM will not be created and message "Capacity is out of range." will be displayed.
 * `load`: loads a vEPROM file as a current vEPROM.
   * Usage: `veprom load /path/to/veprom/file` sets the vEPROM (file) as the current vEPROM that’ll be used when the other commands are called. If the file does not exist, message "Wrong vEPROM command (file incorrect)" will be displayed.
 * `write_raw`: writes a raw string to a specific address in the current vEPROM.
@@ -49,7 +49,7 @@ For each command, if its parameters are not correct such as wrong type or the nu
   * cmake --install . 
 * Go to bin/ directory to launch the simulator (cli_veprom.exe or gui_veprom.exe).
 
-* Note: Qt (version >= 6), cmake, c++ compiler need to be installed. In case that gui simulator cannot be generated, we can overwrite CMakeLists.txt with CMakeLists-cli.txt and then Go to build/ directory and run the above three commands for generating and installing cli version simulator cli_veprom.exe in bin/ directory. If issues for building cli and gui versions are resolved, we can overwrite CMakeLists.txt with CMakeLists-cli-gui.txt (which is the same as the original CMakeLists.txt) and rebuild the two versions again.
+* Note: Qt (version >= 6), cmake, c++ compiler need to be installed. Environment Variable QT_PLUGIN_PATH needs to be set (e.g., set to C:\Qt\6.7.0\mingw_64\plugins) for launching gui_veprom. In case that gui simulator cannot be generated, we can overwrite CMakeLists.txt with CMakeLists-cli.txt and then Go to build/ directory and run the above three commands for generating and installing cli version simulator cli_veprom.exe in bin/ directory. If issues for building cli and gui versions are resolved, we can overwrite CMakeLists.txt with CMakeLists-cli-gui.txt (which is the same as the original CMakeLists.txt) and rebuild the two versions again.
 
 ### On Linux
 * Go to build/ directory and run the following three commands for generating and installing cli_veprom.exe and gui_veprom.exe in bin/ directory (bin and build are at the same level) 
