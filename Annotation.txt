@@ -1,0 +1,47 @@
+The specification as outlined in README.md leaves a certain problem unresolved:
+
+ - How the random memory access through write_raw coexists with file by file access through write?
+
+If random access to file data or even its directory record is allowed, the file system integrity cannot be quaranteed. The user may write a file, do, perhaps unadvertently, some random writes, and discover that his file no longer exists or has different content.
+
+I decided to separate file directory, file data, and random access data on the EPROM.
+
+Low addresses are file data.
+High addresses are directory data.
+The area in the middle, higher than file data but lower than directory data is random access data.
+
+When a file is added, its content is added in the low address section higher than the previously written file data. Its directory record is added at the high address section lower than already existing directory records.
+The random access data correspondingly shrinks. Data previously written in the random access memory may be overwritten.
+
+This is the usage string:
+
+Usage:
+	./main [-v] help (also -h or --help or command is absent)
+	./main [-v] create <size-in-KB>
+	./main [-v] load <eprom-file-name>
+	./main [-v] write_raw <address> <string>
+	./main [-v] read_raw <address> <length-in-bytes>
+	./main [-v] write <local-file>
+	./main [-v] list
+	./main [-v] read <file-name-in-eprom>
+	./main [-v] erase
+		where optional -v turns verbosity on
+
+Note:
+	write_raw doesn't add terminating null
+	write_raw is not allowed to overwrite content, nor names of files already written
+	As files are added, content altered with write_raw may be overwritten
+	A file name with the same name as a file name already written is appended with a version number "(1)", etc.
+
+To build, simply say 'make'
+
+The test pattern is this:
+
+1. Erase memory (./main [-v] erase)
+2. Create memory of given size (./main -v create 100). That creates a byte-addressable memory space.
+3. Do write_raw followed by read_raw. In absence of files, the memory can be written and read back at any addresses that had been created.
+4. Write a couple of files (./main [-v] write DATA/abc.txt; ./main [-v] write DATA/def.txt)
+5. List them (./main [-v] list). The files will be listed in the order in which they were added.
+6. Read them on the console or redirect to an output file.
+7. Using a web browser, view the EPROM memory map at file:///home/alexpismenny/Projects/Dephy/sw-coding-assignment/.html (your directory structure might differ).
+ 
