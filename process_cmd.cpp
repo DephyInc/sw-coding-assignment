@@ -1,9 +1,58 @@
 #include "process_cmd.h"
+#include "enum.h"
 #include <iostream>
+#include <fstream>
+#include <boost/lexical_cast.hpp>
+
+using boost::lexical_cast;
+using boost::bad_lexical_cast;
+
+string currentChipPath = NULL;
 
 int process_create(vector<string> args)
 {
-    return 0;
+    if (args.size() != 3) {
+        cerr << "Invalid create command arguments.\n";
+        cerr << "Correct usage is \"veprom create 256\"\n";
+        return ReturnCodes::INVALID_CREATE;
+    }
+
+    try {
+        int size = boost::lexical_cast<int>(args[2]);
+
+        if (size <= 0) {
+            cerr << "Chip size must be positive\n";
+            return ReturnCodes::INVALID_SIZE;
+        }
+
+        ofstream newChip;
+        string path = "./chips/newChip.veprom";
+        newChip.open(path);
+
+        if (!newChip) {
+            cerr << "Could not create file!";
+            return ReturnCodes::FOPEN_ERROR;
+        }
+
+        // Making the decision to store size like this. 
+        // This may not be the best way but seemed reasonable,
+        // keeping file metadata in the file itself.
+        newChip << size << "\n";
+
+        currentChipPath = path;
+
+        cout << "New veprom creation successful. Chip is stored at\n";
+        cout << path << "\n";
+
+        newChip.close();
+
+        return ReturnCodes::SUCCESS;
+    }
+    catch (bad_lexical_cast &e) {
+        cerr << "Invalid size. Please enter a whole number.\n";
+        cerr << e.what() << "\n";
+        return ReturnCodes::INVALID_SIZE;
+    }
 } 
 
 int process_load(vector<string> args) 

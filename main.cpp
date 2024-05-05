@@ -53,28 +53,28 @@ int main() {
         // Would have loved to use a switch here but didn't seem worth
         // making a mapping
         cout << "Processing\n";
-        if (args[1] == "create") {
+        if (args[1].compare("create") == 0) {
             process_create(args);
         }
-        else if (args[1] == "load") {
+        else if (args[1].compare("load") == 0) {
             process_load(args);
         }
-        else if (args[1] == "write_raw") {
+        else if (args[1].compare("write_raw") == 0) {
             process_write_raw(args);
         }
-        else if (args[1] == "read_raw") {
+        else if (args[1].compare("read_raw") == 0) {
             process_read_raw(args);
         }
-        else if (args[1] == "write") {
+        else if (args[1].compare("write") == 0) {
             process_write(args);
         }
-        else if (args[1] == "list") {
+        else if (args[1].compare("list") == 0) {
             process_list(args);
         }
-        else if (args[1] == "read") {
+        else if (args[1].compare("read") == 0) {
             process_read(args);
         }
-        else if (args[1] == "erase") {
+        else if (args[1].compare("erase") == 0) {
             process_erase(args);
         }
         else {
