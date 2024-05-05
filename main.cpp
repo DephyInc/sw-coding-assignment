@@ -47,7 +47,7 @@ int main() {
 
         // Would have loved to use a switch here but didn't seem worth
         // making a mapping
-        cout << "Processing\n";
+        cout << "Processing command\n";
         if (args[1].compare("create") == 0) {
             process_create(args);
         }

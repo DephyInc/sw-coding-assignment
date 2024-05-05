@@ -8,4 +8,6 @@ enum ReturnCodes : int
     FOPEN_ERROR,
     INVALID_LOAD,
     CHIP_NOT_FOUND,
+    INVALID_WRITE_RAW,
+    INVALID_ADDRESS,
 };

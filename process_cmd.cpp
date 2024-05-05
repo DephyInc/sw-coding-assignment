@@ -78,9 +78,61 @@ int process_load(vector<string> args)
     }
 } 
 
+/*
+ * This assumes that the address can be written to, and overwritten
+ */
 int process_write_raw(vector<string> args) 
 {
-    return 0;
+    if (args.size() != 4) {
+        cerr << "Invalid write_raw command arguments.\n";
+        cerr << "Correct usage is \"veprom write_raw $ADDRESS $STRING\"\n";
+        return ReturnCodes::INVALID_WRITE_RAW;
+    }
+    
+    std::ifstream file(currentChipPath);
+
+    if (!file.is_open()) {
+        cerr << "Could not find a loaded veprom chip file.\n";
+        cerr << "Be sure to create or load a chip file before calling write_raw\n";
+        return ReturnCodes::CHIP_NOT_FOUND;
+    }
+
+    cout << "Successfully found the veprom file\n";
+
+    try {
+        int addr = boost::lexical_cast<int>(args[2]);
+        string to_write = args[3];
+        string line;
+        file >> line;
+        int chipSize = boost::lexical_cast<int>(line);
+        file.close();
+
+        if (addr + to_write.size() > chipSize) {
+            cerr << "Write would go past end of file if executed, please retry\n";
+            return ReturnCodes::INVALID_ADDRESS;
+        }
+
+        // This is a bit messy, may try to do metadata some other way
+        int offsetLocation = addr + line.size();
+        
+        std::ofstream fileOut(currentChipPath, std::ios::out | std::ios::in);
+        if (!fileOut) {
+            cerr << "Could not write to file!";
+            return ReturnCodes::FOPEN_ERROR;
+        }
+
+        fileOut.seekp(offsetLocation);
+        fileOut << to_write;
+        fileOut.close();
+
+        return ReturnCodes::SUCCESS;
+
+    }
+    catch (bad_lexical_cast &e) {
+        cerr << "Invalid size. Please enter a whole number.\n";
+        cerr << e.what() << "\n";
+        return ReturnCodes::INVALID_SIZE;
+    }
 } 
 
 int process_read_raw(vector<string> args) 
