@@ -6,4 +6,6 @@ enum ReturnCodes : int
     INVALID_CREATE,
     INVALID_SIZE,
     FOPEN_ERROR,
+    INVALID_LOAD,
+    CHIP_NOT_FOUND,
 };

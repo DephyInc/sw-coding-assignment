@@ -41,11 +41,6 @@ int main() {
             args.push_back(argument);
         }
 
-        cout << "user requested:\n";
-        for (const string& arg : args) {
-            cout << arg << ", ";
-        }
-
         soft_continue = sanitize_general(args);
         if (soft_continue)
             continue;

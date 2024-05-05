@@ -7,7 +7,7 @@
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
 
-string currentChipPath = NULL;
+string currentChipPath;
 
 int process_create(vector<string> args)
 {
@@ -57,7 +57,25 @@ int process_create(vector<string> args)
 
 int process_load(vector<string> args) 
 {
-    return 0;
+    if (args.size() != 3) {
+        cerr << "Invalid load command arguments.\n";
+        cerr << "Correct usage is \"veprom load /path/to/veprom/file\"\n";
+        return ReturnCodes::INVALID_LOAD;
+    }
+
+    string path = args[2];
+    std::ifstream file(path);
+
+    if (file.is_open()) {
+        cout << "Successfully found the veprom file\n";
+        currentChipPath = path;
+        file.close();
+        return ReturnCodes::SUCCESS;
+    }
+    else {
+        cerr << "Could not find veprom file to load\n";
+        return ReturnCodes::CHIP_NOT_FOUND;
+    }
 } 
 
 int process_write_raw(vector<string> args) 
