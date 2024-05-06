@@ -7,7 +7,45 @@
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
 
-string currentChipPath;
+class VepromFile {
+    string name;
+    int size;
+    void *data_start;
+
+    friend ostream &operator<<(ostream &os, const VepromFile &file) {
+        os << file.name << " " << file.size << " " << file.data_start;
+        return os;
+    }
+
+    friend istream &operator>>(istream &is, VepromFile &file) {
+        is >> file.name >> file.size >> file.data_start;
+        return is;
+    }
+};
+
+class VepromChip {
+    public:
+        string path;
+        int size;
+        int offset;
+        VepromFile file1;
+        VepromFile file2;
+        VepromFile file3;
+
+        friend ostream &operator<<(ostream &os, const VepromChip &chip) {
+            os << chip.path << " " << chip.size << " " << chip.offset
+             << " " << chip. file1 << " " << chip.file2 << " " << chip.file3;
+            return os;
+        }
+
+        friend istream &operator>>(istream &is, VepromChip &chip) {
+            is >> chip.path >> chip.size >> chip.offset
+             >> chip.file1 >> chip.file2 >> chip.file3;
+            return is;
+        }
+};
+
+VepromChip currentChip;
 
 int process_create(vector<string> args)
 {
@@ -24,27 +62,23 @@ int process_create(vector<string> args)
             cerr << "Chip size must be positive\n";
             return ReturnCodes::INVALID_SIZE;
         }
+        
+        currentChip.size = size;
+        currentChip.path = "./chips/newChip.veprom";
 
         ofstream newChip;
-        string path = "./chips/newChip.veprom";
-        newChip.open(path);
+        newChip.open(currentChip.path, ios::app);
 
         if (!newChip) {
             cerr << "Could not create file!";
             return ReturnCodes::FOPEN_ERROR;
         }
 
-        // Making the decision to store size like this. 
-        // This may not be the best way but seemed reasonable,
-        // keeping file metadata in the file itself.
-        newChip << size << "\n";
-
-        currentChipPath = path;
+        newChip << currentChip;
+        newChip.close();
 
         cout << "New veprom creation successful. Chip is stored at\n";
-        cout << path << "\n";
-
-        newChip.close();
+        cout << currentChip.path << "\n";
 
         return ReturnCodes::SUCCESS;
     }
@@ -64,12 +98,15 @@ int process_load(vector<string> args)
     }
 
     string path = args[2];
-    std::ifstream file(path);
+    ifstream file;
+    file.open(path, ios::in);
 
     if (file.is_open()) {
-        cout << "Successfully found the veprom file\n";
-        currentChipPath = path;
+        file >> currentChip;
         file.close();
+        cout << "size: " << currentChip.size << std::endl;
+        cout << "path: " << currentChip.path << std::endl;
+        cout << "Successfully found the veprom file\n";
         return ReturnCodes::SUCCESS;
     }
     else {
@@ -89,7 +126,7 @@ int process_write_raw(vector<string> args)
         return ReturnCodes::INVALID_WRITE_RAW;
     }
     
-    std::ifstream file(currentChipPath);
+    std::ifstream file(currentChip.path);
 
     if (!file.is_open()) {
         cerr << "Could not find a loaded veprom chip file.\n";
@@ -102,20 +139,17 @@ int process_write_raw(vector<string> args)
     try {
         int addr = boost::lexical_cast<int>(args[2]);
         string to_write = args[3];
-        string line;
-        file >> line;
-        int chipSize = boost::lexical_cast<int>(line);
         file.close();
 
-        if (addr + to_write.size() > chipSize) {
+        if (addr + to_write.size() > currentChip.size) {
             cerr << "Write would go past end of file if executed, please retry\n";
             return ReturnCodes::INVALID_ADDRESS;
         }
 
         // This is a bit messy, may try to do metadata some other way
-        int offsetLocation = addr + line.size();
+        int offsetLocation = addr + sizeof(currentChip);
         
-        std::ofstream fileOut(currentChipPath, std::ios::out | std::ios::in);
+        std::ofstream fileOut(currentChip.path, std::ios::out | std::ios::in);
         if (!fileOut) {
             cerr << "Could not write to file!";
             return ReturnCodes::FOPEN_ERROR;
