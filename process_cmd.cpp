@@ -3,49 +3,63 @@
 #include <iostream>
 #include <fstream>
 #include <boost/lexical_cast.hpp>
+#include <filesystem>
 
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
 
 class VepromFile {
-    string name;
-    int size;
-    void *data_start;
+    public:
+        string name = "";
+        int size;
+        void *data_start;
 
-    friend ostream &operator<<(ostream &os, const VepromFile &file) {
-        os << file.name << " " << file.size << " " << file.data_start;
-        return os;
-    }
+        friend ostream &operator<<(ostream &os, const VepromFile &file) {
+            os << file.name << " " << file.size << " " << file.data_start;
+            return os;
+        }
 
-    friend istream &operator>>(istream &is, VepromFile &file) {
-        is >> file.name >> file.size >> file.data_start;
-        return is;
-    }
+        friend istream &operator>>(istream &is, VepromFile &file) {
+            is >> file.name >> file.size >> file.data_start;
+            return is;
+        }
 };
 
 class VepromChip {
     public:
         string path;
         int size;
-        int offset;
-        VepromFile file1;
-        VepromFile file2;
-        VepromFile file3;
+        long offset;
+        VepromFile file;
 
         friend ostream &operator<<(ostream &os, const VepromChip &chip) {
             os << chip.path << " " << chip.size << " " << chip.offset
-             << " " << chip. file1 << " " << chip.file2 << " " << chip.file3;
+             << " " << chip.file;
             return os;
         }
 
         friend istream &operator>>(istream &is, VepromChip &chip) {
             is >> chip.path >> chip.size >> chip.offset
-             >> chip.file1 >> chip.file2 >> chip.file3;
+             >> chip.file;
             return is;
         }
 };
 
 VepromChip currentChip;
+
+int save_chip() {
+    ofstream newChip;
+    newChip.open(currentChip.path, ios::app);
+
+    if (!newChip) {
+        cerr << "Could not create file!";
+        return ReturnCodes::FOPEN_ERROR;
+    }
+
+    newChip << currentChip;
+    newChip.close();
+    return ReturnCodes::SUCCESS;
+}
 
 int process_create(vector<string> args)
 {
@@ -65,22 +79,16 @@ int process_create(vector<string> args)
         
         currentChip.size = size;
         currentChip.path = "./chips/newChip.veprom";
+        currentChip.offset = sizeof(currentChip);
 
-        ofstream newChip;
-        newChip.open(currentChip.path, ios::app);
-
-        if (!newChip) {
-            cerr << "Could not create file!";
-            return ReturnCodes::FOPEN_ERROR;
+        int save_return = save_chip();
+        
+        if (!save_return) {
+            cout << "New veprom creation successful. Chip is stored at\n";
+            cout << currentChip.path << "\n";
         }
 
-        newChip << currentChip;
-        newChip.close();
-
-        cout << "New veprom creation successful. Chip is stored at\n";
-        cout << currentChip.path << "\n";
-
-        return ReturnCodes::SUCCESS;
+        return save_return;
     }
     catch (bad_lexical_cast &e) {
         cerr << "Invalid size. Please enter a whole number.\n";
@@ -115,17 +123,7 @@ int process_load(vector<string> args)
     }
 } 
 
-/*
- * This assumes that the address can be written to, and overwritten
- */
-int process_write_raw(vector<string> args) 
-{
-    if (args.size() != 4) {
-        cerr << "Invalid write_raw command arguments.\n";
-        cerr << "Correct usage is \"veprom write_raw $ADDRESS $STRING\"\n";
-        return ReturnCodes::INVALID_WRITE_RAW;
-    }
-    
+int write_helper(int addr, string contents) {
     std::ifstream file(currentChip.path);
 
     if (!file.is_open()) {
@@ -136,31 +134,44 @@ int process_write_raw(vector<string> args)
 
     cout << "Successfully found the veprom file\n";
 
+    file.close();
+
+    if (addr + contents.size() > currentChip.size) {
+        cerr << "Write would go past end of file if executed, please retry\n";
+        return ReturnCodes::INVALID_ADDRESS;
+    }
+
+    // This is a bit messy, may try to do metadata some other way
+    int offsetLocation = addr + sizeof(currentChip);
+    
+    std::ofstream fileOut(currentChip.path, std::ios::out | std::ios::in);
+    if (!fileOut) {
+        cerr << "Could not write to file!";
+        return ReturnCodes::FOPEN_ERROR;
+    }
+
+    fileOut.seekp(offsetLocation);
+    fileOut << contents;
+    fileOut.close();
+
+    return ReturnCodes::SUCCESS;
+}
+
+/*
+ * This assumes that the address can be written to, and overwritten
+ * As such it does not update offset
+ */
+int process_write_raw(vector<string> args) 
+{
+    if (args.size() != 4) {
+        cerr << "Invalid write_raw command arguments.\n";
+        cerr << "Correct usage is \"veprom write_raw $ADDRESS $STRING\"\n";
+        return ReturnCodes::INVALID_WRITE_RAW;
+    }
+    
     try {
         int addr = boost::lexical_cast<int>(args[2]);
-        string to_write = args[3];
-        file.close();
-
-        if (addr + to_write.size() > currentChip.size) {
-            cerr << "Write would go past end of file if executed, please retry\n";
-            return ReturnCodes::INVALID_ADDRESS;
-        }
-
-        // This is a bit messy, may try to do metadata some other way
-        int offsetLocation = addr + sizeof(currentChip);
-        
-        std::ofstream fileOut(currentChip.path, std::ios::out | std::ios::in);
-        if (!fileOut) {
-            cerr << "Could not write to file!";
-            return ReturnCodes::FOPEN_ERROR;
-        }
-
-        fileOut.seekp(offsetLocation);
-        fileOut << to_write;
-        fileOut.close();
-
-        return ReturnCodes::SUCCESS;
-
+        return write_helper(addr, args[3]);
     }
     catch (bad_lexical_cast &e) {
         cerr << "Invalid size. Please enter a whole number.\n";
@@ -176,7 +187,55 @@ int process_read_raw(vector<string> args)
 
 int process_write(vector<string> args) 
 {
-    return 0;
+    if (args.size() != 3) {
+        cerr << "Invalid write command arguments.\n";
+        cerr << "Correct usage is \"veprom write path/to/file\"\n";
+        return ReturnCodes::INVALID_WRITE;
+    }
+   
+    std::ifstream file(currentChip.path);
+
+    if (!file.is_open()) {
+        cerr << "Could not find a loaded veprom chip file.\n";
+        cerr << "Be sure to create or load a chip file before calling write_raw\n";
+        return ReturnCodes::CHIP_NOT_FOUND;
+    }
+
+    cout << "Successfully found the veprom file\n";
+
+    if (currentChip.file.name != "") {
+        cerr << "All file slots are in use" << std::endl;
+        return ReturnCodes::CHIP_FILES_FULL;
+    }
+
+    filesystem::path p(args[2]); 
+
+    std::ifstream in_file(p.filename());
+    
+    if (!in_file.is_open()) {
+        cerr << "Could not open input file.\n";
+        return ReturnCodes::FOPEN_ERROR;
+    }
+    
+    string content( (std::istreambuf_iterator<char>(in_file) ),
+                    (std::istreambuf_iterator<char>()) );
+    in_file.close();
+    
+    int write_return = write_helper(currentChip.offset, content);
+
+    if (write_return)
+        return write_return;
+
+    currentChip.file.name = p.filename();
+    currentChip.file.size = sizeof(content);
+    currentChip.file.data_start = (void*)currentChip.offset;
+    currentChip.offset += sizeof(content);
+
+    int save_return = save_chip();
+    if (save_return)
+        return save_return;
+
+    return ReturnCodes::SUCCESS;
 } 
 
 int process_list(vector<string> args) 

@@ -10,4 +10,6 @@ enum ReturnCodes : int
     CHIP_NOT_FOUND,
     INVALID_WRITE_RAW,
     INVALID_ADDRESS,
+    INVALID_WRITE,
+    CHIP_FILES_FULL,
 };

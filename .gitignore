@@ -34,3 +34,6 @@ veprom
 
 # Directories
 chips/*
+
+# Helper files
+sample_file.txt
