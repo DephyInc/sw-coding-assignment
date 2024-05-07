@@ -12,7 +12,7 @@ class VepromFile {
     public:
         string name = "";
         int size;
-        void *data_start;
+        long data_start;
 
         friend ostream &operator<<(ostream &os, const VepromFile &file) {
             os << file.name << " " << file.size << " " << file.data_start;
@@ -91,7 +91,8 @@ int process_create(vector<string> args)
         
         currentChip.size = size;
         currentChip.path = "./chips/newChip.veprom";
-        currentChip.offset = sizeof(currentChip);
+        currentChip.offset = 0;
+        currentChip.file.name = "";
 
         int save_return = save_chip();
         
@@ -135,7 +136,7 @@ int process_load(vector<string> args)
     }
 } 
 
-int write_helper(int addr, string contents) {
+int write_helper(long addr, string contents) {
     int verify_return = verify_chip_open();
     if (verify_return)
         return verify_return;
@@ -147,6 +148,9 @@ int write_helper(int addr, string contents) {
 
     // This is a bit messy, may try to do metadata some other way
     int offsetLocation = addr + sizeof(currentChip);
+
+    cout << "Writing to actual offset: " << offsetLocation << std::endl;
+    cout << "Writing " << sizeof(contents) << " to file" << std::endl;
     
     std::ofstream fileOut(currentChip.path, std::ios::out | std::ios::in);
     if (!fileOut) {
@@ -184,7 +188,7 @@ int process_write_raw(vector<string> args)
     }
 } 
 
-int read_helper(int addr, int length) {
+int read_helper(long addr, int length) {
     int verify_return = verify_chip_open();
     if (verify_return)
         return verify_return;
@@ -196,6 +200,8 @@ int read_helper(int addr, int length) {
 
     // This is a bit messy, may try to do metadata some other way
     int offsetLocation = addr + sizeof(currentChip);
+    cout << "Size of chip" << sizeof(currentChip) << std::endl;
+    cout << "About to read from actual location: " << offsetLocation << std::endl;
     
     std::ifstream fileIn(currentChip.path, std::ios::in);
     if (!fileIn) {
@@ -267,14 +273,14 @@ int process_write(vector<string> args)
     
     currentChip.file.name = p.filename();
     currentChip.file.size = sizeof(content);
-    currentChip.file.data_start = (void*)currentChip.offset;
+    currentChip.file.data_start = currentChip.offset;
     currentChip.offset += sizeof(content);
 
     int save_return = save_chip();
     if (save_return)
         return save_return;
     
-    int write_return = write_helper(currentChip.offset, content);
+    int write_return = write_helper(currentChip.offset - sizeof(content), content);
 
     if (write_return)
         return write_return;
@@ -301,7 +307,29 @@ int process_list(vector<string> args)
 
 int process_read(vector<string> args)
 {
-    return 0;
+    if (args.size() != 3) {
+        cerr << "Invalid read command arguments.\n";
+        cerr << "Correct usage is \"veprom read file\"\n";
+        return ReturnCodes::INVALID_READ;
+    }
+  
+    int verify_return = verify_chip_open();
+    if (verify_return)
+        return verify_return;
+
+    if (currentChip.file.name != args[2]) {
+        cerr << "File not on chip" << std::endl;
+        return ReturnCodes::CHIP_FILE_NOT_FOUND;
+    }
+
+    cout << "File data start at " << currentChip.file.data_start << std::endl;
+    cout << "File size " << currentChip.file.size << std::endl;
+
+    int read_return = read_helper(currentChip.file.data_start, currentChip.file.size);    
+    if (read_return)
+        return read_return;
+
+    return ReturnCodes::SUCCESS;
 } 
 
 /*
@@ -313,7 +341,7 @@ int process_erase(vector<string> args)
     if (verify_return)
         return verify_return;
 
-    currentChip.offset = sizeof(currentChip);
+    currentChip.offset = 0;
     currentChip.file.name = "";
     
     int save_return = save_chip();
