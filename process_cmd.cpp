@@ -139,8 +139,6 @@ int write_helper(int addr, string contents) {
     int verify_return = verify_chip_open();
     if (verify_return)
         return verify_return;
-    else
-        cout << "Successfully found the veprom file\n";
 
     if (addr + contents.size() > currentChip.size) {
         cerr << "Write would go past end of file if executed, please retry\n";
@@ -202,8 +200,6 @@ int process_write(vector<string> args)
     int verify_return = verify_chip_open();
     if (verify_return)
         return verify_return;
-    else
-        cout << "Successfully found the veprom file\n";
 
     if (currentChip.file.name != "") {
         cerr << "All file slots are in use" << std::endl;
@@ -245,8 +241,6 @@ int process_list(vector<string> args)
     int verify_return = verify_chip_open();
     if (verify_return)
         return verify_return;
-    else
-        cout << "Successfully found the veprom file\n";
     
     if (currentChip.file.name == "") {
         cout << "There are no files to list" << std::endl;
@@ -264,9 +258,27 @@ int process_read(vector<string> args)
     return 0;
 } 
 
+/*
+ * This is not intended to be a hard erase, but marks memory as available instead
+ */
 int process_erase(vector<string> args)
 {
-    return 0;
+    int verify_return = verify_chip_open();
+    if (verify_return)
+        return verify_return;
+
+    currentChip.offset = sizeof(currentChip);
+    currentChip.file.name = "";
+    
+    int save_return = save_chip();
+    
+    if (!save_return) {
+        cout << "Chip " << currentChip.path << " has been cleared" << std::endl;
+        return ReturnCodes::SUCCESS;
+    }
+    else {
+        return save_return;
+    }
 }
 
 int process_help()
