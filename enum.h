@@ -12,4 +12,5 @@ enum ReturnCodes : int
     INVALID_ADDRESS,
     INVALID_WRITE,
     CHIP_FILES_FULL,
+    INVALID_READ_RAW,
 };

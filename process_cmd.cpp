@@ -178,15 +178,60 @@ int process_write_raw(vector<string> args)
         return write_helper(addr, args[3]);
     }
     catch (bad_lexical_cast &e) {
-        cerr << "Invalid size. Please enter a whole number.\n";
+        cerr << "Invalid address. Please enter a whole number.\n";
         cerr << e.what() << "\n";
-        return ReturnCodes::INVALID_SIZE;
+        return ReturnCodes::INVALID_ADDRESS;
     }
 } 
 
+int read_helper(int addr, int length) {
+    int verify_return = verify_chip_open();
+    if (verify_return)
+        return verify_return;
+
+    if (addr > currentChip.size) {
+        cerr << "Cannot read past end of chip, please retry\n";
+        return ReturnCodes::INVALID_ADDRESS;
+    }
+
+    // This is a bit messy, may try to do metadata some other way
+    int offsetLocation = addr + sizeof(currentChip);
+    
+    std::ifstream fileIn(currentChip.path, std::ios::in);
+    if (!fileIn) {
+        cerr << "Could not read from file!";
+        return ReturnCodes::FOPEN_ERROR;
+    }
+
+    string contents(length, '\0');
+    fileIn.seekg(offsetLocation);
+    fileIn.read(&contents[0], length); 
+    fileIn.close();
+
+    cout << "Successfully read following from file:" << std::endl;
+    cout << contents << std::endl;
+
+    return ReturnCodes::SUCCESS;
+}
+
 int process_read_raw(vector<string> args) 
 {
-    return 0;
+    if (args.size() != 4) {
+        cerr << "Invalid read_raw command arguments.\n";
+        cerr << "Correct usage is \"veprom read_raw $ADDRESS $length\"\n";
+        return ReturnCodes::INVALID_READ_RAW;
+    }
+    
+    try {
+        int addr = boost::lexical_cast<int>(args[2]);
+        int length = boost::lexical_cast<int>(args[3]);
+        return read_helper(addr, length);
+    }
+    catch (bad_lexical_cast &e) {
+        cerr << "Invalid addr/length. Please enter a whole number.\n";
+        cerr << e.what() << "\n";
+        return ReturnCodes::INVALID_READ_RAW;
+    }
 } 
 
 int process_write(vector<string> args) 
@@ -217,13 +262,9 @@ int process_write(vector<string> args)
     
     string content( (std::istreambuf_iterator<char>(in_file) ),
                     (std::istreambuf_iterator<char>()) );
+    cout << "About to try to write: " << content << std::endl;
     in_file.close();
     
-    int write_return = write_helper(currentChip.offset, content);
-
-    if (write_return)
-        return write_return;
-
     currentChip.file.name = p.filename();
     currentChip.file.size = sizeof(content);
     currentChip.file.data_start = (void*)currentChip.offset;
@@ -232,6 +273,11 @@ int process_write(vector<string> args)
     int save_return = save_chip();
     if (save_return)
         return save_return;
+    
+    int write_return = write_helper(currentChip.offset, content);
+
+    if (write_return)
+        return write_return;
 
     return ReturnCodes::SUCCESS;
 } 
