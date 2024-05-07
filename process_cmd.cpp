@@ -49,7 +49,7 @@ VepromChip currentChip;
 
 int save_chip() {
     ofstream newChip;
-    newChip.open(currentChip.path, ios::app);
+    newChip.open(currentChip.path, ios::trunc);
 
     if (!newChip) {
         cerr << "Could not create file!";
@@ -59,6 +59,18 @@ int save_chip() {
     newChip << currentChip;
     newChip.close();
     return ReturnCodes::SUCCESS;
+}
+
+int verify_chip_open() {
+    std::ifstream file(currentChip.path);
+
+    if (!file.is_open()) {
+        cerr << "Could not find a loaded veprom chip file.\n";
+        cerr << "Be sure to create or load a chip file before calling write_raw\n";
+        return ReturnCodes::CHIP_NOT_FOUND;
+    }
+    else
+        return ReturnCodes::SUCCESS;
 }
 
 int process_create(vector<string> args)
@@ -124,17 +136,11 @@ int process_load(vector<string> args)
 } 
 
 int write_helper(int addr, string contents) {
-    std::ifstream file(currentChip.path);
-
-    if (!file.is_open()) {
-        cerr << "Could not find a loaded veprom chip file.\n";
-        cerr << "Be sure to create or load a chip file before calling write_raw\n";
-        return ReturnCodes::CHIP_NOT_FOUND;
-    }
-
-    cout << "Successfully found the veprom file\n";
-
-    file.close();
+    int verify_return = verify_chip_open();
+    if (verify_return)
+        return verify_return;
+    else
+        cout << "Successfully found the veprom file\n";
 
     if (addr + contents.size() > currentChip.size) {
         cerr << "Write would go past end of file if executed, please retry\n";
@@ -192,16 +198,12 @@ int process_write(vector<string> args)
         cerr << "Correct usage is \"veprom write path/to/file\"\n";
         return ReturnCodes::INVALID_WRITE;
     }
-   
-    std::ifstream file(currentChip.path);
-
-    if (!file.is_open()) {
-        cerr << "Could not find a loaded veprom chip file.\n";
-        cerr << "Be sure to create or load a chip file before calling write_raw\n";
-        return ReturnCodes::CHIP_NOT_FOUND;
-    }
-
-    cout << "Successfully found the veprom file\n";
+  
+    int verify_return = verify_chip_open();
+    if (verify_return)
+        return verify_return;
+    else
+        cout << "Successfully found the veprom file\n";
 
     if (currentChip.file.name != "") {
         cerr << "All file slots are in use" << std::endl;
@@ -240,7 +242,21 @@ int process_write(vector<string> args)
 
 int process_list(vector<string> args) 
 {
-    return 0;
+    int verify_return = verify_chip_open();
+    if (verify_return)
+        return verify_return;
+    else
+        cout << "Successfully found the veprom file\n";
+    
+    if (currentChip.file.name == "") {
+        cout << "There are no files to list" << std::endl;
+    }
+    else {
+        cout << "The following files are present:" << std::endl;
+        cout << currentChip.file.name << std::endl;
+    }
+
+    return ReturnCodes::SUCCESS;
 } 
 
 int process_read(vector<string> args)
