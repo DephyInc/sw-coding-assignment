@@ -8,6 +8,8 @@
 using boost::lexical_cast;
 using boost::bad_lexical_cast;
 
+int n_files = 3;
+
 class VepromFile {
     public:
         string name = "";
@@ -30,17 +32,23 @@ class VepromChip {
         string path;
         int size;
         long offset;
-        VepromFile file;
+        VepromFile file[3];
 
         friend ostream &operator<<(ostream &os, const VepromChip &chip) {
             os << chip.path << " " << chip.size << " " << chip.offset
-             << " " << chip.file;
+             << " ";
+             for (int i = 0; i < n_files - 1; i++) {
+                 os << chip.file[i] << " ";
+             }
+             os << chip.file[n_files - 1];
             return os;
         }
 
         friend istream &operator>>(istream &is, VepromChip &chip) {
-            is >> chip.path >> chip.size >> chip.offset
-             >> chip.file;
+            is >> chip.path >> chip.size >> chip.offset;
+            for (int i = 0; i < n_files; i++) {
+                is >> chip.file[i];
+            }
             return is;
         }
 };
@@ -48,15 +56,14 @@ class VepromChip {
 VepromChip currentChip;
 
 int save_chip() {
-    ofstream newChip;
-    newChip.open(currentChip.path, ios::trunc);
+    std::fstream newChip(currentChip.path);
 
     if (!newChip) {
-        cerr << "Could not create file!";
+        cerr << "Could not create file!" << std::endl;
         return ReturnCodes::FOPEN_ERROR;
     }
 
-    newChip << currentChip;
+    newChip.write((char*)&currentChip, sizeof(currentChip));
     newChip.close();
     return ReturnCodes::SUCCESS;
 }
@@ -92,7 +99,11 @@ int process_create(vector<string> args)
         currentChip.size = size;
         currentChip.path = "./chips/newChip.veprom";
         currentChip.offset = 0;
-        currentChip.file.name = "";
+        for (int i = 0; i < n_files; i++) {
+            currentChip.file[i].name = "";
+        }
+
+        std::ofstream outfile(currentChip.path);
 
         int save_return = save_chip();
         
@@ -152,13 +163,13 @@ int write_helper(long addr, string contents) {
     cout << "Writing to actual offset: " << offsetLocation << std::endl;
     cout << "Writing " << sizeof(contents) << " to file" << std::endl;
     
-    std::ofstream fileOut(currentChip.path, std::ios::out | std::ios::in);
+    std::fstream fileOut(currentChip.path);
     if (!fileOut) {
         cerr << "Could not write to file!";
         return ReturnCodes::FOPEN_ERROR;
     }
 
-    fileOut.seekp(offsetLocation);
+    fileOut.seekp(offsetLocation, ios::beg);
     fileOut << contents;
     fileOut.close();
 
@@ -240,6 +251,18 @@ int process_read_raw(vector<string> args)
     }
 } 
 
+int find_available_file() {
+    int index = -1;
+
+    for (int i = 0; i < n_files; i++) {
+        if (currentChip.file[i].name == "") {
+            return i;
+        }
+    }
+
+    return index;
+}
+
 int process_write(vector<string> args) 
 {
     if (args.size() != 3) {
@@ -252,7 +275,9 @@ int process_write(vector<string> args)
     if (verify_return)
         return verify_return;
 
-    if (currentChip.file.name != "") {
+    int index = find_available_file();
+
+    if (index == -1) {
         cerr << "All file slots are in use" << std::endl;
         return ReturnCodes::CHIP_FILES_FULL;
     }
@@ -271,9 +296,9 @@ int process_write(vector<string> args)
     cout << "About to try to write: " << content << std::endl;
     in_file.close();
     
-    currentChip.file.name = p.filename();
-    currentChip.file.size = sizeof(content);
-    currentChip.file.data_start = currentChip.offset;
+    currentChip.file[index].name = p.filename();
+    currentChip.file[index].size = sizeof(content);
+    currentChip.file[index].data_start = currentChip.offset;
     currentChip.offset += sizeof(content);
 
     int save_return = save_chip();
@@ -293,13 +318,14 @@ int process_list(vector<string> args)
     int verify_return = verify_chip_open();
     if (verify_return)
         return verify_return;
-    
-    if (currentChip.file.name == "") {
-        cout << "There are no files to list" << std::endl;
-    }
-    else {
-        cout << "The following files are present:" << std::endl;
-        cout << currentChip.file.name << std::endl;
+   
+    for (int i = 0; i < n_files; i++) {
+        if (currentChip.file[i].name == "") {
+            cout << "File slot " << (i + 1) << ": [Empty]" << std::endl;
+        }
+        else {
+            cout << "File slot " << (i + 1) << ": " << currentChip.file[i].name << std::endl;
+        }
     }
 
     return ReturnCodes::SUCCESS;
@@ -317,15 +343,25 @@ int process_read(vector<string> args)
     if (verify_return)
         return verify_return;
 
-    if (currentChip.file.name != args[2]) {
+    int file_index = -1;
+    for (int i = 0; i < n_files; i++) {
+        if (currentChip.file[i].name == args[2]) {
+            file_index = i;
+            break;
+        }
+    }
+
+    cout << "Reading from file index " << file_index << std::endl;
+
+    if (file_index == -1) {
         cerr << "File not on chip" << std::endl;
         return ReturnCodes::CHIP_FILE_NOT_FOUND;
     }
 
-    cout << "File data start at " << currentChip.file.data_start << std::endl;
-    cout << "File size " << currentChip.file.size << std::endl;
+    cout << "File data start at " << currentChip.file[file_index].data_start << std::endl;
+    cout << "File size " << currentChip.file[file_index].size << std::endl;
 
-    int read_return = read_helper(currentChip.file.data_start, currentChip.file.size);    
+    int read_return = read_helper(currentChip.file[file_index].data_start, currentChip.file[file_index].size);    
     if (read_return)
         return read_return;
 
@@ -342,7 +378,8 @@ int process_erase(vector<string> args)
         return verify_return;
 
     currentChip.offset = 0;
-    currentChip.file.name = "";
+    for (int i = 0; i < n_files; i++)
+        currentChip.file[i].name = "";
     
     int save_return = save_chip();
     
