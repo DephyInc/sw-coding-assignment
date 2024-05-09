@@ -114,7 +114,7 @@ int process_create(vector<string> args)
             i++;
         } while (file_exists(path));
 
-        currentChip.size = size;
+        currentChip.size = size * 1024;
         strcpy(currentChip.path, path.c_str());
         currentChip.offset = 0;
         for (int i = 0; i < n_files; i++) {
