@@ -10,11 +10,11 @@ using namespace std;
  */
 bool sanitize_general(vector<string> args) {
     if (args.size() < 2) {
-        cout << "All commands must have at least two components, e.g. \"veprom list\"\n";
+        cout << "All commands must have at least two components, e.g. \"veprom list\"" << std::endl;
         return true;
     }
     if (args[0] != "veprom") {
-        cout << "All commands must begin with \"veprom\", e.g. \"veprom create 256\"\n";
+        cout << "All commands must begin with \"veprom\", e.g. \"veprom create 256\"" << std::endl;
         return true;
     }
 
@@ -31,7 +31,7 @@ int main() {
         int f = 1;
         bool soft_continue = false;
         
-        cout << "Enter a command for EPROM chip:\n";
+        cout << "Enter a command for EPROM chip:" << std::endl;
         
         getline(cin, input);
         istringstream iss(input);
@@ -47,7 +47,6 @@ int main() {
 
         // Would have loved to use a switch here but didn't seem worth
         // making a mapping
-        cout << "Processing command\n";
         if (args[1].compare("create") == 0) {
             process_create(args);
         }

@@ -83,8 +83,8 @@ int verify_chip_open() {
     std::ifstream file(currentChip.path);
 
     if (!file.is_open()) {
-        cerr << "Could not find a loaded veprom chip file.\n";
-        cerr << "Be sure to create or load a chip file before calling write_raw\n";
+        cerr << "Could not find a loaded veprom chip file." << std::endl;
+        cerr << "Be sure to create or load a chip file before calling write_raw" << std::endl;
         return ReturnCodes::CHIP_NOT_FOUND;
     }
     else
@@ -94,8 +94,8 @@ int verify_chip_open() {
 int process_create(vector<string> args)
 {
     if (args.size() != 3) {
-        cerr << "Invalid create command arguments.\n";
-        cerr << "Correct usage is \"veprom create 256\"\n";
+        cerr << "Invalid create command arguments." << std::endl;
+        cerr << "Correct usage is \"veprom create 256\"" << std::endl;
         return ReturnCodes::INVALID_CREATE;
     }
 
@@ -103,7 +103,7 @@ int process_create(vector<string> args)
         int size = boost::lexical_cast<int>(args[2]);
 
         if (size <= 0) {
-            cerr << "Chip size must be positive\n";
+            cerr << "Chip size must be positive" << std::endl;
             return ReturnCodes::INVALID_SIZE;
         }
         
@@ -125,15 +125,15 @@ int process_create(vector<string> args)
         int save_return = save_chip();
         
         if (!save_return) {
-            cout << "New veprom creation successful. Chip is stored at\n";
-            cout << currentChip.path << "\n";
+            cout << "New veprom creation successful. Chip is stored at" << std::endl;
+            cout << currentChip.path << std::endl;
         }
 
         return save_return;
     }
     catch (bad_lexical_cast &e) {
-        cerr << "Invalid size. Please enter a whole number.\n";
-        cerr << e.what() << "\n";
+        cerr << "Invalid size. Please enter a whole number." << std::endl;
+        cerr << e.what() << std::endl;
         return ReturnCodes::INVALID_SIZE;
     }
 } 
@@ -141,8 +141,8 @@ int process_create(vector<string> args)
 int process_load(vector<string> args) 
 {
     if (args.size() != 3) {
-        cerr << "Invalid load command arguments.\n";
-        cerr << "Correct usage is \"veprom load /path/to/veprom/file\"\n";
+        cerr << "Invalid load command arguments." << std::endl;
+        cerr << "Correct usage is \"veprom load /path/to/veprom/file\"" << std::endl;
         return ReturnCodes::INVALID_LOAD;
     }
 
@@ -155,11 +155,11 @@ int process_load(vector<string> args)
         file.close();
         cout << "size: " << currentChip.size << std::endl;
         cout << "path: " << currentChip.path << std::endl;
-        cout << "Successfully found the veprom file\n";
+        cout << "Successfully found the veprom file" << std::endl;
         return ReturnCodes::SUCCESS;
     }
     else {
-        cerr << "Could not find veprom file to load\n";
+        cerr << "Could not find veprom file to load" << std::endl;
         return ReturnCodes::CHIP_NOT_FOUND;
     }
 } 
@@ -170,7 +170,7 @@ int write_helper(long addr, string contents) {
         return verify_return;
 
     if (addr + contents.size() > currentChip.size) {
-        cerr << "Write would go past end of file if executed, please retry\n";
+        cerr << "Write would go past end of file if executed, please retry" << std::endl;
         return ReturnCodes::INVALID_ADDRESS;
     }
 
@@ -201,8 +201,8 @@ int write_helper(long addr, string contents) {
 int process_write_raw(vector<string> args) 
 {
     if (args.size() != 4) {
-        cerr << "Invalid write_raw command arguments.\n";
-        cerr << "Correct usage is \"veprom write_raw $ADDRESS $STRING\"\n";
+        cerr << "Invalid write_raw command arguments." << std::endl;
+        cerr << "Correct usage is \"veprom write_raw $ADDRESS $STRING\"" << std::endl;
         return ReturnCodes::INVALID_WRITE_RAW;
     }
     
@@ -211,8 +211,8 @@ int process_write_raw(vector<string> args)
         return write_helper(addr + sizeof(currentChip), args[3]);
     }
     catch (bad_lexical_cast &e) {
-        cerr << "Invalid address. Please enter a whole number.\n";
-        cerr << e.what() << "\n";
+        cerr << "Invalid address. Please enter a whole number." << std::endl;
+        cerr << e.what() << std::endl;
         return ReturnCodes::INVALID_ADDRESS;
     }
 } 
@@ -223,7 +223,7 @@ int read_helper(long addr, int length) {
         return verify_return;
 
     if (addr > currentChip.size) {
-        cerr << "Cannot read past end of chip, please retry\n";
+        cerr << "Cannot read past end of chip, please retry" << std::endl;
         return ReturnCodes::INVALID_ADDRESS;
     }
 
@@ -252,8 +252,8 @@ int read_helper(long addr, int length) {
 int process_read_raw(vector<string> args) 
 {
     if (args.size() != 4) {
-        cerr << "Invalid read_raw command arguments.\n";
-        cerr << "Correct usage is \"veprom read_raw $ADDRESS $length\"\n";
+        cerr << "Invalid read_raw command arguments." << std::endl;
+        cerr << "Correct usage is \"veprom read_raw $ADDRESS $length\"" << std::endl;
         return ReturnCodes::INVALID_READ_RAW;
     }
     
@@ -263,8 +263,8 @@ int process_read_raw(vector<string> args)
         return read_helper(addr + sizeof(currentChip), length);
     }
     catch (bad_lexical_cast &e) {
-        cerr << "Invalid addr/length. Please enter a whole number.\n";
-        cerr << e.what() << "\n";
+        cerr << "Invalid addr/length. Please enter a whole number." << std::endl;
+        cerr << e.what() << std::endl;
         return ReturnCodes::INVALID_READ_RAW;
     }
 } 
@@ -284,8 +284,8 @@ int find_available_file() {
 int process_write(vector<string> args) 
 {
     if (args.size() != 3) {
-        cerr << "Invalid write command arguments.\n";
-        cerr << "Correct usage is \"veprom write path/to/file\"\n";
+        cerr << "Invalid write command arguments." << std::endl;
+        cerr << "Correct usage is \"veprom write path/to/file\"" << std::endl;
         return ReturnCodes::INVALID_WRITE;
     }
   
@@ -305,7 +305,7 @@ int process_write(vector<string> args)
     std::ifstream in_file(p.filename());
     
     if (!in_file.is_open()) {
-        cerr << "Could not open input file.\n";
+        cerr << "Could not open input file." << std::endl;
         return ReturnCodes::FOPEN_ERROR;
     }
     
@@ -352,8 +352,8 @@ int process_list(vector<string> args)
 int process_read(vector<string> args)
 {
     if (args.size() != 3) {
-        cerr << "Invalid read command arguments.\n";
-        cerr << "Correct usage is \"veprom read file\"\n";
+        cerr << "Invalid read command arguments." << std::endl;
+        cerr << "Correct usage is \"veprom read file\"" << std::endl;
         return ReturnCodes::INVALID_READ;
     }
   
@@ -412,15 +412,15 @@ int process_erase(vector<string> args)
 
 int process_help()
 {
-    cout << "Invalid command. Here are some guidelines:\n";
-    cout << "create: creates a new virtual EPROM chip with a specified capacity.\n";
-    cout << "load: loads a vEPROM file.\n";
-    cout << "write_raw: writes a raw string of bytes to a specific address on the virtual EPROM chip.\n";
-    cout << "read_raw: reads the values stored at a specific address and length on the virtual EPROM chip and outputs it on stdout.\n";
-    cout << "write: writes a file to the virtual EPROM chip.\n";
-    cout << "list: lists the files on the virtual EPROM chip.\n";
-    cout << "read: reads a file from the virtual EPROM chip.\n";
-    cout << "erase: sets the EPROM back to its original state\n";
+    cout << "Invalid command. Here are some guidelines:" << std::endl;
+    cout << "create: creates a new virtual EPROM chip with a specified capacity." << std::endl;
+    cout << "load: loads a vEPROM file." << std::endl;
+    cout << "write_raw: writes a raw string of bytes to a specific address on the virtual EPROM chip." << std::endl;
+    cout << "read_raw: reads the values stored at a specific address and length on the virtual EPROM chip and outputs it on stdout." << std::endl;
+    cout << "write: writes a file to the virtual EPROM chip." << std::endl;
+    cout << "list: lists the files on the virtual EPROM chip." <<std::endl;
+    cout << "read: reads a file from the virtual EPROM chip." << std::endl;
+    cout << "erase: sets the EPROM back to its original state" << std::endl;
 
     return 0;
 }
