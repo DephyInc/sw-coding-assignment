@@ -29,7 +29,7 @@ class VepromFile {
 
 class VepromChip {
     public:
-        string path;
+        char path[20];
         int size;
         long offset;
         VepromFile file[3];
@@ -68,6 +68,17 @@ int save_chip() {
     return ReturnCodes::SUCCESS;
 }
 
+bool file_exists(string path) {
+    std::ifstream file(path);
+    if (file.is_open()) {
+        file.close();
+        return true;
+    }
+    else {
+        return false;
+    }
+}
+
 int verify_chip_open() {
     std::ifstream file(currentChip.path);
 
@@ -96,15 +107,21 @@ int process_create(vector<string> args)
             return ReturnCodes::INVALID_SIZE;
         }
         
+        int i = 0;
+        std::filesystem::path path;
+        do {
+            path = "./chips/" + std::to_string(i) + ".veprom";
+            i++;
+        } while (file_exists(path));
+
         currentChip.size = size;
-        currentChip.path = "./chips/newChip.veprom";
+        strcpy(currentChip.path, path.c_str());
         currentChip.offset = 0;
         for (int i = 0; i < n_files; i++) {
             currentChip.file[i].name = "";
         }
 
         std::ofstream outfile(currentChip.path);
-
         int save_return = save_chip();
         
         if (!save_return) {
@@ -161,6 +178,7 @@ int write_helper(long addr, string contents) {
     int offsetLocation = addr + sizeof(currentChip);
 
     cout << "Writing to actual offset: " << offsetLocation << std::endl;
+    cout << "(But for reading use: " << addr << ")" << std::endl;
     cout << "Writing " << sizeof(contents) << " to file" << std::endl;
     
     std::fstream fileOut(currentChip.path);
@@ -190,7 +208,7 @@ int process_write_raw(vector<string> args)
     
     try {
         int addr = boost::lexical_cast<int>(args[2]);
-        return write_helper(addr, args[3]);
+        return write_helper(addr + sizeof(currentChip), args[3]);
     }
     catch (bad_lexical_cast &e) {
         cerr << "Invalid address. Please enter a whole number.\n";
@@ -242,7 +260,7 @@ int process_read_raw(vector<string> args)
     try {
         int addr = boost::lexical_cast<int>(args[2]);
         int length = boost::lexical_cast<int>(args[3]);
-        return read_helper(addr, length);
+        return read_helper(addr + sizeof(currentChip), length);
     }
     catch (bad_lexical_cast &e) {
         cerr << "Invalid addr/length. Please enter a whole number.\n";
