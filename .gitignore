@@ -27,6 +27,11 @@
 *.lib
 
 # Executables
-*.exe
-*.out
-*.app
+build/
+.vscode/
+eprom
+eprom_debug
+data/
+
+# Data
+*.bin
