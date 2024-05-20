@@ -2,7 +2,7 @@
  * @Author: Wenyu Kui 
  * @Date: 2024-05-19 13:45:01 
  * @Last Modified by: Wenyu Kui
- * @Last Modified time: 2024-05-19 23:52:03
+ * @Last Modified time: 2024-05-20 13:23:56
  */
 
 #include "eprom_chip.h"
@@ -31,6 +31,7 @@ class Eprom::EpromImpl {
     ~EpromImpl();
 
     int check_valid();
+    int get_size();
     int erase();
 
     int read_data(const int target_addr, const int len, char* ptr);
@@ -113,6 +114,10 @@ int Eprom::EpromImpl::write_data(const int target_addr, const int len, const cha
 int Eprom::EpromImpl::update_path(std::string& path_) {
     path = path_;
     return 0;
+}
+
+int Eprom::EpromImpl::get_size() {
+    return data_size;
 }
 
 int Eprom::EpromImpl::load_from_disk() {
@@ -202,6 +207,9 @@ Eprom::~Eprom() {
 }
 int Eprom::check_valid() {
     return pImpl->check_valid();
+}
+int Eprom::get_size() {
+    return pImpl->get_size();
 }
 int Eprom::erase() {
     return pImpl->erase();

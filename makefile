@@ -21,10 +21,14 @@ DEBUG_EXECUTABLE = eprom_debug
 RELEASE_EXECUTABLE = eprom
 
 # Default target (debug build)
-all: $(DEBUG_EXECUTABLE) $(RELEASE_EXECUTABLE)
+all: FORMAT $(DEBUG_EXECUTABLE) $(RELEASE_EXECUTABLE)
+
+FORMAT:
+	@sh format.sh
+	@echo
 
 # Debug build
-debug: $(RELEASE_EXECUTABLE)
+debug: $(DEBUG_EXECUTABLE)
 
 $(DEBUG_EXECUTABLE): $(DEBUG_OBJS)
 	$(CC) $(DEBUG_OBJS) -o $@

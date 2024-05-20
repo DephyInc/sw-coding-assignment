@@ -29,8 +29,6 @@
 # Executables
 build/
 .vscode/
-eprom
-eprom_debug
 data/
 
 # Data

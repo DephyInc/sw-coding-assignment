@@ -2,7 +2,7 @@
  * @Author: Wenyu Kui 
  * @Date: 2024-05-19 13:02:45 
  * @Last Modified by: Wenyu Kui
- * @Last Modified time: 2024-05-19 22:30:19
+ * @Last Modified time: 2024-05-20 14:06:18
  */
 
 #include <iostream>
@@ -57,7 +57,7 @@ int commandWrapper(std::vector<std::string> tokens) {
             return veprom::ERR_COMMAND;
         // check whether tokens[1] is a number
         int val;
-        if (isNum(tokens[1], val) && val < veprom::EPROM_SIZE_LIMIT) {
+        if (isNum(tokens[1], val) && val < EPROM_SIZE_LIMIT) {
             return vep.create(val);
         } else {
             return veprom::ERR_COMMAND;
@@ -99,9 +99,11 @@ int commandWrapper(std::vector<std::string> tokens) {
     } else if (tokens[0] == "write") {
         if (tokens.size() != 2)
             return veprom::ERR_COMMAND;
+        return vep.write(tokens[1]);
     } else if (tokens[0] == "read") {
         if (tokens.size() != 2)
             return veprom::ERR_COMMAND;
+        return vep.read(tokens[1]);
     } else {
         std::cerr << "Command not found!" << std::endl;
         return veprom::ERR_COMMAND;
@@ -114,6 +116,9 @@ int main(int argc, char* argv[]) {
         std::cerr << "Usage: " << argv[0] << " <string>" << std::endl;
         return 1;
     }
+
+    // Ensure data folder exists
+    system("mkdir data > /dev/null 2>&1");
 
     std::string input = argv[1];
     std::vector<std::string> tokens = convertToTokens(argc, argv);

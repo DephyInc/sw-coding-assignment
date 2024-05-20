@@ -2,7 +2,7 @@
  * @Author: Wenyu Kui 
  * @Date: 2024-05-19 13:14:29 
  * @Last Modified by: Wenyu Kui
- * @Last Modified time: 2024-05-19 16:32:42
+ * @Last Modified time: 2024-05-20 13:33:14
  */
 #pragma once
 namespace veprom {
@@ -17,6 +17,8 @@ enum veprom_error_code
     ERR_FAILED_TO_LOAD,
     ERR_MALLOC,
     ERR_FILE_NOT_FOUND,
+    ERR_FILE_NAME_TOO_LONG,
+    ERR_FILE_NOT_FOUND_IN_ROM,
     ERR_FAILED_TO_READ_FILE,
     ERR_FAILED_TO_WRITE_TO_FILE,
     ERR_DATA_NOT_FOUND,
@@ -26,8 +28,7 @@ enum veprom_error_code
     ERR_INI_NOT_FOUND,
     ERR_INI_FAILED_TO_READ,
     ERR_INI_FAILED_TO_WRITE,
+    ERR_ROM_CAPACITY_NOT_ENOUGH,
 };
-
-static const int EPROM_SIZE_LIMIT = 1024;
 
 }  // namespace veprom
