@@ -61,15 +61,21 @@ public:
     }
 
     /**
-     * @brief Sets the path tho the directory where all files are save.
+     * @brief Sets the path to the directory where all files are save.
      */
     void setDataDirectory(std::string dataDirectory) {
-        std::unique_ptr<char[]> dataPath(new char[PATH_MAX+1]);
-        if (getcwd(dataPath.get(), sizeof(char)*PATH_MAX) != NULL) {
-            strcat(dataPath.get(), "/");
-            this->dataDirectory = dataPath.get() + dataDirectory;
-        } else {
+        // If data directory is absolute, then save it
+        // Otherwise, get the current directory and append the data directory
+        if (dataDirectory.rfind("/", 0) == 0) {
             this->dataDirectory = dataDirectory;
+        } else {
+            std::unique_ptr<char[]> dataPath(new char[PATH_MAX+1]);
+            if (getcwd(dataPath.get(), sizeof(char)*PATH_MAX) != NULL) {
+                strcat(dataPath.get(), "/");
+                this->dataDirectory = dataPath.get() + dataDirectory;
+            } else {
+                this->dataDirectory = dataDirectory;
+            }
         }
         this->dataDirectory.append("/");
     }
