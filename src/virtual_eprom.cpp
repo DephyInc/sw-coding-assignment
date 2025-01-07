@@ -23,13 +23,13 @@ void VirtualEprom::create(int capacity) {
     }
     
     // Initialize file table
-    FileTable fileTable;
-    std::memset((void*)&fileTable.fileOffsets, 0, MAX_FILE_COUNT * sizeof(uint32_t));
-    fileTable.checksum = calculateChecksum((char*)&fileTable+sizeof(uint32_t), sizeof(FileTable)-sizeof(uint32_t));
-    fileTable.freeOffset = sizeof(FileTable);
+    std::unique_ptr<FileTable> fileTable(new FileTable());
+    std::memset((void*)fileTable->fileOffsets, 0, MAX_FILE_COUNT * sizeof(uint32_t));
+    fileTable->checksum = calculateChecksum((char*)&fileTable+sizeof(uint32_t), sizeof(FileTable)-sizeof(uint32_t));
+    fileTable->freeOffset = sizeof(FileTable);
 
     // Initialize EPROM with 0xFF
-    outfile.write((char*)&fileTable, sizeof(FileTable));
+    outfile.write((char*)fileTable.get(), sizeof(FileTable));
     for (int i = 0; i<capacity-sizeof(FileTable); i++) {
         outfile.put(0xFF);
     }
@@ -81,13 +81,13 @@ void VirtualEprom::writeFile(std::string filepath) {
     }
 
     // Write file header
-    FileHeader fileHeader;
-    fileHeader.size = len;
-    std::strncpy(fileHeader.filename, filepath.c_str(), MAX_FILENAME_LEN);
-    fileHeader.checksum = calculateChecksum(buffer.get(), len);
-    fileHeader.checksum ^= calculateChecksum((char*)&fileHeader-sizeof(uint32_t), sizeof(FileHeader)-sizeof(uint32_t));
+    std::unique_ptr<FileHeader> fileHeader(new FileHeader());
+    fileHeader->size = len;
+    std::strncpy(fileHeader->filename, filepath.c_str(), MAX_FILENAME_LEN);
+    fileHeader->checksum = calculateChecksum(buffer.get(), len);
+    fileHeader->checksum ^= calculateChecksum((char*)fileHeader.get()+sizeof(uint32_t), sizeof(FileHeader)-sizeof(uint32_t));
     file.seekp(fileTable.freeOffset);
-    file.write((char*)&fileHeader, sizeof(FileHeader));
+    file.write((char*)fileHeader.get(), sizeof(FileHeader));
     
     // Write file contents
     file.write(buffer.get(), len);
