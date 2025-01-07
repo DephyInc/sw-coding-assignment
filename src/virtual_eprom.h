@@ -1,9 +1,10 @@
 
 #pragma once
 
-#include <optional>
+#include <vector>
 
 #include "simple_file_system.h"
+#include "file_info.h"
 
 /**
  * @class VirtualEprom
@@ -57,7 +58,7 @@ public:
      * @brief Lists the file on the vEPROM to stdout.
      *
      */    
-    void listFiles();
+    std::vector<FileInfo> listFiles();
 
 
     /**
@@ -66,16 +67,14 @@ public:
      */    
     void erase();
 
-private:
-    std::string filename;
-    
-
     /**
      * @brief Get capacity of the vEPROM.
      *
      */    
     long getCapacity();
 
+private:
+    std::string filename;
 
     /**
      * @brief Calculate checksum of data buffer.

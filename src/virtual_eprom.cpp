@@ -8,6 +8,7 @@
 
 #include "virtual_eprom.h"
 #include "simple_file_system.h"
+#include "file_info.h"
 
 VirtualEprom::VirtualEprom(std::string filename) {
     this->filename = filename;
@@ -147,19 +148,28 @@ std::string VirtualEprom::readRaw(long address, long length) {
     return buffer.get();
 }
 
-void VirtualEprom::listFiles() {
+std::vector<FileInfo> VirtualEprom::listFiles() {
     
     FileTable fileTable = readFileTable();
     FileHeader fileHeader;
-    
+
+    std::vector<FileInfo> files;
+
     for (int i=0; i<MAX_FILE_COUNT; i++) {
         if (fileTable.fileOffsets[i] == 0) {
             break;
         }
         readFileHeader(fileTable.fileOffsets[i], fileHeader);
-        // TODO: validate checksum
-        std::cout << fileHeader.filename << std::endl;
+
+        FileInfo fileInfo;
+        fileInfo.filename = fileHeader.filename;
+        fileInfo.offset = fileTable.fileOffsets[i];
+        fileInfo.size = fileHeader.size + sizeof(FileHeader);
+        fileInfo.valid = true;  // TODO: validate checksum
+        files.push_back(fileInfo);
     }
+
+    return files;
 }
 
 void VirtualEprom::erase() {
