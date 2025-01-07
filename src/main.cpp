@@ -11,7 +11,7 @@
 #include "read_file_command.h"
 #include "write_file_command.h"
 
-#define DEFAULT_DATA_DIR "veprom-files"
+#define DEFAULT_DATA_DIR ".veprom"
 
 void displayHelp(CommandRegistry& registry) {
     
