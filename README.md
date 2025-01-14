@@ -16,6 +16,8 @@ Features
 
 **2. TESTING**
 
+Run veprom.exe and veprom_gui.py under the repo test directory in Windows-based Visual Studio Code IDE.
+
 **Print command usage.**
 
 .\veprom
