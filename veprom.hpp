@@ -33,26 +33,26 @@ public:
 
 	// Member function to read the file to be stored on the Veprom chip
 	void ReadFile(string pathName) {
-   	// Open the file in binary mode
-    	ifstream file(pathName, ios::binary);
+   		// Open the file in binary mode
+    		ifstream file(pathName, ios::binary);
     
-    	if (!file) {
-     		cerr << "Error: Failed to open the file for reading." << endl;
-        	return;
-    	}
+    		if (!file) {
+     			cerr << "Error: Failed to open the file for reading." << endl;
+        		return;
+    		}
     
-    	// Read the specified number of bytes
-    	file.read(fileData.data(), fileSize);
+    		// Read the specified number of bytes
+    		file.read(fileData.data(), fileSize);
     
-    	// Check how many bytes were actually read
-    	if (file.gcount() < fileSize) {
-      	cerr << "Warning: Only " << file.gcount() << " bytes were read." 
-					<< endl;
+    		// Check how many bytes were actually read
+    		if (file.gcount() < fileSize) {
+      			cerr << "Warning: Only " << file.gcount() << " bytes were read." 
+						<< endl;
 			fileSize = file.gcount();
-    	}
+    		}
 
-    	// Close the file
-    	file.close();
+    		// Close the file
+    		file.close();
 	}
 	
 	// Member function to print the content of the file data on stdout
@@ -74,19 +74,19 @@ public:
 	static long GetFileSize(const string& filename) {
    		// Open the file in binary mode
    		ifstream file(filename, ios::binary);
-    	if (!file) {
-      		cerr << "Error: Unable to open file: " << filename << endl;
-        		return -1; // Error code
-    	}
+    		if (!file) {
+      			cerr << "Error: Unable to open file: " << filename << endl;
+        			return -1; // Error code
+    		}
 
-    	// Move the file pointer to the end of the file
-    	file.seekg(0, ios::end);
+    		// Move the file pointer to the end of the file
+    		file.seekg(0, ios::end);
     
-    	// Get the position of the pointer, which represents the file size
-    	long size = file.tellg();
-    	file.close();
+    		// Get the position of the pointer, which represents the file size
+    		long size = file.tellg();
+    		file.close();
     
-    	return size;
+    		return size;
 	}
 
 private:
@@ -94,7 +94,7 @@ private:
 	string fileName;
 	// Size of the file
 	size_t fileSize;
-   // Dynamically allocated buffer for file data to emulate writing to Eprom 
+   	// Dynamically allocated buffer for file data to emulate writing to Eprom 
 	// file  system.
 	vector<char> fileData;
 
@@ -113,14 +113,14 @@ public:
     	ofstream file(devName);
 		// Write the device file to the local file-system
 		if (!file) {  // Check if the file was successfully created/opened
-        	cerr << "Failed to create the file!" << endl;
-        	return;
-    	}
+        		cerr << "Failed to create the file!" << endl;
+        		return;
+    		}
 		// Store the device Id in the device file.
 		file << deviceId;
 		// Close the file (not strictly necessary because of RAII, but good 
 		// practice)
-    	file.close();
+    		file.close();
 	}
 
 	// Destructor , no need for virtual destructor as there never going to be any
@@ -129,11 +129,11 @@ public:
 		const char* name = devName.c_str();
 		Erase();
 		// Remove the device filename that was created on the local file system.
-    	if (remove(name) == 0) {
-      		cout << "File " << name << " device deleted successfully!" << endl;
-    	} else {
-        	perror("Error deleting device");  // Output the error message
-    	}
+    		if (remove(name) == 0) {
+      			cout << "File " << name << " device deleted successfully!" << endl;
+    		} else {
+        		perror("Error deleting device");  // Output the error message
+    		}
 	}
 
 	// Member function to erase the Veprom device
@@ -148,7 +148,7 @@ public:
 		
 		// Set the usage of the Veprom device to 0
 		curUsage = 0;
-      	cout << "Successfully erased device  " << devName << endl;
+      		cout << "Successfully erased device  " << devName << endl;
 	}
 	
 	// This member function outputs the string stored at an address 
@@ -182,9 +182,9 @@ public:
 	// Member function to check if file is already loaded.
 	void CheckFileAlreadyLoaded(const string& fileName) {
 		auto it = files.find(fileName);
-      // Check if the file is already present
-      if (it != files.end()) {
-         cout << "File was already loaded, over-writing the old file " << endl;
+      		// Check if the file is already present
+      		if (it != files.end()) {
+         		cout << "File was already loaded, over-writing the old file " << endl;
 			// Decrement the current usage.
 			curUsage -= it->second->GetFileSize();
 			files.erase(it);
@@ -206,9 +206,9 @@ public:
 			fileName = pathName.substr(pos+1);
 		} else {
 			fileName = pathName;
-      }
-	  long retVal = FileObject::GetFileSize(pathName);
-      if (retVal < 0) {
+      		}
+	  	long retVal = FileObject::GetFileSize(pathName);
+      		if (retVal < 0) {
 			// Error in getting the file size
 			return;
   		}
@@ -218,12 +218,12 @@ public:
 		if (curUsage + fileSize > maxSize){
 			// Truncate the file.
 			fileSize = maxSize - curUsage;
-         cout << "Warning: File is too big to fit, truncating the file to " 
+         		cout << "Warning: File is too big to fit, truncating the file to " 
 					<< fileSize << " bytes"  << endl;
 		}	 
 		try {
-      	// Use RAII so in case contructor throws resource is cleaned up.
-      	unique_ptr<FileObject> ptr = make_unique<FileObject>(fileName, fileSize);
+      			// Use RAII so in case contructor throws resource is cleaned up.
+      			unique_ptr<FileObject> ptr = make_unique<FileObject>(fileName, fileSize);
 			// Read the content of the file
 			ptr->ReadFile(pathName);	
 			// Pass the ownership
@@ -241,8 +241,8 @@ public:
 	// Member function to read file
 	void ReadFile(string fileName) {
 		auto it = files.find(fileName);
-      	// Check if the file is  present
-      	if (it == files.end()) {
+      		// Check if the file is  present
+      		if (it == files.end()) {
 			cerr << "Error: File " << fileName << " NOT found on the device" 
 					<< endl;
 			return;
@@ -256,7 +256,7 @@ private:
 	// Device Id of the device
 	unsigned int deviceId;
 	// Device Name of this Veprom device
-   string devName;
+   	string devName;
 	// Maximum size of the device in bytes. 
 	unsigned int maxSize;
 	// Current usage in bytes.
@@ -389,7 +389,7 @@ public:
 		vEpromDeviceMap.clear();
 		// Set the current device pointer to NULL
 		curDev = nullptr;
-      nextDeviceId = 0;
+      		nextDeviceId = 0;
 	}
 
 
