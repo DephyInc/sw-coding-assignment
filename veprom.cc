@@ -7,23 +7,23 @@
 MasterDevice* MasterDevice::instance = nullptr;
 // Command List: tokens list 
 vector<vector<string>> cmdList = { 	{ "veprom", "create", "match" },
-											  	{ "veprom", "load", "match"},
-											 	{ "veprom", "write_raw", "match"},
-												{ "veprom", "read_raw", "match"},
-												{ "veprom", "write", "match"},
-												{ "veprom", "list", "match"},
-												{ "veprom", "read", "match"},
-												{ "veprom", "erase", "match"},
-												{ "quit", "match" },
-												{ "no-match", "no-match"}
-											}; 
+									{ "veprom", "load", "match"},
+									{ "veprom", "write_raw", "match"},
+									{ "veprom", "read_raw", "match"},
+									{ "veprom", "write", "match"},
+									{ "veprom", "list", "match"},
+									{ "veprom", "read", "match"},
+									{ "veprom", "erase", "match"},
+									{ "quit", "match" },
+									{ "no-match", "no-match"}
+								}; 
 
 
 
 void DrawMainMenu() {
 
 	cout << "\t\t\t\t\t Main Menu" << endl;
-   cout << "====================================================================" <<
+	cout << "====================================================================" <<
 			"=================================" << endl;
 	cout << "1 - Create a new virtual EPROM chip. Usage: veprom create <size> "
 			<< "size is in KB" << endl;
@@ -37,7 +37,7 @@ void DrawMainMenu() {
 				"</path/to/local/file>" << endl;
 	cout << "6 - List the files on the virtual EPROM chip. Usage: veprom list" 
 				<< endl; 
-   cout << "7 - Read a file from the virtual EPROM chip. Usage: veprom read " <<
+   	cout << "7 - Read a file from the virtual EPROM chip. Usage: veprom read " <<
        	"<FILE>" << endl;
 	cout << "8 - Sets the EPROM back to its original state. Usage: veprom erase" << 
 			endl;
@@ -47,7 +47,7 @@ void DrawMainMenu() {
 }
 
 string ParseUserInput(string userInput, vector<string>& args) {
- 	// Create a string stream from the input string
+	// Create a string stream from the input string
 	istringstream stream(userInput);
 	string token;
 	int numArgs;
@@ -58,7 +58,7 @@ string ParseUserInput(string userInput, vector<string>& args) {
 	
 	// Tokenize the string using space as the delimiter
 	while (stream >> token) {
-   	tokens.push_back(token);
+   		tokens.push_back(token);
    }
 	// Set the number of args.
 	numArgs = tokens.size() < 3 ? 0 : tokens.size() - 2;
