@@ -1,0 +1,5 @@
+Execute the following on the command line. This will create the veprom binary.
+
+g++ -std=c++14 veprom.cc -o veprom
+
+Execute the binary : ./veprom
