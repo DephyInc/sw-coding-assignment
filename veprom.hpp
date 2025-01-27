@@ -70,7 +70,7 @@ public:
 		return fileSize;
 	}
 
-   //static Member function to get the file size of any file.
+   	//static Member function to get the file size of any file.
 	static long GetFileSize(const string& filename) {
    	// Open the file in binary mode
    	ifstream file(filename, ios::binary);
@@ -164,7 +164,7 @@ public:
 	}
 	
 	// Member Function to write raw string to the register.
-   void WriteRaw(unsigned int addr, string data) {
+   	void WriteRaw(unsigned int addr, string data) {
 		vEpromReg[addr] = data; 
 		cout << "Successfully written  " << data << "  at addr = " << addr << endl;
 	}
@@ -207,7 +207,7 @@ public:
 		} else {
 			fileName = pathName;
       }
-		long retVal = FileObject::GetFileSize(pathName);
+	  long retVal = FileObject::GetFileSize(pathName);
       if (retVal < 0) {
 			// Error in getting the file size
 			return;
