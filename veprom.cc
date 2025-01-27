@@ -110,7 +110,7 @@ int main(int arc, char **argv) {
 		DrawMainMenu();
 		cout << "Please enter the command from above menu or type quit to exit " <<
 				"(Use lower case for command tokens): " << endl;
-      getline(cin, userInput);
+      		getline(cin, userInput);
 		command = ParseUserInput(userInput, args);
 		if (command == "create") {
 			if (args.size() < 1)	{
