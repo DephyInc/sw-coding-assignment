@@ -59,7 +59,7 @@ string ParseUserInput(string userInput, vector<string>& args) {
 	// Tokenize the string using space as the delimiter
 	while (stream >> token) {
    		tokens.push_back(token);
-   }
+   	}
 	// Set the number of args.
 	numArgs = tokens.size() < 3 ? 0 : tokens.size() - 2;
 	int tokNum;
