@@ -60,7 +60,7 @@ public:
     	// Print the bytes read 
     	cout << "Data: " << endl;
     	for (size_t i = 0; i < fileSize; ++i) {
-      	cout << fileData[i];
+      		cout << fileData[i];
     	}
     	cout << endl;
 	}
@@ -72,12 +72,11 @@ public:
 
    	//static Member function to get the file size of any file.
 	static long GetFileSize(const string& filename) {
-   	// Open the file in binary mode
-   	ifstream file(filename, ios::binary);
-    
+   		// Open the file in binary mode
+   		ifstream file(filename, ios::binary);
     	if (!file) {
-      	cerr << "Error: Unable to open file: " << filename << endl;
-        	return -1; // Error code
+      		cerr << "Error: Unable to open file: " << filename << endl;
+        		return -1; // Error code
     	}
 
     	// Move the file pointer to the end of the file
@@ -89,6 +88,7 @@ public:
     
     	return size;
 	}
+
 private:
 	// File Name 
 	string fileName;
@@ -110,11 +110,11 @@ public:
 	VepromDevice(unsigned int id, string name, unsigned int maxSize):deviceId(id), 
 			devName(name), maxSize(maxSize*1024), curUsage(0) {
 
-      ofstream file(devName);
+    	ofstream file(devName);
 		// Write the device file to the local file-system
 		if (!file) {  // Check if the file was successfully created/opened
-        cerr << "Failed to create the file!" << endl;
-        return;
+        	cerr << "Failed to create the file!" << endl;
+        	return;
     	}
 		// Store the device Id in the device file.
 		file << deviceId;
@@ -130,7 +130,7 @@ public:
 		Erase();
 		// Remove the device filename that was created on the local file system.
     	if (remove(name) == 0) {
-      	cout << "File " << name << " device deleted successfully!" << endl;
+      		cout << "File " << name << " device deleted successfully!" << endl;
     	} else {
         	perror("Error deleting device");  // Output the error message
     	}
@@ -148,7 +148,7 @@ public:
 		
 		// Set the usage of the Veprom device to 0
 		curUsage = 0;
-      cout << "Successfully erased device  " << devName << endl;
+      	cout << "Successfully erased device  " << devName << endl;
 	}
 	
 	// This member function outputs the string stored at an address 
@@ -241,8 +241,8 @@ public:
 	// Member function to read file
 	void ReadFile(string fileName) {
 		auto it = files.find(fileName);
-      // Check if the file is  present
-      if (it == files.end()) {
+      	// Check if the file is  present
+      	if (it == files.end()) {
 			cerr << "Error: File " << fileName << " NOT found on the device" 
 					<< endl;
 			return;
@@ -286,7 +286,7 @@ public:
 			return instance;
 		}
 		catch (const bad_alloc& e) {
-      	cerr << "Error: Memory allocation failed: " << e.what() << endl;
+      		cerr << "Error: Memory allocation failed: " << e.what() << endl;
     	}
 		return nullptr;
 	}
@@ -418,4 +418,3 @@ private:
 	shared_ptr<VepromDevice> curDev;
 
 };
-
