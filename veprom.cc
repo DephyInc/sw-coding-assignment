@@ -7,16 +7,16 @@
 MasterDevice* MasterDevice::instance = nullptr;
 // Command List: tokens list 
 vector<vector<string>> cmdList = { 	{ "veprom", "create", "match" },
-									{ "veprom", "load", "match"},
-									{ "veprom", "write_raw", "match"},
-									{ "veprom", "read_raw", "match"},
-									{ "veprom", "write", "match"},
-									{ "veprom", "list", "match"},
-									{ "veprom", "read", "match"},
-									{ "veprom", "erase", "match"},
-									{ "quit", "match" },
-									{ "no-match", "no-match"}
-								}; 
+					{ "veprom", "load", "match"},
+					{ "veprom", "write_raw", "match"},
+					{ "veprom", "read_raw", "match"},
+					{ "veprom", "write", "match"},
+					{ "veprom", "list", "match"},
+					{ "veprom", "read", "match"},
+					{ "veprom", "erase", "match"},
+					{ "quit", "match" },
+					{ "no-match", "no-match"}
+				}; 
 
 
 
@@ -31,9 +31,9 @@ void DrawMainMenu() {
 			<< endl;
 	cout << "3 - Write a raw string of bytes to an address. Usage: veprom " <<
 			" write_raw <ADDRESS> <STRING>" << endl;
-   cout << "4 - Read the values stored at a specific address and length. "
+   	cout << "4 - Read the values stored at a specific address and length. "
 			<< "Usage: veprom read_raw <ADDRESS> <length>" << endl;
-   cout << "5 - Write a file to the virtual EPROM chip. Usage: veprom write " <<
+   	cout << "5 - Write a file to the virtual EPROM chip. Usage: veprom write " <<
 				"</path/to/local/file>" << endl;
 	cout << "6 - List the files on the virtual EPROM chip. Usage: veprom list" 
 				<< endl; 
