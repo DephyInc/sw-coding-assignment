@@ -286,8 +286,8 @@ public:
 			return instance;
 		}
 		catch (const bad_alloc& e) {
-      		cerr << "Error: Memory allocation failed: " << e.what() << endl;
-    	}
+      			cerr << "Error: Memory allocation failed: " << e.what() << endl;
+    		}
 		return nullptr;
 	}
 	
