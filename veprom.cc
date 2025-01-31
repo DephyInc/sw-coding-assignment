@@ -141,22 +141,45 @@ int main(int arc, char **argv) {
 				master->LoadVepromDeviceApi(args[0]);		
 			
 			} else if (command == "write_raw") {
+				int addr;
 				if (args.size() < 2)	{
 					cout << "Error: Write Raw Veprom needs address and string args, Please try again!!" 
 						<< endl;
 					continue;
 				}
-				unsigned int addr = stoi(args[0]);
+				try {
+					addr = stoi(args[0]);
+				}
+				catch (out_of_range) {
+					cerr << "Error: Invalid addr, addr too big, Please try again!!" << endl;
+					continue;
+				}
+				if (addr < 0) {
+					cerr << "Error: address arg can't be less than 0, Please try again!!" << endl;
+					continue;
+				}
 				// Invoke the API
 				master->WriteRawApi(addr, args[1]);		
 			} else if (command == "read_raw") {
+				int addr;
+				int length;
 				if (args.size() < 2)	{
 					cerr << "Error:Read Raw Veprom needs address and length args, Please try again!!" 
 						<< endl;
 					continue;
 				}
-				unsigned int addr = stoi(args[0]);
-				unsigned int length = stoi(args[1]);
+				try {
+					addr = stoi(args[0]);
+					length = stoi(args[1]);
+				}
+				catch (out_of_range) {
+					cerr << "Error: Invalid addr or length, value too big, Please try again!!" << endl;
+					continue;
+				}
+				if (addr < 0 || length < 0) {
+					cerr << "Error: address or length arg can't be less than 0, Please try again!!" << endl;
+					continue;
+				}
 				// Invoke the API
 				master->ReadRawApi(addr, length);		
 			} else if (command == "write") {
