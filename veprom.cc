@@ -106,78 +106,90 @@ int main(int arc, char **argv) {
 		exit(0);
 	}
 	string userInput;
-	while(1) {
-		DrawMainMenu();
-		cout << "Please enter the command from above menu or type quit to exit " <<
+	try {
+		while(1) {
+			DrawMainMenu();
+			cout << "Please enter the command from above menu or type quit to exit " <<
 				"(Use lower case for command tokens): " << endl;
-      		getline(cin, userInput);
-		command = ParseUserInput(userInput, args);
-		if (command == "create") {
-			if (args.size() < 1)	{
-				cerr << "Error: Create Veprom needs size arg, Please try again!!" << endl;
-				continue;
-			}
-			int size = stoi(args[0]);
-			if (size < 0) {
-				cerr << "Error: Size arg can't be less that 0, Please try again!!" << endl;
-				continue;
-			}
-			master->CreateVepromDeviceApi(size);
+      			getline(cin, userInput);
+			command = ParseUserInput(userInput, args);
+			if (command == "create") {
+				int size;
+				if (args.size() < 1)	{
+					cerr << "Error: Create Veprom needs size arg, Please try again!!" << endl;
+					continue;
+				}
+				try {
+					size = stoi(args[0]);
+				}
+				catch (out_of_range) {
+					cerr << "Error: Invalid size, size too big, Please try again!!" << endl;
+					continue;
+				}
+				if (size <= 0) {
+					cerr << "Error: Size arg can't be 0 or less than 0, Please try again!!" << endl;
+					continue;
+				}
+				master->CreateVepromDeviceApi(size);
 		
-		} else if (command == "load") {
-			if (args.size() < 1)	{
-				cerr << "Error: Load Veprom needs path-to-file arg, Please try again!!" << endl;
-				continue;
-			}
-			// Invoke the API
-			master->LoadVepromDeviceApi(args[0]);		
+			} else if (command == "load") {
+				if (args.size() < 1)	{
+					cerr << "Error: Load Veprom needs path-to-file arg, Please try again!!" << endl;
+					continue;
+				}
+				// Invoke the API
+				master->LoadVepromDeviceApi(args[0]);		
 			
-		} else if (command == "write_raw") {
-			if (args.size() < 2)	{
-				cout << "Error: Write Raw Veprom needs address and string args, Please try again!!" 
-					<< endl;
+			} else if (command == "write_raw") {
+				if (args.size() < 2)	{
+					cout << "Error: Write Raw Veprom needs address and string args, Please try again!!" 
+						<< endl;
+					continue;
+				}
+				unsigned int addr = stoi(args[0]);
+				// Invoke the API
+				master->WriteRawApi(addr, args[1]);		
+			} else if (command == "read_raw") {
+				if (args.size() < 2)	{
+					cerr << "Error:Read Raw Veprom needs address and length args, Please try again!!" 
+						<< endl;
+					continue;
+				}
+				unsigned int addr = stoi(args[0]);
+				unsigned int length = stoi(args[1]);
+				// Invoke the API
+				master->ReadRawApi(addr, length);		
+			} else if (command == "write") {
+				if (args.size() < 1)	{
+					cerr << "Error: Write File Veprom needs path-to-file arg, Please try again!!" << endl;
+					continue;
+				}
+				// Invoke the API
+				master->WriteFileApi(args[0]);		
+			} else if (command == "list") {
+				// Invoke the API
+				master->FileListApi();		
+			} else if (command == "read") {
+				if (args.size() < 1)	{
+					cerr << "Error: Read File Veprom needs filename arg, Please try again!!" << endl;
+					continue;
+				}
+				// Invoke the API
+				master->ReadFileApi(args[0]);		
+			} else if (command == "erase") {
+				// Invoke the API
+				master->EraseApi();		
+			} else if (command == "quit") {
+				cout << "Thanks for tying the Veprom Emulator App" << endl;
+				break;
+			} 
+			else {
+				cerr << "Error: Invalid Input, Please try again!!" << endl;
 				continue;
 			}
-			unsigned int addr = stoi(args[0]);
-			// Invoke the API
-			master->WriteRawApi(addr, args[1]);		
-		} else if (command == "read_raw") {
-			if (args.size() < 2)	{
-				cerr << "Error:Read Raw Veprom needs address and length args, Please try again!!" 
-					<< endl;
-				continue;
-			}
-			unsigned int addr = stoi(args[0]);
-			unsigned int length = stoi(args[1]);
-			// Invoke the API
-			master->ReadRawApi(addr, length);		
-		} else if (command == "write") {
-			if (args.size() < 1)	{
-				cerr << "Error: Write File Veprom needs path-to-file arg, Please try again!!" << endl;
-				continue;
-			}
-			// Invoke the API
-			master->WriteFileApi(args[0]);		
-		}	else if (command == "list") {
-			// Invoke the API
-			master->FileListApi();		
-		}	else if (command == "read") {
-			if (args.size() < 1)	{
-				cerr << "Error: Read File Veprom needs filename arg, Please try again!!" << endl;
-				continue;
-			}
-			// Invoke the API
-			master->ReadFileApi(args[0]);		
-		}	else if (command == "erase") {
-			// Invoke the API
-			master->EraseApi();		
-		} else if (command == "quit") {
-			cout << "Thanks for tying the Veprom Emulator App" << endl;
-			break;
-		} 
-		else {
-			cerr << "Error: Invalid Input, Please try again!!" << endl;
-			continue;
 		}
+	}
+	catch (const exception& e) {
+		cerr << "Exception Caught   : " << e.what() <<endl;
 	}
 }
