@@ -58,3 +58,24 @@ A short video demonstrating the use of the emulator.
 ## Submitting the Solution
 
 To submit your solution, fork this repo, create your code, and submit a Pull Request once you're ready for Dephy to take a look.
+
+##  John Nelson's notes:
+
+This is the command line implementation of the eprom emulator application.
+It was written using Visual Studio 2002 (community edition) 
+
+Though it's been a long time since I've done a project share through git, 
+choosing the "clone a repository" item on the splash screen *should* bring
+this up in the development environment, ready for building by hitting
+ctrl-shift-b.
+
+On first run of this application at the command line, the load command
+must be performed in order to set the filename for the emulated eprom's
+image.  It can then be run with the create command to size and create
+an empty image.   After that the commands have been tested and seen to
+be working.
+
+I am remarkably rusty with my use of the C++ features, so I did resort
+on occasion to some more traditional C techniques.  As a result,
+it did take me roughly double the time that Lauren had asked that I limit
+myself to for the basic interface.

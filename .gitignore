@@ -30,3 +30,9 @@
 *.exe
 *.out
 *.app
+/veprom/.vs/veprom/FileContentIndex/73ba0c20-dcfe-4c64-accb-e45e0376f2c1.vsidx
+/veprom/.vs/veprom/FileContentIndex/d0f10c41-7fa2-425b-8569-7aff349b43ef.vsidx
+/veprom/x64/Debug/eprom1.img
+/veprom/x64/Debug/activeImageName.tmp
+/veprom/.vs/veprom/v17/ipch/AutoPCH/a8287794b13400e0/CONSOLEAPPLICATION1.ipch
+/BuildAndRunNotes.txt
